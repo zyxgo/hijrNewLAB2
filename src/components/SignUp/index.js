@@ -4,6 +4,8 @@ import { compose } from 'recompose';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
 
+import Typography from '@material-ui/core/Typography';
+
 const SignUpPage = () => (
   <div>
     <h1>SignUp</h1>
@@ -108,9 +110,12 @@ class SignUpFormBase extends Component {
 }
 
 const SignUpLink = () => (
-  <p>
-    Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-  </p>
+  <Typography variant="button" gutterBottom>
+    Tidak punya akun? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+  </Typography>
+  // <p>
+  //   Tidak punya akun? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+  // </p>
 );
 
 const SignUpForm = compose(
