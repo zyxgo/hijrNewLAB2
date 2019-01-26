@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const INITIAL_STATE = {
   passwordOne: '',
@@ -31,7 +35,7 @@ class PasswordChangeForm extends Component {
   };
 
   onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.id]: event.target.value });
   };
 
   render() {
@@ -42,23 +46,27 @@ class PasswordChangeForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="passwordOne"
-          value={passwordOne}
+        <TextField
+          id="passwordOne"
+          label="New Password"
+          // value={passwordOne}
           onChange={this.onChange}
           type="password"
-          placeholder="New Password"
+          style={{width: "100%", marginBottom: 10, marginTop: 10}}
+          variant="outlined"
         />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
+        <TextField
+          id="passwordTwo"
+          label="Confirm New Password"
+          // value={passwordTwo}
           onChange={this.onChange}
           type="password"
-          placeholder="Confirm New Password"
+          style={{width: "100%", marginBottom: 10}}
+          variant="outlined"
         />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
+        <Button variant="contained" color="primary" disabled={isInvalid} type="submit">
+          Submit Password Baru
+        </Button>
 
         {error && <p>{error.message}</p>}
       </form>

@@ -33,7 +33,7 @@ const NavigationAuth = () => (
         <Typography variant="h6" color="inherit" style={{marginRight: 20}} >
           Aplikasi NewLAB
         </Typography>
-        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.LANDING}>Landing</Button>
+        {/* <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.LANDING}>Landing</Button> */}
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.HOME}>Home</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ACCOUNT}>Account</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMIN}>Admin</Button>
@@ -50,7 +50,7 @@ const NavigationNonAuth = () => (
         <Typography variant="h6" color="inherit" style={{marginRight: 20}} >
           Aplikasi NewLAB
         </Typography>
-        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.LANDING}>Landing</Button>
+        {/* <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.LANDING}>Landing</Button> */}
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.SIGN_IN}>Sign In</Button>
       </Toolbar>
     </AppBar>

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
-
+import { withAuthorization } from '../Session';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 class AdminPage extends Component {
   constructor(props) {
@@ -38,13 +41,18 @@ class AdminPage extends Component {
     const { users, loading } = this.state;
 
     return (
-      <div>
-        <h1>Admin</h1>
-
-        {loading && <div>Loading ...</div>}
-
-        <UserList users={users} />
-      </div>
+      <Grid style={{flex: 1, margin: 10}} item xs={12}>
+        <Paper style={{padding: 10}}>
+          <Typography variant="h5" gutterBottom>
+            Admin
+          </Typography>
+          {loading && <div>Loading ...</div>}
+          <Typography variant="h6" gutterBottom>
+            User list
+          </Typography>
+          <UserList users={users} />
+        </Paper>
+      </Grid>
     );
   }
 }
@@ -67,4 +75,6 @@ const UserList = ({ users }) => (
   </ul>
 );
 
-export default withFirebase(AdminPage);
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(AdminPage);

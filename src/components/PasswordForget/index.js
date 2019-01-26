@@ -5,13 +5,18 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const PasswordForgetPage = () => (
-  <div>
-    <Typography variant="button" gutterBottom>
+  <div style={{display: 'flex', flexDirection: 'column', alignItems:'center', margin: 10}}>
+    <Paper style={{padding: 10, width: 300}}>
+      <Typography variant="button" gutterBottom>
         Lupa Password
       </Typography>
-    <PasswordForgetForm />
+      <PasswordForgetForm />
+    </Paper>
   </div>
 );
 
@@ -43,7 +48,7 @@ class PasswordForgetFormBase extends Component {
   };
 
   onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.id]: event.target.value });
   };
 
   render() {
@@ -53,16 +58,18 @@ class PasswordForgetFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={this.state.email}
+        <TextField
+          id="email"
+          // value={email}
           onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
+          // type="text"
+          label="Email Address"
+          style={{width: "100%", marginBottom: 10}}
+          variant="outlined"
         />
-        <button disabled={isInvalid} type="submit">
+        <Button variant="contained" color="primary" disabled={isInvalid} type="submit">
           Reset My Password
-        </button>
+        </Button>
 
         {error && <p>{error.message}</p>}
       </form>

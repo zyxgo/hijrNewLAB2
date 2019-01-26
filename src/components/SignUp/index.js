@@ -5,11 +5,18 @@ import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
 
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const SignUpPage = () => (
-  <div>
-    <h1>SignUp</h1>
-    <SignUpForm />
+  <div style={{display: 'flex', flexDirection: 'column', alignItems:'center', margin: 10}}>
+    <Paper style={{padding: 10, width: 300}}>
+      <Typography variant="h4" gutterBottom>
+        Sign Up
+      </Typography>
+      <SignUpForm />
+    </Paper>
   </div>
 );
 
@@ -73,35 +80,45 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="username"
-          value={username}
+        <TextField
+          id="username"
+          // value={username}
           onChange={this.onChange}
-          type="text"
-          placeholder="Full Name"
+          // type="text"
+          label="Full Name"
+          style={{width: "100%", marginBottom: 10}}
+          variant="outlined"
         />
-        <input
-          name="email"
-          value={email}
+        <TextField
+          id="email"
+          // value={email}
           onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
+          // type="text"
+          label="Email Address"
+          style={{width: "100%", marginBottom: 10}}
+          variant="outlined"
         />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
+        <TextField
+          id="passwordOne"
+          // value={passwordOne}
           onChange={this.onChange}
           type="password"
-          placeholder="Confirm Password"
+          label="Password"
+          style={{width: "100%", marginBottom: 10}}
+          variant="outlined"
         />
-        <button disabled={isInvalid} type="submit">Sign Up</button>
+        <TextField
+          id="passwordTwo"
+          // value={passwordTwo}
+          onChange={this.onChange}
+          type="password"
+          label="Confirm Password"
+          style={{width: "100%", marginBottom: 10}}
+          variant="outlined"
+        />
+        <Button variant="contained" color="primary" disabled={isInvalid} type="submit">
+          Sign Up
+        </Button>
 
         {error && <p>{error.message}</p>}
       </form>

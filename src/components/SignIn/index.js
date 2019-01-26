@@ -8,8 +8,8 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 // import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -71,7 +71,7 @@ class SignInFormBase extends Component {
           label="Email"
           // value={email}
           onChange={this.onChange}
-          style={{width: "100%", marginBottom: 5}}
+          style={{width: "100%", marginBottom: 10}}
           variant="outlined"
         />
         <TextField
@@ -79,7 +79,7 @@ class SignInFormBase extends Component {
           label="Password"
           // value={password}
           onChange={this.onChange}
-          style={{width: "100%", marginBottom: 5}}
+          style={{width: "100%", marginBottom: 10}}
           type="password"
           variant="outlined"
         />
