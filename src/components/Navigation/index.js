@@ -35,6 +35,7 @@ const NavigationAuth = () => (
         </Typography>
         {/* <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.LANDING}>Landing</Button> */}
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.HOME}>Home</Button>
+        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER}>Wilker</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ACCOUNT}>Account</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMIN}>Admin</Button>
         <SignOutButton />
