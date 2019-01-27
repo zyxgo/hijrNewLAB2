@@ -89,7 +89,7 @@ class WilkerPage extends Component {
       <Grid style={{flex: 1, margin: 10}} item xs={12}>
         <Paper style={{padding: 10}}>
           <Typography variant="h5" gutterBottom>
-            Wilker
+            Wilayah Kerja
           </Typography>
           {/* <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

@@ -12,6 +12,11 @@ import Typography from '@material-ui/core/Typography';
 // import Paper from '@material-ui/core/Paper';
 // import TextField from '@material-ui/core/TextField';
 // import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const FormPengajuanUjiDetailView = () => (
   <div style={{display: 'flex', flexDirection: 'column', alignItems:'center', margin: 10}}>
@@ -68,12 +73,28 @@ class FormIsianDetailViewBase extends Component {
             <Typography>Alamat Pemilik Sample : {el.alamatPemilikSample}</Typography>
             <Typography>Asal Tujuan Sample : {el.asalTujuanSample}</Typography>
             <Typography>Petugas Penerima Sample : {el.petugasPenerimaSample}</Typography>
-              {!!el.zItems && Object.keys(el.zItems).map((el1, key1) => 
-                <div key={key1}>
-                  <Typography>{el.zItems[el1].jenisSample}</Typography>
-                  <Typography>{el.zItems[el1].jumlahSample}</Typography>
-                </div>
-              )}
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Jenis Sample</TableCell>
+                  <TableCell align="right">Jumlah Sample</TableCell>
+                  <TableCell align="right">Kondisi Sample</TableCell>
+                  <TableCell align="right">Jenis Pengujian</TableCell>
+                  <TableCell align="right">Ruang Lingkup</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {!!el.zItems && Object.keys(el.zItems).map((el1, key1) => 
+                  <TableRow key={key1}>
+                    <TableCell>{el.zItems[el1].jenisSample}</TableCell>
+                    <TableCell>{el.zItems[el1].jumlahSample}</TableCell>
+                    <TableCell>{el.zItems[el1].kondisiSample}</TableCell>
+                    <TableCell>{el.zItems[el1].jenisPengujian}</TableCell>
+                    <TableCell>{el.zItems[el1].ruangLingkup}</TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+              </Table>
           </div>
         )}
       </div>
