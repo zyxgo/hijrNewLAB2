@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
-import { SignUpLink } from '../SignUp';
-import { PasswordForgetLink } from '../PasswordForget';
+// import { SignUpLink } from '../SignUp';
+// import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
+// import * as ROUTES from '../../constants/routes';
 
 // import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -31,12 +31,7 @@ const INITIAL_STATE = {
   namaPemilikSample: '',
   alamatPemilikSample: '',
   asalTujuanSample: '',
-  // jenisSample: '',
-  // jumlahSample: '',
-  // kondisiSample: '',
-  // jenisPengujian: '',
-  // ruangLingkup: '',
-  // petugasPenerimaSample: '',
+  petugasPenerimaSample: '',
   error: null,
 };
 
@@ -50,9 +45,8 @@ class FormIsianBase extends Component {
   onSubmit = event => {
     const { kodeUnikSample, tanggalMasukSample, nomorAgendaSample, namaPemilikSample, alamatPemilikSample,
       asalTujuanSample,
-      // jenisSample, jumlahSample, kondisiSample, jenisPengujian, ruangLingkup,
-      // petugasPenerimaSample,
-      error 
+      petugasPenerimaSample,
+      // error 
     } = this.state;
 
     const a = this.props.firebase
@@ -66,8 +60,10 @@ class FormIsianBase extends Component {
         namaPemilikSample,
         alamatPemilikSample,
         asalTujuanSample,
+        petugasPenerimaSample,
       });
-      
+    
+    this.props.newIdSample(a.key);
     event.preventDefault();
   };
 
@@ -78,8 +74,7 @@ class FormIsianBase extends Component {
   render() {
     const { kodeUnikSample, tanggalMasukSample, nomorAgendaSample, namaPemilikSample, alamatPemilikSample,
       asalTujuanSample, 
-      // jenisSample, jumlahSample, kondisiSample, jenisPengujian, ruangLingkup, 
-      // petugasPenerimaSample, 
+      petugasPenerimaSample, 
       error 
     } = this.state;
     const isInvalid = kodeUnikSample === '' ||
@@ -87,13 +82,8 @@ class FormIsianBase extends Component {
     nomorAgendaSample === '' ||
     namaPemilikSample === '' ||
     alamatPemilikSample === '' ||
-    asalTujuanSample === '';
-    // jenisSample === '' ||
-    // jumlahSample === '' ||
-    // kondisiSample === '' ||
-    // jenisPengujian === '' ||
-    // ruangLingkup === '' ||
-    // petugasPenerimaSample === '';
+    asalTujuanSample === '' ||
+    petugasPenerimaSample === '';
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -150,8 +140,17 @@ class FormIsianBase extends Component {
           // type="password"
           variant="outlined"
         />
+        <TextField
+          id="petugasPenerimaSample"
+          label="Petugas Penerima Sample"
+          // value={password}
+          onChange={this.onChange}
+          style={{width: "100%", marginBottom: 10}}
+          // type="password"
+          variant="outlined"
+        />
         <Button variant="contained" color="primary" disabled={isInvalid} type="submit">
-          Submit
+          Submit Data Header
         </Button>
 
         {error && <p>{error.message}</p>}

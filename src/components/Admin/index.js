@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withFirebase } from '../Firebase';
+// import { withFirebase } from '../Firebase';
 import { withAuthorization } from '../Session';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
