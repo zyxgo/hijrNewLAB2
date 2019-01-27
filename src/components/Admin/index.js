@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-// import { withFirebase } from '../Firebase';
+import { withFirebase } from '../Firebase';
+import { compose } from 'recompose';
 import { withAuthorization } from '../Session';
+import * as ROLES from '../../constants/roles';
+
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -44,7 +47,7 @@ class AdminPage extends Component {
       <Grid style={{flex: 1, margin: 10}} item xs={12}>
         <Paper style={{padding: 10}}>
           <Typography variant="h5" gutterBottom>
-            Admin
+            Admin, The Admin Page is accessible by every signed in admin user.
           </Typography>
           {loading && <div>Loading ...</div>}
           <Typography variant="h6" gutterBottom>
@@ -75,6 +78,9 @@ const UserList = ({ users }) => (
   </ul>
 );
 
-const condition = authUser => !!authUser;
+const condition = authUser => authUser && authUser.roles.includes(ROLES.ADMIN);
 
-export default withAuthorization(condition)(AdminPage);
+export default compose(
+  withAuthorization(condition),
+  withFirebase,
+)(AdminPage);

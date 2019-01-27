@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
-
+import * as ROLES from '../../constants/roles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -25,6 +25,7 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  isAdmin: false,
   error: null,
 };
 
@@ -35,7 +36,12 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne } = this.state;
+    const { username, email, passwordOne, isAdmin } = this.state;
+
+    const roles = [];
+    if (isAdmin) {
+      roles.push(ROLES.ADMIN);
+    }
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
@@ -46,6 +52,7 @@ class SignUpFormBase extends Component {
           .set({
             username,
             email,
+            roles,
           });
       })
       .then(() => {
@@ -59,8 +66,12 @@ class SignUpFormBase extends Component {
     event.preventDefault();
   }
 
+  onChangeCheckbox = event => {
+    this.setState({ [event.target.name]: event.target.checked });
+  };
+
   onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.id]: event.target.value });
   };
 
   render() {
@@ -69,6 +80,7 @@ class SignUpFormBase extends Component {
       email,
       passwordOne,
       passwordTwo,
+      isAdmin,
       error,
     } = this.state;
 
@@ -116,6 +128,15 @@ class SignUpFormBase extends Component {
           style={{width: "100%", marginBottom: 10}}
           variant="outlined"
         />
+        <label>
+          Admin:
+          <input
+            name="isAdmin"
+            type="checkbox"
+            checked={isAdmin}
+            onChange={this.onChangeCheckbox}
+          />
+          </label>
         <Button variant="contained" color="primary" disabled={isInvalid} type="submit">
           Sign Up
         </Button>

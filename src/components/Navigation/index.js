@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
+import * as ROLES from '../../constants/roles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,13 +14,13 @@ const Navigation = () => (
   <div>
     <AuthUserContext.Consumer>
       {authUser =>
-        authUser ? <NavigationAuth /> : <NavigationNonAuth />
+        authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
       }
     </AuthUserContext.Consumer>
   </div>
 );
 
-const NavigationAuth = () => (
+const NavigationAuth = ({authUser}) => (
   <div style={{flexGrow: 1}}>
     <AppBar position="static">
       <Toolbar>
@@ -29,7 +30,9 @@ const NavigationAuth = () => (
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.HOME}>Home</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER}>Wilker</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ACCOUNT}>Account</Button>
-        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMIN}>Admin</Button>
+        {authUser.roles.includes(ROLES.ADMIN) && (
+          <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMIN}>Admin</Button>
+        )}
         <SignOutButton />
       </Toolbar>
     </AppBar>
