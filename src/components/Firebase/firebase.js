@@ -16,6 +16,8 @@ const config = {
       app.initializeApp(config);
       this.auth = app.auth();
       this.db = app.database();
+
+      this.serverValue = app.database.ServerValue;
     }
     
     /****AUTH API */
@@ -58,8 +60,11 @@ const config = {
 
     /****USER API */
     user = uid => this.db.ref(`users/${uid}`);
-
     users = () => this.db.ref('users');
+
+    // *** Message API ***
+    message = uid => this.db.ref(`messages/${uid}`);
+    messages = () => this.db.ref('messages');
 
   }
   
