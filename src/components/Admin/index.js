@@ -50,15 +50,15 @@ class AdminPage extends Component {
           <Typography variant="h5" gutterBottom>
             Admin, The Admin Page is accessible by every signed in admin user.
           </Typography>
+          {/* {loading && <div>Loading ...</div>} */}
           <Switch>
             <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
             <Route exact path={ROUTES.ADMIN} component={UserList} />
-        </Switch>
-          {loading && <div>Loading ...</div>}
-          <Typography variant="h6" gutterBottom>
+          </Switch>
+          {/* <Typography variant="h6" gutterBottom>
             User list
-          </Typography>
-          <UserList users={users} />
+          </Typography> */}
+          {/* <UserList users={users} /> */}
         </Paper>
       </Grid>
     );
@@ -177,6 +177,8 @@ class UserItemBase extends Component {
           loading: false,
         }); 
       });
+    console.log(this.props);
+    console.log(this.state);
   }
 
   componentWillUnmount() {
@@ -189,9 +191,18 @@ class UserItemBase extends Component {
   
   render() {
     const { user, loading } = this.state;
+    // console.log('userItemBase - render > ', this.props);
     return (
       <div>
         <h2>User ({this.props.match.params.id})</h2>
+        <Link 
+          to={{
+            pathname: `${ROUTES.ADMIN}`,
+            // state: { user },
+          }}
+        >
+          All User
+        </Link>
         {loading && <div>Loading ...</div>}
         {user && (
           <div>

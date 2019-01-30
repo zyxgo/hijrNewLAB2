@@ -29,6 +29,7 @@ const NavigationAuth = ({authUser}) => (
         </Typography>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.HOME}>Home</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER}>Wilker</Button>
+        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATA_SAMPLE}>Master Data Sample</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ACCOUNT}>Account</Button>
         {authUser.roles.includes(ROLES.ADMIN) && (
           <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMIN}>Admin</Button>

@@ -19,7 +19,7 @@ class HomePage extends Component {
       this.setState({
         users: snapshot.val(),
       }); 
-      console.log(snapshot.val())
+      // console.log(snapshot.val())
     });
   }
   
@@ -70,13 +70,13 @@ class MessagesBase extends Component {
       .limitToLast(this.state.limit)
       .on('value', snapshot => {
         const messageObject = snapshot.val();
-
+        // console.log(snapshot.val());
         if (messageObject) {
           const messageList = Object.keys(messageObject).map(key => ({
             ...messageObject[key],
             uid: key,
           }));
-
+          // console.log('MessagesBase', messageList);
           this.setState({ 
             messages: messageList,
             loading: false 
@@ -127,6 +127,7 @@ class MessagesBase extends Component {
   render() {
     const { users } = this.props;
     const { text, messages, loading } = this.state;
+    console.log('render', {messages})
     return (
       <AuthUserContext.Consumer>
         {authUser => (
