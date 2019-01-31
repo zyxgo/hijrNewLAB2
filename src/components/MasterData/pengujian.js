@@ -37,11 +37,11 @@ class MainSampleBase extends Component {
       <Grid style={{flex: 1, margin: 10}} item xs={12}>
         <Paper style={{padding: 10}}>
           <Typography variant="h5" gutterBottom>
-            Master Data - Sample 
+            Master Data - Pengujian 
           </Typography>
           <Switch>
-            <Route exact path={ROUTES.MASTERDATASAMPLEDETAIL} component={SampleDetail} />
-            <Route exact path={ROUTES.MASTERDATASAMPLE} component={SampleAll} />
+            <Route exact path={ROUTES.MASTERDATAPENGUJIANDETAIL} component={PengujianDetail} />
+            <Route exact path={ROUTES.MASTERDATAPENGUJIAN} component={PengujianAll} />
           </Switch>
         </Paper>
       </Grid>
@@ -49,7 +49,7 @@ class MainSampleBase extends Component {
   }
 }
 
-class SampleAllBase extends Component {
+class PengujianAllBase extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -62,16 +62,16 @@ class SampleAllBase extends Component {
 
     componentDidMount() {
       this.setState({ loading: true });
-      this.props.firebase.db.ref('masterData/sample')
+      this.props.firebase.db.ref('masterData/pengujian')
         .on('value', snap => {
           if(snap.val()) {
             const a = [];
             snap.forEach(el => {
               a.push({
-                idSample: el.val().idSample,
-                namaSample: el.val().namaSample,
-                kodeSample: el.val().kodeSample,
-                kodeIdSample: el.val().kodeIdSample,
+                idPengujian: el.val().idPengujian,
+                jenisPengujian: el.val().jenisPengujian,
+                metodePengujian: el.val().metodePengujian,
+                targetPengujian: el.val().targetPengujian,
               })
             });
             this.setState({ 
@@ -85,7 +85,7 @@ class SampleAllBase extends Component {
     }
 
     componentWillUnmount() {
-      this.props.firebase.db.ref('masterData/sample').off();
+      this.props.firebase.db.ref('masterData/pengujian').off();
     }
 
     handleClickOpen = () => {
@@ -100,18 +100,18 @@ class SampleAllBase extends Component {
       this.setState({ open: false });
       if(this.state.formMode === null ) {
         if (propSample) {
-        const a = this.props.firebase.db.ref('masterData/sample').push();
-        this.props.firebase.db.ref('masterData/sample/' + a.key).update({
-          idSample: a.key,
-          namaSample: propSample[0].namaSample,
-          kodeSample: propSample[0].kodeSample,
-          kodeIdSample: propSample[0].kodeIdSample,
+        const a = this.props.firebase.db.ref('masterData/pengujian').push();
+        this.props.firebase.db.ref('masterData/pengujian/' + a.key).update({
+          idPengujian: a.key,
+          jenisPengujian: propSample[0].jenisPengujian,
+          metodePengujian: propSample[0].metodePengujian,
+          targetPengujian: propSample[0].targetPengujian,
         })
       }}
     }
 
     handleDelete = propSample =>
-      this.props.firebase.db.ref('masterData/sample/' + propSample).remove();
+      this.props.firebase.db.ref('masterData/pengujian/' + propSample).remove();
 
     handleUbah = propSample => {
       this.setState({ open: true, formMode: [propSample] });
@@ -122,7 +122,7 @@ class SampleAllBase extends Component {
       return (
         <div>
           <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-            Tambah Master Data - Sample
+            Tambah Master Data - Pengujian
           </Button>
           <FormSampleList
             state={this.state.open}
@@ -133,10 +133,9 @@ class SampleAllBase extends Component {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Nama Sample</TableCell>
-                <TableCell>Kode Sample</TableCell>
-                <TableCell>Kode ID Sample</TableCell>
-                <TableCell>FBID</TableCell>
+                <TableCell>Jenis Pengujian</TableCell>
+                <TableCell>Metode Pengujian</TableCell>
+                <TableCell>Target Pengujian</TableCell>
                 <TableCell>Ubah</TableCell>
                 <TableCell>Hapus</TableCell>
               </TableRow>
@@ -144,15 +143,14 @@ class SampleAllBase extends Component {
             {!loading && !!items && items.map((el, key) => 
             <TableBody key={key}>
                 <TableRow>
-                  <TableCell>{el.namaSample}</TableCell>
-                  <TableCell>{el.kodeSample}</TableCell>
-                  <TableCell>{el.kodeIdSample}</TableCell>
-                  <TableCell>{el.idSample}</TableCell> 
+                  <TableCell>{el.jenisPengujian}</TableCell>
+                  <TableCell>{el.metodePengujian}</TableCell>
+                  <TableCell>{el.targetPengujian}</TableCell>
                   <TableCell>
                     <Button>
                       <Link 
                         to={{
-                          pathname: `${ROUTES.MASTERDATASAMPLE}/${el.idSample}`,
+                          pathname: `${ROUTES.MASTERDATAPENGUJIAN}/${el.idPengujian}`,
                           data: { el },
                         }}
                       >
@@ -161,7 +159,7 @@ class SampleAllBase extends Component {
                     </Button>
                   </TableCell>
                   <TableCell>
-                    <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.idSample)}>
+                    <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.idPengujian)}>
                       Hapus
                     </Button>
                   </TableCell>
@@ -175,7 +173,7 @@ class SampleAllBase extends Component {
 
 }
 
-class SampleDetailBase extends Component {
+class PengujianDetailBase extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -183,17 +181,17 @@ class SampleDetailBase extends Component {
       items: [],
       open: false,
       ...props.location.state,
-      idSample: '',
-      namaSample: '',
-      kodeSample: '',
-      kodeIdSample: '',
+      idPengujian: '',
+      jenisPengujian: '',
+      metodePengujian: '',
+      targetPengujian: '',
       }; 
   }
 
   componentDidMount() {
     // console.log(this.props);
     this.setState({ loading: true });
-    this.props.firebase.db.ref('masterData/sample/' + this.props.match.params.id)
+    this.props.firebase.db.ref('masterData/pengujian/' + this.props.match.params.id)
       .on('value', snap => {
         console.log(snap.val());
         if(snap.val()) {
@@ -202,10 +200,10 @@ class SampleDetailBase extends Component {
           this.setState({ 
             items: a,
             loading: false,
-            idSample: snap.val().idSample,
-            namaSample: snap.val().namaSample,
-            kodeSample: snap.val().kodeSample,
-            kodeIdSample: snap.val().kodeIdSample,
+            idPengujian: snap.val().idPengujian,
+            jenisPengujian: snap.val().jenisPengujian,
+            metodePengujian: snap.val().metodePengujian,
+            targetPengujian: snap.val().targetPengujian,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -214,7 +212,7 @@ class SampleDetailBase extends Component {
   }
 
   componentWillUnmount() {
-    this.props.firebase.db.ref('masterData/sample').off();
+    this.props.firebase.db.ref('masterData/pengujian').off();
   }
 
   handleClickOpen = () => {
@@ -227,10 +225,10 @@ class SampleDetailBase extends Component {
 
   handleSubmit = () => {
     this.setState({ open: false });
-      this.props.firebase.db.ref('masterData/sample/' + this.state.idSample).update({
-        namaSample: this.state.namaSample,
-        kodeSample: this.state.kodeSample,
-        kodeIdSample: this.state.kodeIdSample,
+      this.props.firebase.db.ref('masterData/pengujian/' + this.state.idPengujian).update({
+        jenisPengujian: this.state.jenisPengujian,
+        metodePengujian: this.state.metodePengujian,
+        targetPengujian: this.state.targetPengujian,
       })
   }
 
@@ -241,18 +239,18 @@ class SampleDetailBase extends Component {
   };
 
   render() {
-    const { loading, namaSample, kodeSample, kodeIdSample, items } = this.state;
-    const isInvalid = namaSample === '' || kodeSample === '' || kodeIdSample === '';
+    const { loading, jenisPengujian, metodePengujian, targetPengujian, items } = this.state;
+    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '';
     return (
       <div>
           <h2>Detail Sample</h2>
           <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-            Ubah Master Data - Sample
+            Ubah Master Data - Pengujian
           </Button>{' '}
           <Button>
             <Link 
               to={{
-                pathname: `${ROUTES.MASTERDATASAMPLE}`,
+                pathname: `${ROUTES.MASTERDATAPENGUJIAN}`,
               }}
             >
               BACK
@@ -261,17 +259,17 @@ class SampleDetailBase extends Component {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Nama Sample</TableCell>
-                <TableCell>Kode Sample</TableCell>
-                <TableCell>Kode ID Sample</TableCell>
+                <TableCell>Jenis Pengujian</TableCell>
+                <TableCell>Metode Pengujian</TableCell>
+                <TableCell>Target Pengujian</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {!loading && !!items && items.map((el, key) => 
                 <TableRow key={key}>
-                  <TableCell>{el.namaSample}</TableCell>
-                  <TableCell>{el.kodeSample}</TableCell>
-                  <TableCell>{el.kodeIdSample}</TableCell>
+                  <TableCell>{el.jenisPengujian}</TableCell>
+                  <TableCell>{el.metodePengujian}</TableCell>
+                  <TableCell>{el.targetPengujian}</TableCell>
                 </TableRow>
               )}
             </TableBody>
@@ -281,34 +279,34 @@ class SampleDetailBase extends Component {
             onClose={this.handleClose}
             aria-labelledby="form-dialog-title"
             >
-            <DialogTitle id="form-dialog-title">Master Data - Sample</DialogTitle>
+            <DialogTitle id="form-dialog-title">Master Data - Pengujian</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                Ubah Data
+                Ubah Data - Pengujian
               </DialogContentText>
               <TextField
                 autoFocus
                 margin="dense"
-                id="namaSample"
-                label="Nama Sample"
-                value={namaSample}
-                onChange={this.onChange('namaSample')}
+                id="jenisPengujian"
+                label="Jenis Pengujian"
+                value={jenisPengujian}
+                onChange={this.onChange('jenisPengujian')}
                 fullWidth
               />
               <TextField
                 margin="dense"
-                id="kodeSample"
-                label="Kode Sample"
-                value={ kodeSample }
-                onChange={this.onChange('kodeSample')}
+                id="metodePengujian"
+                label="Metode Pengujian"
+                value={ metodePengujian }
+                onChange={this.onChange('metodePengujian')}
                 fullWidth
               />
               <TextField
                 margin="dense"
-                id="kodeIdSample"
-                label="Kode ID Sample"
-                value={kodeIdSample}
-                onChange={this.onChange('kodeIdSample')}
+                id="targetPengujian"
+                label="Target Pengujian"
+                value={targetPengujian}
+                onChange={this.onChange('targetPengujian')}
                 fullWidth
               />
             </DialogContent>
@@ -349,10 +347,9 @@ class FormSampleBase extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      namaSample: '',
-      kodeSample: '',
-      kodeIdSample: '',
-
+      jenisPengujian: '',
+      metodePengujian: '',
+      targetPengujian: '',
       error: null,
     }; 
   }
@@ -366,31 +363,31 @@ class FormSampleBase extends Component {
   onSubmit = () => {
     const a = [];
     a.push({
-      namaSample: this.state.namaSample,
-      kodeSample: this.state.kodeSample,
-      kodeIdSample: this.state.kodeIdSample,
+      jenisPengujian: this.state.jenisPengujian,
+      metodePengujian: this.state.metodePengujian,
+      targetPengujian: this.state.targetPengujian,
     })
     this.props.handleSubmit(a);
     this.setState({ 
-      namaSample: '',
-      kodeSample: '',
-      kodeIdSample: '',
+      jenisPengujian: '',
+      metodePengujian: '',
+      targetPengujian: '',
      })
   }
 
   onCancel = () => {
     this.props.handleClose();
     this.setState({ 
-      namaSample: '',
-      kodeSample: '',
-      kodeIdSample: '',
+      jenisPengujian: '',
+      metodePengujian: '',
+      targetPengujian: '',
      })
   }
 
 
   render() {
-    const { namaSample, kodeSample, kodeIdSample } = this.state;
-    const isInvalid = namaSample === '' || kodeSample === '' || kodeIdSample === '';
+    const { jenisPengujian, metodePengujian, targetPengujian } = this.state;
+    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '';
 
     return (
       <Dialog
@@ -398,7 +395,7 @@ class FormSampleBase extends Component {
         onClose={this.onCancel}
         aria-labelledby="form-dialog-title"
         >
-        <DialogTitle id="form-dialog-title">Master Data - Sample</DialogTitle>
+        <DialogTitle id="form-dialog-title">Master Data - Pengujian</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Tambah Data
@@ -406,26 +403,26 @@ class FormSampleBase extends Component {
           <TextField
             autoFocus
             margin="dense"
-            id="namaSample"
-            label="Nama Sample"
-            value={namaSample}
-            onChange={this.onChange('namaSample')}
+            id="jenisPengujian"
+            label="Jenis Pengujian"
+            value={jenisPengujian}
+            onChange={this.onChange('jenisPengujian')}
             fullWidth
           />
           <TextField
             margin="dense"
-            id="kodeSample"
-            label="Kode Sample"
-            value={ kodeSample }
-            onChange={this.onChange('kodeSample')}
+            id="metodePengujian"
+            label="Metode Pengujian"
+            value={ metodePengujian }
+            onChange={this.onChange('metodePengujian')}
             fullWidth
           />
           <TextField
             margin="dense"
-            id="kodeIdSample"
-            label="Kode ID Sample"
-            value={kodeIdSample}
-            onChange={this.onChange('kodeIdSample')}
+            id="targetPengujian"
+            label="Target Pengujian"
+            value={targetPengujian}
+            onChange={this.onChange('targetPengujian')}
             fullWidth
           />
         </DialogContent>
@@ -445,8 +442,8 @@ class FormSampleBase extends Component {
 
 const condition = authUser => !!authUser;
 
-const SampleAll = withFirebase(SampleAllBase);
-const SampleDetail = withFirebase(SampleDetailBase);
+const PengujianAll = withFirebase(PengujianAllBase);
+const PengujianDetail = withFirebase(PengujianDetailBase);
 
 
 export default compose(

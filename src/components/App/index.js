@@ -14,6 +14,7 @@ import AdminPage from '../Admin';
 import WilkerPage from '../Wilker';
 // import MasterData from '../MasterData';
 import MasterData_Sample from '../MasterData/sample';
+import MasterData_Pengujian from '../MasterData/pengujian';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -31,6 +32,7 @@ const App = () => (
       <Route path={ROUTES.ADMIN} component={AdminPage} />
       <Route path={ROUTES.WILKER} component={WilkerPage} />
       <Route path={ROUTES.MASTERDATASAMPLE} component={MasterData_Sample} />
+      <Route path={ROUTES.MASTERDATAPENGUJIAN} component={MasterData_Pengujian} />
       
     </div>
   </Router>
