@@ -12,7 +12,7 @@ import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import WilkerPage from '../Wilker';
-import MasterData from '../MasterData';
+// import MasterData from '../MasterData';
 import MasterData_Sample from '../MasterData/sample';
 
 import * as ROUTES from '../../constants/routes';
@@ -30,7 +30,7 @@ const App = () => (
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
       <Route path={ROUTES.WILKER} component={WilkerPage} />
-      <Route path={ROUTES.MASTERDATA_SAMPLE} component={MasterData_Sample} />
+      <Route path={ROUTES.MASTERDATASAMPLE} component={MasterData_Sample} />
       
     </div>
   </Router>

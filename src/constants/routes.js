@@ -8,6 +8,6 @@ export const WILKER = '/wilker';
 export const ADMIN = '/admin';
 export const ADMIN_DETAILS = '/admin/:id';
 // export const MASTER_DATA = '/masterdata';
-export const MASTERDATA_SAMPLE = '/masterdata-sample';
-export const MASTERDATA_SAMPLEDETAIL = '/masterdata-sample/:id';
+export const MASTERDATASAMPLE = '/masterdatasample';
+export const MASTERDATASAMPLEDETAIL = '/masterdatasample/:id';
 

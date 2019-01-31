@@ -3,7 +3,7 @@ import { Switch, Route, Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
 import { withAuthorization } from '../Session';
-import * as ROLES from '../../constants/roles';
+// import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -40,8 +40,8 @@ class MainSampleBase extends Component {
             Master Data - Sample 
           </Typography>
           <Switch>
-            <Route exact path={ROUTES.MASTERDATA_SAMPLEDETAIL} component={SampleDetail} />
-            <Route exact path={ROUTES.MASTERDATA_SAMPLE} component={SampleAll} />
+            <Route exact path={ROUTES.MASTERDATASAMPLEDETAIL} component={SampleDetail} />
+            <Route exact path={ROUTES.MASTERDATASAMPLE} component={SampleAll} />
           </Switch>
         </Paper>
       </Grid>
@@ -56,6 +56,7 @@ class SampleAllBase extends Component {
         loading: true,
         items: [],
         open: false,
+        formMode: [],
         }; 
     }
 
@@ -63,7 +64,6 @@ class SampleAllBase extends Component {
       this.setState({ loading: true });
       this.props.firebase.db.ref('masterData/sample')
         .on('value', snap => {
-          // console.log(snap.val());
           if(snap.val()) {
             const a = [];
             snap.forEach(el => {
@@ -89,7 +89,7 @@ class SampleAllBase extends Component {
     }
 
     handleClickOpen = () => {
-      this.setState({ open: true });
+      this.setState({ open: true, formMode: null  });
     };
   
     handleClose = () => {
@@ -98,7 +98,8 @@ class SampleAllBase extends Component {
   
     handleSubmit = ( propSample ) => {
       this.setState({ open: false });
-      if (propSample) {
+      if(this.state.formMode === null ) {
+        if (propSample) {
         const a = this.props.firebase.db.ref('masterData/sample').push();
         this.props.firebase.db.ref('masterData/sample/' + a.key).update({
           idSample: a.key,
@@ -106,29 +107,28 @@ class SampleAllBase extends Component {
           kodeSample: propSample[0].kodeSample,
           kodeIdSample: propSample[0].kodeIdSample,
         })
-      }
+      }}
     }
 
     handleDelete = propSample =>
       this.props.firebase.db.ref('masterData/sample/' + propSample).remove();
 
     handleUbah = propSample => {
-      console.log(propSample);
+      this.setState({ open: true, formMode: [propSample] });
     }
 
     render() {
       const { items, loading } = this.state;
-      // console.log( items, loading );
       return (
         <div>
           <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
             Tambah Master Data - Sample
           </Button>
-          <FormSample
+          <FormSampleList
             state={this.state.open}
             handleSubmit={this.handleSubmit}
             handleClose={() => this.handleClose()}
-            formMode={'newData'}
+            formMode={this.state.formMode}
           />
           <Table>
             <TableHead>
@@ -136,6 +136,7 @@ class SampleAllBase extends Component {
                 <TableCell>Nama Sample</TableCell>
                 <TableCell>Kode Sample</TableCell>
                 <TableCell>Kode ID Sample</TableCell>
+                <TableCell>FBID</TableCell>
                 <TableCell>Ubah</TableCell>
                 <TableCell>Hapus</TableCell>
               </TableRow>
@@ -146,9 +147,17 @@ class SampleAllBase extends Component {
                   <TableCell>{el.namaSample}</TableCell>
                   <TableCell>{el.kodeSample}</TableCell>
                   <TableCell>{el.kodeIdSample}</TableCell>
+                  <TableCell>{el.idSample}</TableCell> 
                   <TableCell>
-                    <Button variant="text" color="primary" onClick={() => this.handleUbah(el.idSample)}>
-                      Ubah
+                    <Button>
+                      <Link 
+                        to={{
+                          pathname: `${ROUTES.MASTERDATASAMPLE}/${el.idSample}`,
+                          data: { el },
+                        }}
+                      >
+                        Details
+                      </Link>
                     </Button>
                   </TableCell>
                   <TableCell>
@@ -166,24 +175,175 @@ class SampleAllBase extends Component {
 
 }
 
-class SampleDetail extends Component {
+class SampleDetailBase extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
+      loading: true,
       items: [],
+      open: false,
+      ...props.location.state,
+      idSample: '',
+      namaSample: '',
+      kodeSample: '',
+      kodeIdSample: '',
       }; 
   }
 
+  componentDidMount() {
+    // console.log(this.props);
+    this.setState({ loading: true });
+    this.props.firebase.db.ref('masterData/sample/' + this.props.match.params.id)
+      .on('value', snap => {
+        console.log(snap.val());
+        if(snap.val()) {
+          const a = [];
+          a.push(snap.val());
+          this.setState({ 
+            items: a,
+            loading: false,
+            idSample: snap.val().idSample,
+            namaSample: snap.val().namaSample,
+            kodeSample: snap.val().kodeSample,
+            kodeIdSample: snap.val().kodeIdSample,
+          });
+        } else {
+          this.setState({ items: null, loading: false });
+        }
+    })
+  }
+
+  componentWillUnmount() {
+    this.props.firebase.db.ref('masterData/sample').off();
+  }
+
+  handleClickOpen = () => {
+    this.setState({ open: true, formMode: null  });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleSubmit = () => {
+    this.setState({ open: false });
+      this.props.firebase.db.ref('masterData/sample/' + this.state.idSample).update({
+        namaSample: this.state.namaSample,
+        kodeSample: this.state.kodeSample,
+        kodeIdSample: this.state.kodeIdSample,
+      })
+  }
+
+  onChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
   render() {
+    const { loading, namaSample, kodeSample, kodeIdSample, items } = this.state;
+    const isInvalid = namaSample === '' || kodeSample === '' || kodeIdSample === '';
     return (
       <div>
           <h2>Detail Sample</h2>
+          <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+            Ubah Master Data - Sample
+          </Button>{' '}
+          <Button>
+            <Link 
+              to={{
+                pathname: `${ROUTES.MASTERDATASAMPLE}`,
+              }}
+            >
+              BACK
+            </Link>
+          </Button>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Nama Sample</TableCell>
+                <TableCell>Kode Sample</TableCell>
+                <TableCell>Kode ID Sample</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!loading && !!items && items.map((el, key) => 
+                <TableRow key={key}>
+                  <TableCell>{el.namaSample}</TableCell>
+                  <TableCell>{el.kodeSample}</TableCell>
+                  <TableCell>{el.kodeIdSample}</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby="form-dialog-title"
+            >
+            <DialogTitle id="form-dialog-title">Master Data - Sample</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Ubah Data - Sample
+              </DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="namaSample"
+                label="Nama Sample"
+                value={namaSample}
+                onChange={this.onChange('namaSample')}
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="kodeSample"
+                label="Kode Sample"
+                value={ kodeSample }
+                onChange={this.onChange('kodeSample')}
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="kodeIdSample"
+                label="Kode ID Sample"
+                value={kodeIdSample}
+                onChange={this.onChange('kodeIdSample')}
+                fullWidth
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={this.handleSubmit} 
+                disabled={isInvalid} 
+                color="primary">
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
       </div>
     )
   }
 
 }
+
+const FormSampleList = ({ 
+  state,
+  handleSubmit,
+  handleClose,
+  formMode,
+}) => (
+  <div>
+    <FormSampleBase
+      state={state}
+      handleSubmit={handleSubmit}
+      handleClose={handleClose}
+      formMode={formMode}
+    />
+  </div>
+);
 
 class FormSampleBase extends Component {
   constructor(props) {
@@ -192,12 +352,15 @@ class FormSampleBase extends Component {
       namaSample: '',
       kodeSample: '',
       kodeIdSample: '',
+
       error: null,
     }; 
   }
 
-  onChange = event => {
-    this.setState({ [event.target.id]: event.target.value });
+  onChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
   };
 
   onSubmit = () => {
@@ -208,50 +371,69 @@ class FormSampleBase extends Component {
       kodeIdSample: this.state.kodeIdSample,
     })
     this.props.handleSubmit(a);
+    this.setState({ 
+      namaSample: '',
+      kodeSample: '',
+      kodeIdSample: '',
+     })
   }
 
+  onCancel = () => {
+    this.props.handleClose();
+    this.setState({ 
+      namaSample: '',
+      kodeSample: '',
+      kodeIdSample: '',
+     })
+  }
+
+
   render() {
+    const { namaSample, kodeSample, kodeIdSample } = this.state;
+    const isInvalid = namaSample === '' || kodeSample === '' || kodeIdSample === '';
+
     return (
       <Dialog
         open={this.props.state}
-        onClose={this.props.handleClose}
+        onClose={this.onCancel}
         aria-labelledby="form-dialog-title"
         >
-        <DialogTitle id="form-dialog-title">Tambah Master Data - Sample</DialogTitle>
+        <DialogTitle id="form-dialog-title">Master Data - Sample</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Tambahkan 
+            {this.props.formMode === 'add' ? 'Tambah Data' : 'Ubah Data'} 
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="namaSample"
             label="Nama Sample"
-            onChange={this.onChange}
+            value={namaSample}
+            onChange={this.onChange('namaSample')}
             fullWidth
           />
           <TextField
-            // autoFocus
             margin="dense"
             id="kodeSample"
             label="Kode Sample"
-            onChange={this.onChange}
+            value={ kodeSample }
+            onChange={this.onChange('kodeSample')}
             fullWidth
           />
           <TextField
-            // autoFocus
             margin="dense"
             id="kodeIdSample"
             label="Kode ID Sample"
-            onChange={this.onChange}
+            value={kodeIdSample}
+            onChange={this.onChange('kodeIdSample')}
             fullWidth
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleClose} color="primary">
+          <Button onClick={this.onCancel} color="primary">
             Cancel
           </Button>
-          <Button onClick={this.onSubmit} color="primary">
+          <Button onClick={this.onSubmit} disabled={isInvalid} color="primary">
             Submit
           </Button>
         </DialogActions>
@@ -263,8 +445,9 @@ class FormSampleBase extends Component {
 
 const condition = authUser => !!authUser;
 
-const FormSample = withFirebase(FormSampleBase);
 const SampleAll = withFirebase(SampleAllBase);
+const SampleDetail = withFirebase(SampleDetailBase);
+
 
 export default compose(
   withAuthorization(condition),

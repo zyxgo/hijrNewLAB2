@@ -37,7 +37,7 @@ class HomePage extends Component {
           <Typography variant="h6" gutterBottom>
             Halaman ini menginformasikan hasil pengujian sample anda.
           </Typography>
-          <Messages users={this.state.users} />
+          {/* <Messages users={this.state.users} /> */}
         </Paper>
       </Grid>
     ); 
@@ -127,7 +127,7 @@ class MessagesBase extends Component {
   render() {
     const { users } = this.props;
     const { text, messages, loading } = this.state;
-    console.log('render', {messages})
+    // console.log('render', {messages})
     return (
       <AuthUserContext.Consumer>
         {authUser => (
@@ -269,7 +269,7 @@ class MessageItem extends Component {
 //   </li>
 // );
 
-const Messages = withFirebase(MessagesBase);
+// const Messages = withFirebase(MessagesBase);
 
 const condition = authUser => !!authUser;
 

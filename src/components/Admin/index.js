@@ -42,7 +42,7 @@ class AdminPage extends Component {
   }
 
   render() {
-    const { users, loading } = this.state;
+    // const { users, loading } = this.state;
 
     return (
       <Grid style={{flex: 1, margin: 10}} item xs={12}>
