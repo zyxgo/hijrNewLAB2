@@ -12,4 +12,6 @@ export const MASTERDATASAMPLE = '/masterdatasample';
 export const MASTERDATASAMPLEDETAIL = '/masterdatasample/:id';
 export const MASTERDATAPENGUJIAN = '/masterdata-pengujian';
 export const MASTERDATAPENGUJIANDETAIL = '/masterdata-pengujian/:id';
+export const MASTERDATA_WILKER = '/masterdata-wilker';
+export const MASTERDATA_WILKERDETAIL = '/masterdata-wilker/:id';
 

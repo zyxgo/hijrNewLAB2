@@ -15,6 +15,7 @@ import WilkerPage from '../Wilker';
 // import MasterData from '../MasterData';
 import MasterData_Sample from '../MasterData/sample';
 import MasterData_Pengujian from '../MasterData/pengujian';
+import MasterData_Wilker from '../MasterData/wilker';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -33,6 +34,7 @@ const App = () => (
       <Route path={ROUTES.WILKER} component={WilkerPage} />
       <Route path={ROUTES.MASTERDATASAMPLE} component={MasterData_Sample} />
       <Route path={ROUTES.MASTERDATAPENGUJIAN} component={MasterData_Pengujian} />
+      <Route path={ROUTES.MASTERDATA_WILKER} component={MasterData_Wilker} />
       
     </div>
   </Router>
