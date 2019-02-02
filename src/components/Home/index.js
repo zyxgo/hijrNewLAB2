@@ -32,7 +32,7 @@ class HomePage extends Component {
       <Grid style={{flex: 1, margin: 10}} item xs={12}>
         <Paper style={{padding: 10}}>
           <Typography variant="h5" gutterBottom>
-            Selamat datang di aplikasi NewLAB
+            Selamat datang di aplikasi Sistem Informasi Manajemen Laboratorium
           </Typography>
           <Typography variant="h6" gutterBottom>
             Halaman ini menginformasikan hasil pengujian sample anda.

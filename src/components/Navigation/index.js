@@ -25,10 +25,10 @@ const NavigationAuth = ({authUser}) => (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" color="inherit" style={{marginRight: 20}} >
-          Aplikasi NewLAB
+          SIMLAB
         </Typography>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.HOME}>Home</Button>
-        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER}>Wilker</Button>
+        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER_FORMUJI}>Wilker</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATASAMPLE}>Master Data Sample</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATAPENGUJIAN}>Master Data Pengujian</Button>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATA_WILKER}>Master Data Wilker</Button>
@@ -47,7 +47,7 @@ const NavigationNonAuth = () => (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" color="inherit" style={{marginRight: 20}} >
-          Aplikasi NewLAB
+          SIMLAB
         </Typography>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.SIGN_IN}>Sign In</Button>
       </Toolbar>

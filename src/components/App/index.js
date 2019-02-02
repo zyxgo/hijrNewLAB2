@@ -11,7 +11,8 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
-import WilkerPage from '../Wilker';
+// import WilkerPage from '../Wilker';
+import Wilker_FormUji from '../Wilker/formUji';
 // import MasterData from '../MasterData';
 import MasterData_Sample from '../MasterData/sample';
 import MasterData_Pengujian from '../MasterData/pengujian';
@@ -31,7 +32,7 @@ const App = () => (
       <Route path={ROUTES.HOME} component={HomePage} />
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
-      <Route path={ROUTES.WILKER} component={WilkerPage} />
+      <Route path={ROUTES.WILKER_FORMUJI} component={Wilker_FormUji} />
       <Route path={ROUTES.MASTERDATASAMPLE} component={MasterData_Sample} />
       <Route path={ROUTES.MASTERDATAPENGUJIAN} component={MasterData_Pengujian} />
       <Route path={ROUTES.MASTERDATA_WILKER} component={MasterData_Wilker} />

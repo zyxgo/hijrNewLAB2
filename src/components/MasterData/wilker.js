@@ -71,7 +71,7 @@ class WilkerAllBase extends Component {
                 idWilker: el.val().idWilker,
                 kodeWilker: el.val().kodeWilker,
                 namaWilker: el.val().namaWilker,
-                // targetPengujian: el.val().targetPengujian,
+                countSampelWilker: el.val().countSampelWilker,
               })
             });
             this.setState({ 
@@ -105,7 +105,7 @@ class WilkerAllBase extends Component {
           idWilker: a.key,
           kodeWilker: propSample[0].kodeWilker,
           namaWilker: propSample[0].namaWilker,
-          // targetPengujian: propSample[0].targetPengujian,
+          countSampelWilker: 0,
         })
       }}
     }
@@ -135,7 +135,7 @@ class WilkerAllBase extends Component {
               <TableRow>
                 <TableCell>Kode Wilker</TableCell>
                 <TableCell>Nama Wilker</TableCell>
-                {/* <TableCell>Target Pengujian</TableCell> */}
+                <TableCell>Count Sample</TableCell>
                 <TableCell>Ubah</TableCell>
                 <TableCell>Hapus</TableCell>
               </TableRow>
@@ -145,17 +145,15 @@ class WilkerAllBase extends Component {
                 <TableRow>
                   <TableCell>{el.kodeWilker}</TableCell>
                   <TableCell>{el.namaWilker}</TableCell>
-                  {/* <TableCell>{el.targetPengujian}</TableCell> */}
+                  <TableCell>{el.countSampelWilker}</TableCell>
                   <TableCell>
-                    <Button>
-                      <Link 
+                    <Button component={Link} 
                         to={{
                           pathname: `${ROUTES.MASTERDATA_WILKER}/${el.idWilker}`,
                           data: { el },
                         }}
                       >
                         Details
-                      </Link>
                     </Button>
                   </TableCell>
                   <TableCell>
@@ -184,7 +182,7 @@ class WilkerDetailBase extends Component {
       idWilker: '',
       kodeWilker: '',
       namaWilker: '',
-      // targetPengujian: '',
+      // countSampelWilker: '',
       }; 
   }
 
@@ -203,7 +201,7 @@ class WilkerDetailBase extends Component {
             idWilker: snap.val().idWilker,
             kodeWilker: snap.val().kodeWilker,
             namaWilker: snap.val().namaWilker,
-            // targetPengujian: snap.val().targetPengujian,
+            countSampelWilker: snap.val().countSampelWilker,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -228,7 +226,7 @@ class WilkerDetailBase extends Component {
       this.props.firebase.db.ref('masterData/wilker/' + this.state.idWilker).update({
         kodeWilker: this.state.kodeWilker,
         namaWilker: this.state.namaWilker,
-        // targetPengujian: this.state.targetPengujian,
+        // countSampelWilker: this.state.countSampelWilker,
       })
   }
 
@@ -261,7 +259,7 @@ class WilkerDetailBase extends Component {
               <TableRow>
                 <TableCell>Kode Wilker</TableCell>
                 <TableCell>Nama Wilker</TableCell>
-                {/* <TableCell>Target Pengujian</TableCell> */}
+                <TableCell>Count Sample</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -269,7 +267,7 @@ class WilkerDetailBase extends Component {
                 <TableRow key={key}>
                   <TableCell>{el.kodeWilker}</TableCell>
                   <TableCell>{el.namaWilker}</TableCell>
-                  {/* <TableCell>{el.targetPengujian}</TableCell> */}
+                  <TableCell>{el.countSampelWilker}</TableCell>
                 </TableRow>
               )}
             </TableBody>
@@ -303,10 +301,10 @@ class WilkerDetailBase extends Component {
               />
               {/* <TextField
                 margin="dense"
-                id="targetPengujian"
-                label="Target Pengujian"
-                value={targetPengujian}
-                onChange={this.onChange('targetPengujian')}
+                // id="countSampelWilker"
+                label="Count Sample"
+                // value={countSampelWilker}
+                // onChange={this.onChange('countSampelWilker')}
                 fullWidth
               /> */}
             </DialogContent>
@@ -349,7 +347,7 @@ class FormSampleBase extends Component {
     this.state = {
       kodeWilker: '',
       namaWilker: '',
-      // targetPengujian: '',
+      // countSampelWilker: '',
       error: null,
     }; 
   }
@@ -365,13 +363,13 @@ class FormSampleBase extends Component {
     a.push({
       kodeWilker: this.state.kodeWilker,
       namaWilker: this.state.namaWilker,
-      // targetPengujian: this.state.targetPengujian,
+      // countSampelWilker: this.state.countSampelWilker,
     })
     this.props.handleSubmit(a);
     this.setState({ 
       kodeWilker: '',
       namaWilker: '',
-      // targetPengujian: '',
+      // countSampelWilker: '',
      })
   }
 
@@ -380,7 +378,7 @@ class FormSampleBase extends Component {
     this.setState({ 
       kodeWilker: '',
       namaWilker: '',
-      // targetPengujian: '',
+      // countSampelWilker: '',
      })
   }
 
@@ -419,10 +417,10 @@ class FormSampleBase extends Component {
           />
           {/* <TextField
             margin="dense"
-            id="targetPengujian"
-            label="Target Pengujian"
-            value={targetPengujian}
-            onChange={this.onChange('targetPengujian')}
+            // id="countSampelWilker"
+            label="Count Sample"
+            // value={countSampelWilker}
+            // onChange={this.onChange('countSampelWilker')}
             fullWidth
           /> */}
         </DialogContent>

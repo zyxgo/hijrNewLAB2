@@ -106,7 +106,7 @@ class FormIsianBase extends Component {
         />
         <TextField
           id="nomorAgendaSample"
-          label="Nomor Agenda Sample"
+          label="Nomor Agenda / Surat"
           // value={password}
           onChange={this.onChange}
           style={{width: "100%", marginBottom: 10}}
@@ -142,7 +142,7 @@ class FormIsianBase extends Component {
         />
         <TextField
           id="petugasPenerimaSample"
-          label="Petugas Penerima Sample"
+          label="Petugas Pengambil Sample"
           // value={password}
           onChange={this.onChange}
           style={{width: "100%", marginBottom: 10}}

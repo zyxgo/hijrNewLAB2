@@ -136,7 +136,7 @@ class SampleAllBase extends Component {
                 <TableCell>Nama Sample</TableCell>
                 <TableCell>Kode Sample</TableCell>
                 <TableCell>Kode ID Sample</TableCell>
-                <TableCell>FBID</TableCell>
+                {/* <TableCell>FBID</TableCell> */}
                 <TableCell>Ubah</TableCell>
                 <TableCell>Hapus</TableCell>
               </TableRow>
@@ -147,17 +147,15 @@ class SampleAllBase extends Component {
                   <TableCell>{el.namaSample}</TableCell>
                   <TableCell>{el.kodeSample}</TableCell>
                   <TableCell>{el.kodeIdSample}</TableCell>
-                  <TableCell>{el.idSample}</TableCell> 
+                  {/* <TableCell>{el.idSample}</TableCell>  */}
                   <TableCell>
-                    <Button>
-                      <Link 
+                    <Button component={Link} 
                         to={{
                           pathname: `${ROUTES.MASTERDATASAMPLE}/${el.idSample}`,
                           data: { el },
                         }}
                       >
                         Details
-                      </Link>
                     </Button>
                   </TableCell>
                   <TableCell>
@@ -249,14 +247,12 @@ class SampleDetailBase extends Component {
           <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
             Ubah Master Data - Sample
           </Button>{' '}
-          <Button>
-            <Link 
+          <Button component={Link}
               to={{
                 pathname: `${ROUTES.MASTERDATASAMPLE}`,
               }}
             >
               BACK
-            </Link>
           </Button>
           <Table>
             <TableHead>

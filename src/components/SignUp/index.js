@@ -53,6 +53,7 @@ class SignUpFormBase extends Component {
             username,
             email,
             roles,
+            area: '9999',
           });
       })
       .then(() => {
