@@ -6,6 +6,7 @@ export const ACCOUNT = '/account';
 export const PASSWORD_FORGET = '/pw-forget';
 export const WILKER = '/wilker';
 export const WILKER_FORMUJI = '/wilker-formuji';
+export const WILKER_FORMUJIADD = '/wilker-formuji/add';
 export const WILKER_FORMUJIDETAIL = '/wilker-formuji/:id';
 export const ADMIN = '/admin';
 export const ADMIN_DETAILS = '/admin/:id';
