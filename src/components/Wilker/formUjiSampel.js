@@ -356,6 +356,7 @@ class SampelDetailBase extends Component {
       loading: true,
       items: [],
       open: false,
+      open2: false,
       ...props.location.state,
       idPermohonanUji: '',
       kodeUnikSampel: '',
@@ -365,6 +366,11 @@ class SampelDetailBase extends Component {
       alamatPemilikSampel: '',
       asalTujuanSampel: '',
       petugasPengambilSampel: '',
+      jenisSampel: '',
+      jumlahSampel: '',
+      kondisiSampel: '',
+      jenisPengujianSampel: '',
+      ruangLingkupSampel: '',
       }; 
   }
 
@@ -400,11 +406,19 @@ class SampelDetailBase extends Component {
   }
 
   handleClickOpen = () => {
-    this.setState({ open: true, formMode: null  });
+    this.setState({ open: true });
+  };
+
+  handleClickOpen2 = () => {
+    this.setState({ open2: true });
   };
 
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  handleClose2 = () => {
+    this.setState({ open2: false });
   };
 
   handleSubmit = () => {
@@ -420,7 +434,24 @@ class SampelDetailBase extends Component {
       })
   }
 
+  handleSubmit2 = () => {
+    this.setState({ open2: false });
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems').push({
+      jenisSampel: this.state.jenisSampel,
+      jumlahSampel: this.state.jumlahSampel,
+      kondisiSampel: this.state.kondisiSampel,
+      jenisPengujianSampel: this.state.jenisPengujianSampel,
+      ruangLingkupSampel: this.state.ruangLingkupSampel,
+    })
+  }
+
   onChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
+  onChange2 = name => event => {
     this.setState({
       [name]: event.target.value,
     });
@@ -429,15 +460,18 @@ class SampelDetailBase extends Component {
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      loading, items,
-     } = this.state;
+      jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, ruangLingkupSampel,
+      loading, items } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
+    const isInvalid2 = jenisSampel === ''  || jumlahSampel === '' || kondisiSampel === '' || jenisPengujianSampel === '' || ruangLingkupSampel === '';
     return (
       <div>
-          {/* <h2>Detail Sampel</h2> */}
           <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
             Ubah Data
+          </Button>{' '}
+          <Button variant="outlined" color="primary" onClick={this.handleClickOpen2}>
+            Tambah Item Pengujian
           </Button>{' '}
           <Button component={Link}
               to={{
@@ -547,6 +581,69 @@ class SampelDetailBase extends Component {
               </Button>
             </DialogActions>
           </Dialog>
+          <Dialog
+            open={this.state.open2}
+            onClose={this.handleClose2}
+            aria-labelledby="form-dialog-title1"
+            >
+            <DialogTitle id="form-dialog-title1">Tambah Item Pengujian</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="jenisSampel"
+                label="Jenis Sampel"
+                value={jenisSampel}
+                onChange={this.onChange2('jenisSampel')}
+                fullWidth
+              />
+              <TextField                
+                margin="dense"
+                id="jumlahSampel"
+                label="Jumlah Sampel"
+                value={jumlahSampel}
+                onChange={this.onChange2('jumlahSampel')}
+                fullWidth
+              />
+              <TextField                
+                margin="dense"
+                id="kondisiSampel"
+                label="Kondisi Sampel"
+                value={kondisiSampel}
+                onChange={this.onChange2('kondisiSampel')}
+                fullWidth
+              />
+              <TextField                
+                margin="dense"
+                id="jenisPengujianSampel"
+                label="Jenis Pengujian"
+                value={jenisPengujianSampel}
+                onChange={this.onChange2('jenisPengujianSampel')}
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="ruangLingkupSampel"
+                label="Ruang Lingkup Sampel"
+                value={ruangLingkupSampel}
+                onChange={this.onChange2('ruangLingkupSampel')}
+                fullWidth
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button color="secondary" onClick={this.handleClose2}>
+                Cancel
+              </Button>
+              <Button 
+                variant="outlined"
+                onClick={this.handleSubmit2} 
+                disabled={isInvalid2} 
+                color="primary">
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
+          
       </div>
     )
   }
