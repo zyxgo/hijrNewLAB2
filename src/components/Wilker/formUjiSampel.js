@@ -127,6 +127,7 @@ class SampelAllBase extends Component {
                   <TableCell>Tanggal Masuk Sampel</TableCell>
                   <TableCell>Nama Pemilik Sampel</TableCell>
                   <TableCell>Asal Tujuan Sampel</TableCell>
+                  <TableCell>FbId</TableCell>
                   <TableCell colSpan={2}>Action</TableCell>
                   {/* <TableCell>Hapus</TableCell> */}
                 </TableRow>
@@ -138,6 +139,7 @@ class SampelAllBase extends Component {
                     <TableCell>{el.tanggalMasukSampel}</TableCell>
                     <TableCell>{el.namaPemilikSampel}</TableCell>
                     <TableCell>{el.asalTujuanSampel}</TableCell>
+                    <TableCell>{el.idPermohonanUji}</TableCell>
                     <TableCell>
                       <Button component={Link} 
                           to={{
@@ -200,19 +202,22 @@ class SampelAddBase extends Component {
             a.push({
               idWilker: el.val().idWilker,
               countSampelWilker: el.val().countSampelWilker,
+              kodeWilker: el.val().kodeWilker,
             })
           })
+          console.log(a);
           this.setState({ 
             items: a,
             loading: false,
             // idPermohonanUji: snap.val().idPermohonanUji,
-            // kodeUnikSampel: snap.val().kodeUnikSampel,
+            kodeUnikSampel: a[0].kodeWilker + 
+              ('00000' + (parseInt(a[0].countSampelWilker, 10) + 1)).slice(-5),
             tanggalMasukSampel: new Date(),
             // nomorAgendaSurat: snap.val().nomorAgendaSurat,
             // namaPemilikSampel: snap.val().namaPemilikSampel,
             // alamatPemilikSampel: snap.val().alamatPemilikSampel,
             // asalTujuanSampel: snap.val().asalTujuanSampel,
-            // petugasPengambilSampel: snap.val().petugasPengambilSampel,
+            petugasPengambilSampel: this.props.location.data.authUser.username,
           });
     })
   
@@ -231,9 +236,11 @@ class SampelAddBase extends Component {
   };
 
   handleSubmit = () => {
-    this.setState({ open: false });
+    // this.setState({ open: false });
+    console.log(this.state.items[0]);
     const a = this.props.firebase.db.ref('samples').push();
     this.props.firebase.db.ref('samples/' + a.key ).update({
+        idPermohonanUji: a.key,
         kodeUnikSampel: this.state.kodeUnikSampel,
         tanggalMasukSampel: this.state.tanggalMasukSampel,
         nomorAgendaSurat: this.state.nomorAgendaSurat,
@@ -242,6 +249,9 @@ class SampelAddBase extends Component {
         asalTujuanSampel: this.state.asalTujuanSampel,
         petugasPengambilSampel: this.state.petugasPengambilSampel,
       })
+    this.props.firebase.db.ref('masterData/wilker/' + this.state.items[0].idWilker).update({
+      countSampelWilker: parseInt(this.state.items[0].countSampelWilker, 10) + 1,
+    })
   }
 
   handleDateChange = date => {
@@ -271,7 +281,7 @@ class SampelAddBase extends Component {
           </Button>
             <div>
               <TextField
-                autoFocus
+                disabled={true}
                 margin="dense"
                 id="kodeUnikSampel"
                 label="Kode Unik Sampel"
@@ -289,6 +299,7 @@ class SampelAddBase extends Component {
                   onChange={this.handleDateChange} />
               </MuiPickersUtilsProvider>
               <TextField
+                autoFocus
                 margin="dense"
                 id="nomorAgendaSurat"
                 label="Nomor Agenda Surat"
@@ -321,6 +332,7 @@ class SampelAddBase extends Component {
                 fullWidth
               />
               <TextField
+                disabled
                 margin="dense"
                 id="petugasPengambilSampel"
                 label="Petugas Pengambil Sampel"
