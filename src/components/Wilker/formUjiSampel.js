@@ -127,7 +127,7 @@ class SampelAllBase extends Component {
                   <TableCell>Tanggal Masuk Sampel</TableCell>
                   <TableCell>Nama Pemilik Sampel</TableCell>
                   <TableCell>Asal Tujuan Sampel</TableCell>
-                  <TableCell>FbId</TableCell>
+                  {/* <TableCell>FbId</TableCell> */}
                   <TableCell colSpan={2}>Action</TableCell>
                   {/* <TableCell>Hapus</TableCell> */}
                 </TableRow>
@@ -139,7 +139,7 @@ class SampelAllBase extends Component {
                     <TableCell>{el.tanggalMasukSampel}</TableCell>
                     <TableCell>{el.namaPemilikSampel}</TableCell>
                     <TableCell>{el.asalTujuanSampel}</TableCell>
-                    <TableCell>{el.idPermohonanUji}</TableCell>
+                    {/* <TableCell>{el.idPermohonanUji}</TableCell> */}
                     <TableCell>
                       <Button component={Link} 
                           to={{
@@ -195,7 +195,6 @@ class SampelAddBase extends Component {
       .orderByChild('kodeWilker')
       .equalTo(this.props.location.data.authUser.area)
       .on('value', snap => {
-        // console.log(snap.val());
           const a = [];
           // a.push(snap.val());
           snap.forEach(el => {
@@ -205,18 +204,12 @@ class SampelAddBase extends Component {
               kodeWilker: el.val().kodeWilker,
             })
           })
-          console.log(a);
           this.setState({ 
             items: a,
             loading: false,
-            // idPermohonanUji: snap.val().idPermohonanUji,
             kodeUnikSampel: a[0].kodeWilker + 
               ('00000' + (parseInt(a[0].countSampelWilker, 10) + 1)).slice(-5),
             tanggalMasukSampel: new Date(),
-            // nomorAgendaSurat: snap.val().nomorAgendaSurat,
-            // namaPemilikSampel: snap.val().namaPemilikSampel,
-            // alamatPemilikSampel: snap.val().alamatPemilikSampel,
-            // asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: this.props.location.data.authUser.username,
           });
     })
@@ -224,7 +217,7 @@ class SampelAddBase extends Component {
   }
 
   componentWillUnmount() {
-    // this.props.firebase.db.ref('samples').off();
+    this.props.firebase.db.ref('masterData/wilker').off();
   }
 
   handleClickOpen = () => {
@@ -237,7 +230,7 @@ class SampelAddBase extends Component {
 
   handleSubmit = () => {
     // this.setState({ open: false });
-    console.log(this.state.items[0]);
+    // console.log(this.state.items[0]);
     const a = this.props.firebase.db.ref('samples').push();
     this.props.firebase.db.ref('samples/' + a.key ).update({
         idPermohonanUji: a.key,
@@ -252,6 +245,7 @@ class SampelAddBase extends Component {
     this.props.firebase.db.ref('masterData/wilker/' + this.state.items[0].idWilker).update({
       countSampelWilker: parseInt(this.state.items[0].countSampelWilker, 10) + 1,
     })
+    this.props.history.push('/wilker-formuji');
   }
 
   handleDateChange = date => {
@@ -268,10 +262,10 @@ class SampelAddBase extends Component {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
      } = this.state;
-    const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '';
+    const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
+      alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
     return (
       <div>
-          <Typography variant="h5" gutterBottom>Tambah Sample</Typography>
           <Button component={Link}
               to={{
                 pathname: `${ROUTES.WILKER_FORMUJI}`,
@@ -279,9 +273,208 @@ class SampelAddBase extends Component {
             >
               BACK
           </Button>
-            <div>
+          <Typography variant="h5" gutterBottom>Tambah Sample</Typography>
+          <div>
+            <TextField
+              disabled
+              margin="dense"
+              id="kodeUnikSampel"
+              label="Kode Unik Sampel"
+              value={kodeUnikSampel}
+              onChange={this.onChange('kodeUnikSampel')}
+              fullWidth
+            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <DatePicker
+                margin="normal"
+                style={{width: 250}}
+                label="Tanggal Masuk Sampel" 
+                value={tanggalMasukSampel} 
+                format={'MM/dd/yyyy'}
+                onChange={this.handleDateChange} />
+            </MuiPickersUtilsProvider>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="nomorAgendaSurat"
+              label="Nomor Agenda Surat"
+              value={nomorAgendaSurat}
+              onChange={this.onChange('nomorAgendaSurat')}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="namaPemilikSampel"
+              label="Nama Pemilik Sampel"
+              value={namaPemilikSampel}
+              onChange={this.onChange('namaPemilikSampel')}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="alamatPemilikSampel"
+              label="Alamat Pemilik Sampel"
+              value={alamatPemilikSampel}
+              onChange={this.onChange('alamatPemilikSampel')}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="asalTujuanSampel"
+              label="Asal Tujuan Sampel"
+              value={asalTujuanSampel}
+              onChange={this.onChange('asalTujuanSampel')}
+              fullWidth
+            />
+            <TextField
+              disabled
+              margin="dense"
+              id="petugasPengambilSampel"
+              label="Petugas Pengambil Sampel"
+              value={petugasPengambilSampel}
+              onChange={this.onChange('petugasPengambilSampel')}
+              fullWidth
+            />
+            <Button variant="outlined" onClick={this.handleSubmit} 
+              disabled={isInvalid} 
+              color="primary">
+              Submit
+            </Button>
+            
+        </div>
+      </div>
+    )
+  }
+
+}
+
+///////////////////////////// UBAH DATA
+class SampelDetailBase extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      items: [],
+      open: false,
+      ...props.location.state,
+      idPermohonanUji: '',
+      kodeUnikSampel: '',
+      tanggalMasukSampel: '',
+      nomorAgendaSurat: '',
+      namaPemilikSampel: '',
+      alamatPemilikSampel: '',
+      asalTujuanSampel: '',
+      petugasPengambilSampel: '',
+      }; 
+  }
+
+  componentDidMount() {
+    // console.log(this.props);
+    this.setState({ loading: true });
+    this.props.firebase.db.ref('samples/' + this.props.match.params.id)
+      .on('value', snap => {
+        console.log(snap.val());
+        if(snap.val()) {
+          const a = [];
+          a.push(snap.val());
+          this.setState({ 
+            items: a,
+            loading: false,
+            idPermohonanUji: snap.val().idPermohonanUji,
+            kodeUnikSampel: snap.val().kodeUnikSampel,
+            tanggalMasukSampel: snap.val().tanggalMasukSampel,
+            nomorAgendaSurat: snap.val().nomorAgendaSurat,
+            namaPemilikSampel: snap.val().namaPemilikSampel,
+            alamatPemilikSampel: snap.val().alamatPemilikSampel,
+            asalTujuanSampel: snap.val().asalTujuanSampel,
+            petugasPengambilSampel: snap.val().petugasPengambilSampel,
+          });
+        } else {
+          this.setState({ items: null, loading: false });
+        }
+    })
+  }
+
+  componentWillUnmount() {
+    this.props.firebase.db.ref('samples').off();
+  }
+
+  handleClickOpen = () => {
+    this.setState({ open: true, formMode: null  });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleSubmit = () => {
+    this.setState({ open: false });
+      this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+        kodeUnikSampel: this.state.kodeUnikSampel,
+        tanggalMasukSampel: this.state.tanggalMasukSampel,
+        nomorAgendaSurat: this.state.nomorAgendaSurat,
+        namaPemilikSampel: this.state.namaPemilikSampel,
+        alamatPemilikSampel: this.state.alamatPemilikSampel,
+        asalTujuanSampel: this.state.asalTujuanSampel,
+        petugasPengambilSampel: this.state.petugasPengambilSampel,
+      })
+  }
+
+  onChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
+  render() {
+    const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
+      namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
+      loading, items,
+     } = this.state;
+    const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
+      alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
+    return (
+      <div>
+          {/* <h2>Detail Sampel</h2> */}
+          <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+            Ubah Data
+          </Button>{' '}
+          <Button component={Link}
+              to={{
+                pathname: `${ROUTES.WILKER_FORMUJI}`,
+              }}
+            >
+              BACK
+          </Button>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Kode Unik Sampel</TableCell>
+                <TableCell>Tanggal Masuk Sampel</TableCell>
+                <TableCell>Nama Pemilik Sampel</TableCell>
+                <TableCell>Asal Tujuan Sampel</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!loading && !!items && items.map((el, key) => 
+                <TableRow key={key}>
+                  <TableCell>{el.kodeUnikSampel}</TableCell>
+                  <TableCell>{el.tanggalMasukSampel}</TableCell>
+                  <TableCell>{el.namaPemilikSampel}</TableCell>
+                  <TableCell>{el.asalTujuanSampel}</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby="form-dialog-title"
+            >
+            <DialogTitle id="form-dialog-title">Ubah Data</DialogTitle>
+            <DialogContent>
               <TextField
-                disabled={true}
+                disabled
                 margin="dense"
                 id="kodeUnikSampel"
                 label="Kode Unik Sampel"
@@ -340,161 +533,14 @@ class SampelAddBase extends Component {
                 onChange={this.onChange('petugasPengambilSampel')}
                 fullWidth
               />
-              <Button onClick={this.handleSubmit} 
-                disabled={isInvalid} 
-                color="primary">
-                Submit
-              </Button>
-          </div>
-      </div>
-    )
-  }
-
-}
-
-///////////////////////////// UBAH DATA
-class SampelDetailBase extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      items: [],
-      open: false,
-      ...props.location.state,
-      idPermohonanUji: '',
-      kodeUnikSampel: '',
-      tanggalMasukSampel: '',
-      // nomorAgendaSurat: '',
-      }; 
-  }
-
-  componentDidMount() {
-    // console.log(this.props);
-    this.setState({ loading: true });
-    this.props.firebase.db.ref('samples/' + this.props.match.params.id)
-      .on('value', snap => {
-        console.log(snap.val());
-        if(snap.val()) {
-          const a = [];
-          a.push(snap.val());
-          this.setState({ 
-            items: a,
-            loading: false,
-            idPermohonanUji: snap.val().idPermohonanUji,
-            kodeUnikSampel: snap.val().kodeUnikSampel,
-            tanggalMasukSampel: snap.val().tanggalMasukSampel,
-            nomorAgendaSurat: snap.val().nomorAgendaSurat,
-          });
-        } else {
-          this.setState({ items: null, loading: false });
-        }
-    })
-  }
-
-  componentWillUnmount() {
-    this.props.firebase.db.ref('samples').off();
-  }
-
-  handleClickOpen = () => {
-    this.setState({ open: true, formMode: null  });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleSubmit = () => {
-    this.setState({ open: false });
-      this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-        kodeUnikSampel: this.state.kodeUnikSampel,
-        tanggalMasukSampel: this.state.tanggalMasukSampel,
-        // nomorAgendaSurat: this.state.nomorAgendaSurat,
-      })
-  }
-
-  onChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
-
-  render() {
-    const { loading, kodeUnikSampel, tanggalMasukSampel, items } = this.state;
-    const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '';
-    return (
-      <div>
-          <h2>Detail Sample</h2>
-          <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-            Ubah Master Data - Wilker
-          </Button>{' '}
-          <Button>
-            <Link 
-              to={{
-                pathname: `${ROUTES.WILKER_FORMUJI}`,
-              }}
-            >
-              BACK
-            </Link>
-          </Button>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Kode Unik Sampel</TableCell>
-                <TableCell>Tanggal Masuk Sampel</TableCell>
-                <TableCell>Nomor Agenda Surat</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {!loading && !!items && items.map((el, key) => 
-                <TableRow key={key}>
-                  <TableCell>{el.kodeUnikSampel}</TableCell>
-                  <TableCell>{el.tanggalMasukSampel}</TableCell>
-                  <TableCell>{el.nomorAgendaSurat}</TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-          <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-            >
-            <DialogTitle id="form-dialog-title">Master Data - Pengujian</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Ubah Data - Wilker
-              </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="kodeUnikSampel"
-                label="Kode Unik Sampel"
-                value={kodeUnikSampel}
-                onChange={this.onChange('kodeUnikSampel')}
-                fullWidth
-              />
-              <TextField
-                margin="dense"
-                id="tanggalMasukSampel"
-                label="Tanggal Masuk Sampel"
-                value={ tanggalMasukSampel }
-                onChange={this.onChange('tanggalMasukSampel')}
-                fullWidth
-              />
-              {/* <TextField
-                margin="dense"
-                // id="nomorAgendaSurat"
-                label="Nomor Agenda Surat"
-                // value={nomorAgendaSurat}
-                // onChange={this.onChange('nomorAgendaSurat')}
-                fullWidth
-              /> */}
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
+              <Button color="secondary" onClick={this.handleClose}>
                 Cancel
               </Button>
-              <Button onClick={this.handleSubmit} 
+              <Button 
+                variant="outlined"
+                onClick={this.handleSubmit} 
                 disabled={isInvalid} 
                 color="primary">
                 Submit
