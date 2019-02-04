@@ -480,7 +480,40 @@ class SampelDetailBase extends Component {
             >
               BACK
           </Button>
-          <Table>
+          {!loading && items.map((el, key) => 
+            <div key={key}>
+              <Typography>Kode Unik Sample : {el.kodeUnikSampel}</Typography>
+              <Typography>Tanggal Masuk Sample : {el.tanggalMasukSampel}</Typography>
+              <Typography>Nomor Agenda Sample : {el.nomorAgendaSurat}</Typography>
+              <Typography>Nama Pemilik Sample : {el.namaPemilikSampel}</Typography>
+              <Typography>Alamat Pemilik Sample : {el.alamatPemilikSampel}</Typography>
+              <Typography>Asal Tujuan Sample : {el.asalTujuanSampel}</Typography>
+              <Typography>Petugas Penerima Sample : {el.petugasPengambilSampel}</Typography>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Jenis Sampel</TableCell>
+                    <TableCell>Jumlah Sampel</TableCell>
+                    <TableCell>Kondisi Sampel</TableCell>
+                    <TableCell>Jenis Pengujian</TableCell>
+                    <TableCell>Ruang Lingkup</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {!!el.zItems && Object.keys(el.zItems).map((el1, key1) => 
+                    <TableRow key={key1}>
+                      <TableCell>{el.zItems[el1].jenisSampel}</TableCell>
+                      <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
+                      <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
+                      <TableCell>{el.zItems[el1].jenisPengujianSampel}</TableCell>
+                      <TableCell>{el.zItems[el1].ruangLingkupSampel}</TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+                </Table>
+            </div>
+          )}
+          {/* <Table>
             <TableHead>
               <TableRow>
                 <TableCell>Kode Unik Sampel</TableCell>
@@ -499,7 +532,7 @@ class SampelDetailBase extends Component {
                 </TableRow>
               )}
             </TableBody>
-          </Table>
+          </Table> */}
           <Dialog
             open={this.state.open}
             onClose={this.handleClose}
