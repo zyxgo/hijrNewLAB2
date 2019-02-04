@@ -379,7 +379,7 @@ class SampelDetailBase extends Component {
     this.setState({ loading: true });
     this.props.firebase.db.ref('samples/' + this.props.match.params.id)
       .on('value', snap => {
-        console.log(snap.val());
+        // console.log(snap.val());
         if(snap.val()) {
           const a = [];
           a.push(snap.val());
@@ -445,6 +445,11 @@ class SampelDetailBase extends Component {
     })
   }
 
+  handleDelete = propSample => {
+    // console.log(propSample);
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems/' + propSample ).remove();
+  }
+
   onChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -497,6 +502,7 @@ class SampelDetailBase extends Component {
                     <TableCell>Kondisi Sampel</TableCell>
                     <TableCell>Jenis Pengujian</TableCell>
                     <TableCell>Ruang Lingkup</TableCell>
+                    <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -507,6 +513,11 @@ class SampelDetailBase extends Component {
                       <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
                       <TableCell>{el.zItems[el1].jenisPengujianSampel}</TableCell>
                       <TableCell>{el.zItems[el1].ruangLingkupSampel}</TableCell>
+                      <TableCell>
+                        <Button variant="text" color="secondary" onClick={() => this.handleDelete(el1)}>
+                          Hapus
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   )}
                 </TableBody>
