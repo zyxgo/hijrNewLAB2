@@ -335,7 +335,7 @@ class SampelAddBase extends Component {
               onChange={this.onChange('petugasPengambilSampel')}
               fullWidth
             />
-            <Button variant="outlined" onClick={this.handleSubmit} 
+            <Button style={{marginTop:15}} variant="outlined" onClick={this.handleSubmit} 
               disabled={isInvalid} 
               color="primary">
               Submit
@@ -481,14 +481,14 @@ class SampelDetailBase extends Component {
               BACK
           </Button>
           {!loading && items.map((el, key) => 
-            <div key={key}>
-              <Typography>Kode Unik Sample : {el.kodeUnikSampel}</Typography>
-              <Typography>Tanggal Masuk Sample : {el.tanggalMasukSampel}</Typography>
-              <Typography>Nomor Agenda Sample : {el.nomorAgendaSurat}</Typography>
-              <Typography>Nama Pemilik Sample : {el.namaPemilikSampel}</Typography>
-              <Typography>Alamat Pemilik Sample : {el.alamatPemilikSampel}</Typography>
-              <Typography>Asal Tujuan Sample : {el.asalTujuanSampel}</Typography>
-              <Typography>Petugas Penerima Sample : {el.petugasPengambilSampel}</Typography>
+            <div style={{marginTop:25}} key={key}>
+              <Typography variant="subtitle1" gutterBottom>Kode Unik Sample : {el.kodeUnikSampel}</Typography>
+              <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sample : {el.tanggalMasukSampel}</Typography>
+              <Typography variant="subtitle1" gutterBottom>Nomor Agenda Sample : {el.nomorAgendaSurat}</Typography>
+              <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sample : {el.namaPemilikSampel}</Typography>
+              <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sample : {el.alamatPemilikSampel}</Typography>
+              <Typography variant="subtitle1" gutterBottom>Asal Tujuan Sample : {el.asalTujuanSampel}</Typography>
+              <Typography variant="subtitle1" gutterBottom>Petugas Penerima Sample : {el.petugasPengambilSampel}</Typography>
               <Table>
                 <TableHead>
                   <TableRow>
