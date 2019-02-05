@@ -23,7 +23,12 @@ import TableRow from '@material-ui/core/TableRow';
 import DateFnsUtils from '@date-io/date-fns';
 // import {format, compareAsc} from 'date-fns/esm'
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
-
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+// import FormHelperText from '@material-ui/core/FormHelperText';
+// import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
 
 class MainSampleBase extends Component {
   constructor(props) {
@@ -371,6 +376,8 @@ class SampelDetailBase extends Component {
       kondisiSampel: '',
       jenisPengujianSampel: '',
       ruangLingkupSampel: '',
+      selectJenisPengujian: [],
+      selectMetodePengujian: [],
       }; 
   }
 
@@ -399,10 +406,20 @@ class SampelDetailBase extends Component {
           this.setState({ items: null, loading: false });
         }
     })
+    this.props.firebase.db.ref('masterData/sample')
+      .once('value', snap => {
+        const a = [];
+        a.push(snap.val())
+        this.setState({
+          selectJenisPengujian: a[0],
+        })
+        // console.log(a);
+      })
   }
 
   componentWillUnmount() {
     this.props.firebase.db.ref('samples').off();
+    this.props.firebase.db.ref('masterData').off();
   }
 
   handleClickOpen = () => {
@@ -446,7 +463,6 @@ class SampelDetailBase extends Component {
   }
 
   handleDelete = propSample => {
-    // console.log(propSample);
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems/' + propSample ).remove();
   }
 
@@ -462,14 +478,33 @@ class SampelDetailBase extends Component {
     });
   };
 
+  onClose2 = name => {
+    // console.log(name);
+    if(name === 'Daging Sapi') {
+      this.props.firebase.db.ref('masterData/pengujian')
+        .orderByChild("kategoriSampel")
+        .equalTo("Bahan Asal Hewan")
+        .once("value", snap => {
+          console.log(snap.val())
+          const a = [];
+          a.push(snap.val());
+          this.setState({
+            selectMetodePengujian: a[0],
+          })
+        })
+    }
+  }
+
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
       jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, ruangLingkupSampel,
-      loading, items } = this.state;
+      loading, items,
+      selectJenisPengujian, selectMetodePengujian,
+     } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
-    const isInvalid2 = jenisSampel === ''  || jumlahSampel === '' || kondisiSampel === '' || jenisPengujianSampel === '' || ruangLingkupSampel === '';
+    const isInvalid2 = jenisSampel === ''  || jumlahSampel === '' || kondisiSampel === '' || jenisPengujianSampel === '';
     return (
       <div>
           <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
@@ -524,26 +559,6 @@ class SampelDetailBase extends Component {
                 </Table>
             </div>
           )}
-          {/* <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Kode Unik Sampel</TableCell>
-                <TableCell>Tanggal Masuk Sampel</TableCell>
-                <TableCell>Nama Pemilik Sampel</TableCell>
-                <TableCell>Asal Tujuan Sampel</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {!loading && !!items && items.map((el, key) => 
-                <TableRow key={key}>
-                  <TableCell>{el.kodeUnikSampel}</TableCell>
-                  <TableCell>{el.tanggalMasukSampel}</TableCell>
-                  <TableCell>{el.namaPemilikSampel}</TableCell>
-                  <TableCell>{el.asalTujuanSampel}</TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table> */}
           <Dialog
             open={this.state.open}
             onClose={this.handleClose}
@@ -632,16 +647,19 @@ class SampelDetailBase extends Component {
             >
             <DialogTitle id="form-dialog-title1">Tambah Item Pengujian</DialogTitle>
             <DialogContent>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="jenisSampel"
-                label="Jenis Sampel"
+              <InputLabel htmlFor="jenisSampel">Jenis Sampel</InputLabel>{" "}
+              <Select
                 value={jenisSampel}
                 onChange={this.onChange2('jenisSampel')}
-                fullWidth
-              />
-              <TextField                
+                style={{width:400}}
+                name="jenisSampel"
+                onClose={() => this.onClose2(jenisSampel)}
+              >
+                { Object.keys(selectJenisPengujian).map(elx1 => 
+                    <MenuItem key={elx1} value={selectJenisPengujian[elx1].namaSample}>{selectJenisPengujian[elx1].namaSample}</MenuItem>
+                )}
+              </Select>
+              <TextField
                 margin="dense"
                 id="jumlahSampel"
                 label="Jumlah Sampel"
@@ -649,30 +667,28 @@ class SampelDetailBase extends Component {
                 onChange={this.onChange2('jumlahSampel')}
                 fullWidth
               />
-              <TextField                
-                margin="dense"
-                id="kondisiSampel"
-                label="Kondisi Sampel"
+              <InputLabel htmlFor="kondisiSampel">Kondisi Sampel</InputLabel>{" "}
+              <Select
                 value={kondisiSampel}
                 onChange={this.onChange2('kondisiSampel')}
-                fullWidth
-              />
-              <TextField                
-                margin="dense"
-                id="jenisPengujianSampel"
-                label="Jenis Pengujian"
+                style={{width:400}}
+                name="kondisiSampel"
+              >
+                <MenuItem value="Normal">Normal</MenuItem>
+                <MenuItem value="Tidak Normal">Tidak Normal</MenuItem>            
+              </Select>
+              <InputLabel htmlFor="jenisPengujianSampel">Jenis Pengujian Sampel</InputLabel>{" "}
+              <Select
                 value={jenisPengujianSampel}
                 onChange={this.onChange2('jenisPengujianSampel')}
-                fullWidth
-              />
-              <TextField
-                margin="dense"
-                id="ruangLingkupSampel"
-                label="Ruang Lingkup Sampel"
-                value={ruangLingkupSampel}
-                onChange={this.onChange2('ruangLingkupSampel')}
-                fullWidth
-              />
+                style={{width:400}}
+                name="jenisPengujianSampel"
+                onClose={this.onClose2(jenisPengujianSampel)}
+              >
+                { Object.keys(selectMetodePengujian).map(elx1 => 
+                    <MenuItem key={elx1} value={selectMetodePengujian[elx1].metodePengujian}>{selectMetodePengujian[elx1].metodePengujian}</MenuItem>
+                )}
+              </Select>
             </DialogContent>
             <DialogActions>
               <Button color="secondary" onClick={this.handleClose2}>
