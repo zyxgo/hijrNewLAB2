@@ -476,6 +476,26 @@ class SampelDetailBase extends Component {
     this.setState({
       [name]: event.target.value,
     });
+    // console.log(event.target.value);
+    if(name === 'jenisSampel') {
+      if(event.target.value === 'Daging Sapi') {
+      this.props.firebase.db.ref('masterData/pengujian')
+        .orderByChild("kategoriSampel")
+        .equalTo("Bahan Asal Hewan")
+        .once("value", snap => {
+          console.log(snap.val())
+          const a = [];
+          a.push(snap.val());
+          this.setState({
+            selectMetodePengujian: a[0],
+          })
+        })
+      } else {
+        this.setState({
+          selectMetodePengujian: null,
+        })
+      }
+    }
   };
 
   onClose2 = name => {
@@ -651,14 +671,14 @@ class SampelDetailBase extends Component {
               <Select
                 value={jenisSampel}
                 onChange={this.onChange2('jenisSampel')}
-                style={{width:400}}
+                style={{width:300}}
                 name="jenisSampel"
-                onClose={() => this.onClose2(jenisSampel)}
+                // onClose={() => this.onClose2(jenisSampel)}
               >
                 { Object.keys(selectJenisPengujian).map(elx1 => 
                     <MenuItem key={elx1} value={selectJenisPengujian[elx1].namaSample}>{selectJenisPengujian[elx1].namaSample}</MenuItem>
                 )}
-              </Select>
+              </Select><br />
               <TextField
                 margin="dense"
                 id="jumlahSampel"
@@ -671,21 +691,21 @@ class SampelDetailBase extends Component {
               <Select
                 value={kondisiSampel}
                 onChange={this.onChange2('kondisiSampel')}
-                style={{width:400}}
+                style={{width:300}}
                 name="kondisiSampel"
               >
                 <MenuItem value="Normal">Normal</MenuItem>
                 <MenuItem value="Tidak Normal">Tidak Normal</MenuItem>            
-              </Select>
+              </Select><br />
               <InputLabel htmlFor="jenisPengujianSampel">Jenis Pengujian Sampel</InputLabel>{" "}
               <Select
                 value={jenisPengujianSampel}
                 onChange={this.onChange2('jenisPengujianSampel')}
-                style={{width:400}}
+                style={{width:300}}
                 name="jenisPengujianSampel"
                 onClose={this.onClose2(jenisPengujianSampel)}
               >
-                { Object.keys(selectMetodePengujian).map(elx1 => 
+                { !!selectMetodePengujian && Object.keys(selectMetodePengujian).map(elx1 => 
                     <MenuItem key={elx1} value={selectMetodePengujian[elx1].metodePengujian}>{selectMetodePengujian[elx1].metodePengujian}</MenuItem>
                 )}
               </Select>
