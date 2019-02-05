@@ -26,9 +26,10 @@ import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 // import FormHelperText from '@material-ui/core/FormHelperText';
-// import FormControl from '@material-ui/core/FormControl';
+import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 class MainSampleBase extends Component {
   constructor(props) {
@@ -556,7 +557,6 @@ class SampelDetailBase extends Component {
                     <TableCell>Jumlah Sampel</TableCell>
                     <TableCell>Kondisi Sampel</TableCell>
                     <TableCell>Jenis Pengujian</TableCell>
-                    <TableCell>Ruang Lingkup</TableCell>
                     <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
@@ -567,7 +567,6 @@ class SampelDetailBase extends Component {
                       <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
                       <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
                       <TableCell>{el.zItems[el1].jenisPengujianSampel}</TableCell>
-                      <TableCell>{el.zItems[el1].ruangLingkupSampel}</TableCell>
                       <TableCell>
                         <Button variant="text" color="secondary" onClick={() => this.handleDelete(el1)}>
                           Hapus
@@ -663,23 +662,26 @@ class SampelDetailBase extends Component {
           <Dialog
             open={this.state.open2}
             onClose={this.handleClose2}
+            // maxWidth={'md'}
             aria-labelledby="form-dialog-title1"
             >
             <DialogTitle id="form-dialog-title1">Tambah Item Pengujian</DialogTitle>
             <DialogContent>
-              <InputLabel htmlFor="jenisSampel">Jenis Sampel</InputLabel>{" "}
-              <Select
-                value={jenisSampel}
-                onChange={this.onChange2('jenisSampel')}
-                style={{width:300}}
-                name="jenisSampel"
-                // onClose={() => this.onClose2(jenisSampel)}
-              >
-                { Object.keys(selectJenisPengujian).map(elx1 => 
-                    <MenuItem key={elx1} value={selectJenisPengujian[elx1].namaSample}>{selectJenisPengujian[elx1].namaSample}</MenuItem>
-                )}
-              </Select><br />
+              <FormControl variant="standard">
+                <InputLabel htmlFor="jenisSampel">Jenis Sampel</InputLabel>
+                <Select
+                  value={jenisSampel}
+                  onChange={this.onChange2('jenisSampel')}
+                  style={{width:400}}
+                  name="jenisSampel"
+                >
+                  { Object.keys(selectJenisPengujian).map(elx1 => 
+                      <MenuItem key={elx1} value={selectJenisPengujian[elx1].namaSample}>{selectJenisPengujian[elx1].namaSample}</MenuItem>
+                  )}
+                </Select>
+              </FormControl>              
               <TextField
+                style={{marginTop: 15, width:400}}
                 margin="dense"
                 id="jumlahSampel"
                 label="Jumlah Sampel"
@@ -687,28 +689,32 @@ class SampelDetailBase extends Component {
                 onChange={this.onChange2('jumlahSampel')}
                 fullWidth
               />
-              <InputLabel htmlFor="kondisiSampel">Kondisi Sampel</InputLabel>{" "}
-              <Select
-                value={kondisiSampel}
-                onChange={this.onChange2('kondisiSampel')}
-                style={{width:300}}
-                name="kondisiSampel"
-              >
-                <MenuItem value="Normal">Normal</MenuItem>
-                <MenuItem value="Tidak Normal">Tidak Normal</MenuItem>            
-              </Select><br />
-              <InputLabel htmlFor="jenisPengujianSampel">Jenis Pengujian Sampel</InputLabel>{" "}
-              <Select
-                value={jenisPengujianSampel}
-                onChange={this.onChange2('jenisPengujianSampel')}
-                style={{width:300}}
-                name="jenisPengujianSampel"
-                onClose={this.onClose2(jenisPengujianSampel)}
-              >
-                { !!selectMetodePengujian && Object.keys(selectMetodePengujian).map(elx1 => 
-                    <MenuItem key={elx1} value={selectMetodePengujian[elx1].metodePengujian}>{selectMetodePengujian[elx1].metodePengujian}</MenuItem>
-                )}
-              </Select>
+              <FormControl style={{marginTop: 15}} variant="standard">
+                <InputLabel htmlFor="kondisiSampel">Kondisi Sampel</InputLabel>{" "}
+                <Select
+                  value={kondisiSampel}
+                  onChange={this.onChange2('kondisiSampel')}
+                  style={{width:400}}
+                  name="kondisiSampel"
+                >
+                  <MenuItem value="Normal">Normal</MenuItem>
+                  <MenuItem value="Tidak Normal">Tidak Normal</MenuItem>            
+                </Select>
+              </FormControl>
+              <FormControl style={{marginTop: 15}} variant="standard">
+                <InputLabel htmlFor="jenisPengujianSampel">Jenis Pengujian Sampel</InputLabel>{" "}
+                <Select
+                  value={jenisPengujianSampel}
+                  onChange={this.onChange2('jenisPengujianSampel')}
+                  style={{width:400}}
+                  name="jenisPengujianSampel"
+                  onClose={this.onClose2(jenisPengujianSampel)}
+                >
+                  { !!selectMetodePengujian && Object.keys(selectMetodePengujian).map(elx1 => 
+                      <MenuItem key={elx1} value={selectMetodePengujian[elx1].metodePengujian}>{selectMetodePengujian[elx1].metodePengujian}</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
             </DialogContent>
             <DialogActions>
               <Button color="secondary" onClick={this.handleClose2}>
