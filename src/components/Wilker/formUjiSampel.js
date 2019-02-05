@@ -22,14 +22,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DateFnsUtils from '@date-io/date-fns';
 // import {format, compareAsc} from 'date-fns/esm'
+import dateFnsFormat from 'date-fns/format';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 // import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Input from '@material-ui/core/Input';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+// import Input from '@material-ui/core/Input';
+// import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 class MainSampleBase extends Component {
   constructor(props) {
@@ -88,6 +89,7 @@ class SampelAllBase extends Component {
                 alamatPemilikSampel: el.val().alamatPemilikSampel,
                 asalTujuanSampel: el.val().asalTujuanSampel,
                 petugasPengambilSampel: el.val().petugasPengambilSampel,
+                flagActivity: el.val().flagActivity,
               })
             });
             this.setState({ 
@@ -111,60 +113,76 @@ class SampelAllBase extends Component {
       this.setState({ open: true, formMode: [propSample] });
     }
 
+    handleSubmitKeLab = propSample => {
+      this.props.firebase.db.ref('samples/' + propSample).update({
+        flagActivity: 'Sampel di admin Lab'
+      })
+    }
+
     render() {
       const { items, loading } = this.state;
       return (
         <AuthUserContext.Consumer>
         {authUser => (
-
           <div>
-            <Button variant="outlined" color="primary" 
-              component={Link} to={{
-                pathname: `${ROUTES.WILKER_FORMUJIADD}`,
-                data: {authUser}
-              }}
-            >
-              Tambah Data
-            </Button>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Kode Unik Sampel</TableCell>
-                  <TableCell>Tanggal Masuk Sampel</TableCell>
-                  <TableCell>Nama Pemilik Sampel</TableCell>
-                  <TableCell>Asal Tujuan Sampel</TableCell>
-                  {/* <TableCell>FbId</TableCell> */}
-                  <TableCell colSpan={2}>Action</TableCell>
-                  {/* <TableCell>Hapus</TableCell> */}
-                </TableRow>
-              </TableHead>
-              {!loading && !!items && items.map((el, key) => 
-              <TableBody key={key}>
-                  <TableRow>
-                    <TableCell>{el.kodeUnikSampel}</TableCell>
-                    <TableCell>{el.tanggalMasukSampel}</TableCell>
-                    <TableCell>{el.namaPemilikSampel}</TableCell>
-                    <TableCell>{el.asalTujuanSampel}</TableCell>
-                    {/* <TableCell>{el.idPermohonanUji}</TableCell> */}
-                    <TableCell>
-                      <Button component={Link} 
-                          to={{
-                            pathname: `${ROUTES.WILKER_FORMUJI}/${el.idPermohonanUji}`,
-                            data: { el },
-                          }}
-                        >
-                          Details
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.idPermohonanUji)}>
-                        Hapus
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-              </TableBody>
-              )}
-            </Table>
+            {loading ? <Typography>Loading...</Typography> : 
+              <div>
+                <Button variant="outlined" color="primary" 
+                  component={Link} to={{
+                    pathname: `${ROUTES.WILKER_FORMUJIADD}`,
+                    data: {authUser}
+                  }}
+                >
+                  Tambah Data
+                </Button>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Kode Unik Sampel</TableCell>
+                      <TableCell>Tanggal Masuk Sampel</TableCell>
+                      <TableCell>Nama Pemilik Sampel</TableCell>
+                      <TableCell>Asal Tujuan Sampel</TableCell>
+                      {/* <TableCell>FbId</TableCell> */}
+                      <TableCell colSpan={3}>Action</TableCell>
+                      {/* <TableCell>Hapus</TableCell> */}
+                    </TableRow>
+                  </TableHead>
+                  {!loading && !!items && items.map((el, key) => 
+                  <TableBody key={key}>
+                      <TableRow>
+                        <TableCell>{el.kodeUnikSampel}</TableCell>
+                        <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
+                        <TableCell>{el.namaPemilikSampel}</TableCell>
+                        <TableCell>{el.asalTujuanSampel}</TableCell>
+                        {/* <TableCell>{el.idPermohonanUji}</TableCell> */}
+                        <TableCell>
+                          <Button component={Link} 
+                              to={{
+                                pathname: `${ROUTES.WILKER_FORMUJI}/${el.idPermohonanUji}`,
+                                data: { el },
+                              }}
+                            >
+                              Details
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.idPermohonanUji)}>
+                            Hapus
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="outlined" color="primary" onClick={() => this.handleSubmitKeLab(el.idPermohonanUji)}
+                            disabled={el.flagActivity === "Data sudah lengkap" ? false : true}
+                          >
+                            Submit ke Lab
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                  </TableBody>
+                  )}
+                </Table>
+              </div>
+            }
           </div>
         )}
         </AuthUserContext.Consumer>
@@ -247,6 +265,7 @@ class SampelAddBase extends Component {
         alamatPemilikSampel: this.state.alamatPemilikSampel,
         asalTujuanSampel: this.state.asalTujuanSampel,
         petugasPengambilSampel: this.state.petugasPengambilSampel,
+        flagActivity: 'Belum ada sampel uji',
       })
     this.props.firebase.db.ref('masterData/wilker/' + this.state.items[0].idWilker).update({
       countSampelWilker: parseInt(this.state.items[0].countSampelWilker, 10) + 1,
@@ -267,87 +286,92 @@ class SampelAddBase extends Component {
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
+      loading,
      } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
     return (
       <div>
-          <Button component={Link}
-              to={{
-                pathname: `${ROUTES.WILKER_FORMUJI}`,
-              }}
-            >
-              BACK
-          </Button>
-          <Typography variant="h5" gutterBottom>Tambah Sample</Typography>
+        {loading ? <Typography>Loading...</Typography> : 
           <div>
-            <TextField
-              disabled
-              margin="dense"
-              id="kodeUnikSampel"
-              label="Kode Unik Sampel"
-              value={kodeUnikSampel}
-              onChange={this.onChange('kodeUnikSampel')}
-              fullWidth
-            />
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DatePicker
-                margin="normal"
-                style={{width: 250}}
-                label="Tanggal Masuk Sampel" 
-                value={tanggalMasukSampel} 
-                format={'MM/dd/yyyy'}
-                onChange={this.handleDateChange} />
-            </MuiPickersUtilsProvider>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="nomorAgendaSurat"
-              label="Nomor Agenda Surat"
-              value={nomorAgendaSurat}
-              onChange={this.onChange('nomorAgendaSurat')}
-              fullWidth
-            />
-            <TextField
-              margin="dense"
-              id="namaPemilikSampel"
-              label="Nama Pemilik Sampel"
-              value={namaPemilikSampel}
-              onChange={this.onChange('namaPemilikSampel')}
-              fullWidth
-            />
-            <TextField
-              margin="dense"
-              id="alamatPemilikSampel"
-              label="Alamat Pemilik Sampel"
-              value={alamatPemilikSampel}
-              onChange={this.onChange('alamatPemilikSampel')}
-              fullWidth
-            />
-            <TextField
-              margin="dense"
-              id="asalTujuanSampel"
-              label="Asal Tujuan Sampel"
-              value={asalTujuanSampel}
-              onChange={this.onChange('asalTujuanSampel')}
-              fullWidth
-            />
-            <TextField
-              disabled
-              margin="dense"
-              id="petugasPengambilSampel"
-              label="Petugas Pengambil Sampel"
-              value={petugasPengambilSampel}
-              onChange={this.onChange('petugasPengambilSampel')}
-              fullWidth
-            />
-            <Button style={{marginTop:15}} variant="outlined" onClick={this.handleSubmit} 
-              disabled={isInvalid} 
-              color="primary">
-              Submit
+            <Button component={Link}
+                to={{
+                  pathname: `${ROUTES.WILKER_FORMUJI}`,
+                }}
+              >
+                BACK
             </Button>
-            
-        </div>
+            <Typography variant="h5" gutterBottom>Tambah Sample</Typography>
+            <div>
+              <TextField
+                disabled
+                margin="dense"
+                id="kodeUnikSampel"
+                label="Kode Unik Sampel"
+                value={kodeUnikSampel}
+                onChange={this.onChange('kodeUnikSampel')}
+                fullWidth
+              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DatePicker
+                  margin="normal"
+                  style={{width: 250}}
+                  label="Tanggal Masuk Sampel" 
+                  value={tanggalMasukSampel} 
+                  format={'MM/dd/yyyy'}
+                  onChange={this.handleDateChange} />
+              </MuiPickersUtilsProvider>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="nomorAgendaSurat"
+                label="Nomor Agenda Surat"
+                value={nomorAgendaSurat}
+                onChange={this.onChange('nomorAgendaSurat')}
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="namaPemilikSampel"
+                label="Nama Pemilik Sampel"
+                value={namaPemilikSampel}
+                onChange={this.onChange('namaPemilikSampel')}
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="alamatPemilikSampel"
+                label="Alamat Pemilik Sampel"
+                value={alamatPemilikSampel}
+                onChange={this.onChange('alamatPemilikSampel')}
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="asalTujuanSampel"
+                label="Asal Tujuan Sampel"
+                value={asalTujuanSampel}
+                onChange={this.onChange('asalTujuanSampel')}
+                fullWidth
+              />
+              <TextField
+                disabled
+                margin="dense"
+                id="petugasPengambilSampel"
+                label="Petugas Pengambil Sampel"
+                value={petugasPengambilSampel}
+                onChange={this.onChange('petugasPengambilSampel')}
+                fullWidth
+              />
+              <Button style={{marginTop:15}} variant="outlined" onClick={this.handleSubmit} 
+                disabled={isInvalid} 
+                color="primary">
+                Submit
+              </Button>
+              
+            </div>
+          </div>
+        }
       </div>
     )
   }
@@ -461,6 +485,9 @@ class SampelDetailBase extends Component {
       jenisPengujianSampel: this.state.jenisPengujianSampel,
       ruangLingkupSampel: this.state.ruangLingkupSampel,
     })
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+      flagActivity: 'Data sudah lengkap',
+    })
   }
 
   handleDelete = propSample => {
@@ -528,208 +555,211 @@ class SampelDetailBase extends Component {
     const isInvalid2 = jenisSampel === ''  || jumlahSampel === '' || kondisiSampel === '' || jenisPengujianSampel === '';
     return (
       <div>
-          <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-            Ubah Data
-          </Button>{' '}
-          <Button variant="outlined" color="primary" onClick={this.handleClickOpen2}>
-            Tambah Item Pengujian
-          </Button>{' '}
-          <Button component={Link}
-              to={{
-                pathname: `${ROUTES.WILKER_FORMUJI}`,
-              }}
-            >
-              BACK
-          </Button>
-          {!loading && items.map((el, key) => 
-            <div style={{marginTop:25}} key={key}>
-              <Typography variant="subtitle1" gutterBottom>Kode Unik Sample : {el.kodeUnikSampel}</Typography>
-              <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sample : {el.tanggalMasukSampel}</Typography>
-              <Typography variant="subtitle1" gutterBottom>Nomor Agenda Sample : {el.nomorAgendaSurat}</Typography>
-              <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sample : {el.namaPemilikSampel}</Typography>
-              <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sample : {el.alamatPemilikSampel}</Typography>
-              <Typography variant="subtitle1" gutterBottom>Asal Tujuan Sample : {el.asalTujuanSampel}</Typography>
-              <Typography variant="subtitle1" gutterBottom>Petugas Penerima Sample : {el.petugasPengambilSampel}</Typography>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Jenis Sampel</TableCell>
-                    <TableCell>Jumlah Sampel</TableCell>
-                    <TableCell>Kondisi Sampel</TableCell>
-                    <TableCell>Jenis Pengujian</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {!!el.zItems && Object.keys(el.zItems).map((el1, key1) => 
-                    <TableRow key={key1}>
-                      <TableCell>{el.zItems[el1].jenisSampel}</TableCell>
-                      <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
-                      <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
-                      <TableCell>{el.zItems[el1].jenisPengujianSampel}</TableCell>
-                      <TableCell>
-                        <Button variant="text" color="secondary" onClick={() => this.handleDelete(el1)}>
-                          Hapus
-                        </Button>
-                      </TableCell>
+        {loading ? <Typography>Loading...</Typography> : 
+          <div>
+            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+              Ubah Data
+            </Button>{' '}
+            <Button variant="outlined" color="primary" onClick={this.handleClickOpen2}>
+              Tambah Item Pengujian
+            </Button>{' '}
+            <Button component={Link}
+                to={{
+                  pathname: `${ROUTES.WILKER_FORMUJI}`,
+                }}
+              >
+                BACK
+            </Button>
+            {!loading && items.map((el, key) => 
+              <div style={{marginTop:25}} key={key}>
+                <Typography variant="subtitle1" gutterBottom>Kode Unik Sample : {el.kodeUnikSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sample : {dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Nomor Agenda Sample : {el.nomorAgendaSurat}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sample : {el.namaPemilikSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sample : {el.alamatPemilikSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Asal Tujuan Sample : {el.asalTujuanSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Petugas Penerima Sample : {el.petugasPengambilSampel}</Typography>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Jenis Sampel</TableCell>
+                      <TableCell>Jumlah Sampel</TableCell>
+                      <TableCell>Kondisi Sampel</TableCell>
+                      <TableCell>Jenis Pengujian</TableCell>
+                      <TableCell>Action</TableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-                </Table>
-            </div>
-          )}
-          <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-            >
-            <DialogTitle id="form-dialog-title">Ubah Data</DialogTitle>
-            <DialogContent>
-              <TextField
-                disabled
-                margin="dense"
-                id="kodeUnikSampel"
-                label="Kode Unik Sampel"
-                value={kodeUnikSampel}
-                onChange={this.onChange('kodeUnikSampel')}
-                fullWidth
-              />
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <DatePicker
-                  margin="normal"
-                  style={{width: 250}}
-                  label="Tanggal Masuk Sampel" 
-                  value={tanggalMasukSampel} 
-                  format={'MM/dd/yyyy'}
-                  onChange={this.handleDateChange} />
-              </MuiPickersUtilsProvider>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="nomorAgendaSurat"
-                label="Nomor Agenda Surat"
-                value={nomorAgendaSurat}
-                onChange={this.onChange('nomorAgendaSurat')}
-                fullWidth
-              />
-              <TextField
-                margin="dense"
-                id="namaPemilikSampel"
-                label="Nama Pemilik Sampel"
-                value={namaPemilikSampel}
-                onChange={this.onChange('namaPemilikSampel')}
-                fullWidth
-              />
-              <TextField
-                margin="dense"
-                id="alamatPemilikSampel"
-                label="Alamat Pemilik Sampel"
-                value={alamatPemilikSampel}
-                onChange={this.onChange('alamatPemilikSampel')}
-                fullWidth
-              />
-              <TextField
-                margin="dense"
-                id="asalTujuanSampel"
-                label="Asal Tujuan Sampel"
-                value={asalTujuanSampel}
-                onChange={this.onChange('asalTujuanSampel')}
-                fullWidth
-              />
-              <TextField
-                disabled
-                margin="dense"
-                id="petugasPengambilSampel"
-                label="Petugas Pengambil Sampel"
-                value={petugasPengambilSampel}
-                onChange={this.onChange('petugasPengambilSampel')}
-                fullWidth
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button color="secondary" onClick={this.handleClose}>
-                Cancel
-              </Button>
-              <Button 
-                variant="outlined"
-                onClick={this.handleSubmit} 
-                disabled={isInvalid} 
-                color="primary">
-                Submit
-              </Button>
-            </DialogActions>
-          </Dialog>
-          <Dialog
-            open={this.state.open2}
-            onClose={this.handleClose2}
-            // maxWidth={'md'}
-            aria-labelledby="form-dialog-title1"
-            >
-            <DialogTitle id="form-dialog-title1">Tambah Item Pengujian</DialogTitle>
-            <DialogContent>
-              <FormControl variant="standard">
-                <InputLabel htmlFor="jenisSampel">Jenis Sampel</InputLabel>
-                <Select
-                  value={jenisSampel}
-                  onChange={this.onChange2('jenisSampel')}
-                  style={{width:400}}
-                  name="jenisSampel"
-                >
-                  { Object.keys(selectJenisPengujian).map(elx1 => 
-                      <MenuItem key={elx1} value={selectJenisPengujian[elx1].namaSample}>{selectJenisPengujian[elx1].namaSample}</MenuItem>
-                  )}
-                </Select>
-              </FormControl>              
-              <TextField
-                style={{marginTop: 15, width:400}}
-                margin="dense"
-                id="jumlahSampel"
-                label="Jumlah Sampel"
-                value={jumlahSampel}
-                onChange={this.onChange2('jumlahSampel')}
-                fullWidth
-              />
-              <FormControl style={{marginTop: 15}} variant="standard">
-                <InputLabel htmlFor="kondisiSampel">Kondisi Sampel</InputLabel>{" "}
-                <Select
-                  value={kondisiSampel}
-                  onChange={this.onChange2('kondisiSampel')}
-                  style={{width:400}}
-                  name="kondisiSampel"
-                >
-                  <MenuItem value="Normal">Normal</MenuItem>
-                  <MenuItem value="Tidak Normal">Tidak Normal</MenuItem>            
-                </Select>
-              </FormControl>
-              <FormControl style={{marginTop: 15}} variant="standard">
-                <InputLabel htmlFor="jenisPengujianSampel">Jenis Pengujian Sampel</InputLabel>{" "}
-                <Select
-                  value={jenisPengujianSampel}
-                  onChange={this.onChange2('jenisPengujianSampel')}
-                  style={{width:400}}
-                  name="jenisPengujianSampel"
-                  onClose={this.onClose2(jenisPengujianSampel)}
-                >
-                  { !!selectMetodePengujian && Object.keys(selectMetodePengujian).map(elx1 => 
-                      <MenuItem key={elx1} value={selectMetodePengujian[elx1].metodePengujian}>{selectMetodePengujian[elx1].metodePengujian}</MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-            </DialogContent>
-            <DialogActions>
-              <Button color="secondary" onClick={this.handleClose2}>
-                Cancel
-              </Button>
-              <Button 
-                variant="outlined"
-                onClick={this.handleSubmit2} 
-                disabled={isInvalid2} 
-                color="primary">
-                Submit
-              </Button>
-            </DialogActions>
-          </Dialog>
-          
+                  </TableHead>
+                  <TableBody>
+                    {!!el.zItems && Object.keys(el.zItems).map((el1, key1) => 
+                      <TableRow key={key1}>
+                        <TableCell>{el.zItems[el1].jenisSampel}</TableCell>
+                        <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
+                        <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
+                        <TableCell>{el.zItems[el1].jenisPengujianSampel}</TableCell>
+                        <TableCell>
+                          <Button variant="text" color="secondary" onClick={() => this.handleDelete(el1)}>
+                            Hapus
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  </Table>
+              </div>
+            )}
+            <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+              >
+              <DialogTitle id="form-dialog-title">Ubah Data</DialogTitle>
+              <DialogContent>
+                <TextField
+                  disabled
+                  margin="dense"
+                  id="kodeUnikSampel"
+                  label="Kode Unik Sampel"
+                  value={kodeUnikSampel}
+                  onChange={this.onChange('kodeUnikSampel')}
+                  fullWidth
+                />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <DatePicker
+                    margin="normal"
+                    style={{width: 250}}
+                    label="Tanggal Masuk Sampel" 
+                    value={tanggalMasukSampel} 
+                    format={'MM/dd/yyyy'}
+                    onChange={this.handleDateChange} />
+                </MuiPickersUtilsProvider>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="nomorAgendaSurat"
+                  label="Nomor Agenda Surat"
+                  value={nomorAgendaSurat}
+                  onChange={this.onChange('nomorAgendaSurat')}
+                  fullWidth
+                />
+                <TextField
+                  margin="dense"
+                  id="namaPemilikSampel"
+                  label="Nama Pemilik Sampel"
+                  value={namaPemilikSampel}
+                  onChange={this.onChange('namaPemilikSampel')}
+                  fullWidth
+                />
+                <TextField
+                  margin="dense"
+                  id="alamatPemilikSampel"
+                  label="Alamat Pemilik Sampel"
+                  value={alamatPemilikSampel}
+                  onChange={this.onChange('alamatPemilikSampel')}
+                  fullWidth
+                />
+                <TextField
+                  margin="dense"
+                  id="asalTujuanSampel"
+                  label="Asal Tujuan Sampel"
+                  value={asalTujuanSampel}
+                  onChange={this.onChange('asalTujuanSampel')}
+                  fullWidth
+                />
+                <TextField
+                  disabled
+                  margin="dense"
+                  id="petugasPengambilSampel"
+                  label="Petugas Pengambil Sampel"
+                  value={petugasPengambilSampel}
+                  onChange={this.onChange('petugasPengambilSampel')}
+                  fullWidth
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button color="secondary" onClick={this.handleClose}>
+                  Cancel
+                </Button>
+                <Button 
+                  variant="outlined"
+                  onClick={this.handleSubmit} 
+                  disabled={isInvalid} 
+                  color="primary">
+                  Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={this.state.open2}
+              onClose={this.handleClose2}
+              // maxWidth={'md'}
+              aria-labelledby="form-dialog-title1"
+              >
+              <DialogTitle id="form-dialog-title1">Tambah Item Pengujian</DialogTitle>
+              <DialogContent>
+                <FormControl variant="standard">
+                  <InputLabel htmlFor="jenisSampel">Jenis Sampel</InputLabel>
+                  <Select
+                    value={jenisSampel}
+                    onChange={this.onChange2('jenisSampel')}
+                    style={{width:400}}
+                    name="jenisSampel"
+                  >
+                    { Object.keys(selectJenisPengujian).map(elx1 => 
+                        <MenuItem key={elx1} value={selectJenisPengujian[elx1].namaSample}>{selectJenisPengujian[elx1].namaSample}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>              
+                <TextField
+                  style={{marginTop: 15, width:400}}
+                  margin="dense"
+                  id="jumlahSampel"
+                  label="Jumlah Sampel"
+                  value={jumlahSampel}
+                  onChange={this.onChange2('jumlahSampel')}
+                  fullWidth
+                />
+                <FormControl style={{marginTop: 15}} variant="standard">
+                  <InputLabel htmlFor="kondisiSampel">Kondisi Sampel</InputLabel>{" "}
+                  <Select
+                    value={kondisiSampel}
+                    onChange={this.onChange2('kondisiSampel')}
+                    style={{width:400}}
+                    name="kondisiSampel"
+                  >
+                    <MenuItem value="Normal">Normal</MenuItem>
+                    <MenuItem value="Tidak Normal">Tidak Normal</MenuItem>            
+                  </Select>
+                </FormControl>
+                <FormControl style={{marginTop: 15}} variant="standard">
+                  <InputLabel htmlFor="jenisPengujianSampel">Jenis Pengujian Sampel</InputLabel>{" "}
+                  <Select
+                    value={jenisPengujianSampel}
+                    onChange={this.onChange2('jenisPengujianSampel')}
+                    style={{width:400}}
+                    name="jenisPengujianSampel"
+                    onClose={this.onClose2(jenisPengujianSampel)}
+                  >
+                    { !!selectMetodePengujian && Object.keys(selectMetodePengujian).map(elx1 => 
+                        <MenuItem key={elx1} value={selectMetodePengujian[elx1].metodePengujian}>{selectMetodePengujian[elx1].metodePengujian}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+              </DialogContent>
+              <DialogActions>
+                <Button color="secondary" onClick={this.handleClose2}>
+                  Cancel
+                </Button>
+                <Button 
+                  variant="outlined"
+                  onClick={this.handleSubmit2} 
+                  disabled={isInvalid2} 
+                  color="primary">
+                  Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        }
       </div>
     )
   }
