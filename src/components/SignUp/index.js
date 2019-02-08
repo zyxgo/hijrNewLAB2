@@ -36,13 +36,11 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne, isAdmin } = this.state;
+    const { username, email, passwordOne } = this.state;
 
     const roles = [];
-    if (isAdmin) {
-      roles.push(ROLES.ADMIN);
-    }
-
+    roles.push(ROLES.WILKER);
+    
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
@@ -129,7 +127,7 @@ class SignUpFormBase extends Component {
           style={{width: "100%", marginBottom: 10}}
           variant="outlined"
         />
-        <label>
+        {/* <label>
           Admin:
           <input
             name="isAdmin"
@@ -137,7 +135,7 @@ class SignUpFormBase extends Component {
             checked={isAdmin}
             onChange={this.onChangeCheckbox}
           />
-          </label>
+          </label> */}
         <Button variant="contained" color="primary" disabled={isInvalid} type="submit">
           Sign Up
         </Button>
