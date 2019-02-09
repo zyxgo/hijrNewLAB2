@@ -17,6 +17,7 @@ import Wilker_FormUjiSampel from '../Wilker/formUjiSampel';
 import MasterData_Sample from '../MasterData/sample';
 import MasterData_Pengujian from '../MasterData/pengujian';
 import MasterData_Wilker from '../MasterData/wilker';
+import AdminLab from '../Labs/formUjiSampel';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -36,7 +37,7 @@ const App = () => (
       <Route path={ROUTES.MASTERDATASAMPLE} component={MasterData_Sample} />
       <Route path={ROUTES.MASTERDATAPENGUJIAN} component={MasterData_Pengujian} />
       <Route path={ROUTES.MASTERDATA_WILKER} component={MasterData_Wilker} />
-      
+      <Route path={ROUTES.ADMINLAB} component={AdminLab} />
     </div>
   </Router>
 );

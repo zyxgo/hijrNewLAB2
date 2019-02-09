@@ -28,15 +28,20 @@ const NavigationAuth = ({authUser}) => (
           SIMLAB
         </Typography>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.HOME}>Home</Button>
-        {authUser.roles.includes(ROLES.ADMIN) && (
+        {(authUser.roles.includes(ROLES.WILKER) || authUser.roles.includes(ROLES.WILKERSPV) )&& (
           <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER_FORMUJI}>Wilker</Button>
         )}
-        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATASAMPLE}>Master Data Sample</Button>
-        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATAPENGUJIAN}>Master Data Pengujian</Button>
-        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATA_WILKER}>Master Data Wilker</Button>
-        <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ACCOUNT}>Account</Button>
+        {(authUser.roles.includes(ROLES.ADMINLAB) )&& (
+          <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMINLAB}>Admin Lab</Button>
+        )}        
         {authUser.roles.includes(ROLES.ADMIN) && (
-          <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMIN}>Admin</Button>
+          <div>
+            <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATASAMPLE}>Master Data Sample</Button>
+            <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATAPENGUJIAN}>Master Data Pengujian</Button>
+            <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATA_WILKER}>Master Data Wilker</Button>
+            <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ACCOUNT}>Account</Button>
+            <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMIN}>Admin</Button>
+          </div>
         )}
         <SignOutButton />
       </Toolbar>

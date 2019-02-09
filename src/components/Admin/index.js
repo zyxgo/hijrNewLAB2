@@ -113,8 +113,8 @@ class UserListBase extends Component {
     console.log(users);
     return (
       <div>
+        {loading && <Typography>Loading...</Typography>} 
         <h2>Users</h2>
-        {loading && <div>Loading ...</div>} 
           <Table>
               <TableHead>
                 <TableRow>
