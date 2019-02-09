@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -546,7 +546,7 @@ class SampelDetailBase extends Component {
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, ruangLingkupSampel,
+      jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, 
       loading, items,
       selectJenisPengujian, selectMetodePengujian,
      } = this.state;
