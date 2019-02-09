@@ -161,12 +161,15 @@ class SampelAllBase extends Component {
                                 pathname: `${ROUTES.WILKER_FORMUJI}/${el.idPermohonanUji}`,
                                 data: { el },
                               }}
+                              disabled={el.flagActivity === "Data sudah lengkap" ? false : true}
                             >
-                              Details
+                              Detail
                           </Button>
                         </TableCell>
                         <TableCell>
-                          <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.idPermohonanUji)}>
+                          <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.idPermohonanUji)}
+                            disabled={el.flagActivity === "Data sudah lengkap" ? false : true}
+                          >
                             Hapus
                           </Button>
                         </TableCell>
@@ -401,6 +404,7 @@ class SampelDetailBase extends Component {
       kondisiSampel: '',
       jenisPengujianSampel: '',
       ruangLingkupSampel: '',
+      selectJenisSampel: [],
       selectJenisPengujian: [],
       selectMetodePengujian: [],
       }; 
@@ -436,7 +440,7 @@ class SampelDetailBase extends Component {
         const a = [];
         a.push(snap.val())
         this.setState({
-          selectJenisPengujian: a[0],
+          selectJenisSampel: a[0],
         })
         // console.log(a);
       })
@@ -511,16 +515,16 @@ class SampelDetailBase extends Component {
         .orderByChild("kategoriSampel")
         .equalTo("Bahan Asal Hewan")
         .once("value", snap => {
-          console.log(snap.val())
+          // console.log(snap.val())
           const a = [];
           a.push(snap.val());
           this.setState({
-            selectMetodePengujian: a[0],
+            selectJenisPengujian: a[0],
           })
         })
       } else {
         this.setState({
-          selectMetodePengujian: null,
+          selectJenisPengujian: null,
         })
       }
     }
@@ -533,11 +537,11 @@ class SampelDetailBase extends Component {
         .orderByChild("kategoriSampel")
         .equalTo("Bahan Asal Hewan")
         .once("value", snap => {
-          console.log(snap.val())
+          // console.log(snap.val())
           const a = [];
           a.push(snap.val());
           this.setState({
-            selectMetodePengujian: a[0],
+            selectJenisPengujian: a[0],
           })
         })
     }
@@ -548,7 +552,7 @@ class SampelDetailBase extends Component {
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
       jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, 
       loading, items,
-      selectJenisPengujian, selectMetodePengujian,
+      selectJenisPengujian, selectMetodePengujian, selectJenisSampel,
      } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
@@ -704,8 +708,8 @@ class SampelDetailBase extends Component {
                     style={{width:400}}
                     name="jenisSampel"
                   >
-                    { Object.keys(selectJenisPengujian).map(elx1 => 
-                        <MenuItem key={elx1} value={selectJenisPengujian[elx1].namaSample}>{selectJenisPengujian[elx1].namaSample}</MenuItem>
+                    { Object.keys(selectJenisSampel).map(elx1 => 
+                        <MenuItem key={elx1} value={selectJenisSampel[elx1].namaSample}>{selectJenisSampel[elx1].namaSample}</MenuItem>
                     )}
                   </Select>
                 </FormControl>              
@@ -739,8 +743,8 @@ class SampelDetailBase extends Component {
                     name="jenisPengujianSampel"
                     onClose={this.onClose2(jenisPengujianSampel)}
                   >
-                    { !!selectMetodePengujian && Object.keys(selectMetodePengujian).map(elx1 => 
-                        <MenuItem key={elx1} value={selectMetodePengujian[elx1].metodePengujian}>{selectMetodePengujian[elx1].metodePengujian}</MenuItem>
+                    { !!selectJenisPengujian && Object.keys(selectJenisPengujian).map(elx1 => 
+                        <MenuItem key={elx1} value={selectJenisPengujian[elx1].jenisPengujian}>{selectJenisPengujian[elx1].jenisPengujian}</MenuItem>
                     )}
                   </Select>
                 </FormControl>

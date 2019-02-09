@@ -8,7 +8,7 @@ import * as ROUTES from '../../constants/routes';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-// import TextField from '@material-ui/core/TextField';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -198,7 +198,11 @@ class SampelDetailBase extends Component {
       managerTeknisAnalis: '',
       managerAdministrasiAnalis: '',
       penyeliaAnalis: '',
-      namaAnalis: '',      
+      namaAnalis: '',  
+
+      metodePemeriksaanSampel: '',    
+      hasilUjiSampel: '',
+      keteranganSampel: '',
       }; 
   }
 
@@ -240,23 +244,52 @@ class SampelDetailBase extends Component {
     this.setState({ open: false });
   };
 
+  handleClickOpen2 = () => {
+    this.setState({ open2: true });
+  };
+
+  handleClose2 = () => {
+    this.setState({ open2: false });
+  };
+
   handleSubmit = () => {
     this.setState({ open: false });
       this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-        // flagActivity: 'Permohonan pengujian diteruskan ke analis',
         tanggalUjiSampelAnalis: this.state.tanggalUjiSampelAnalis,
         managerTeknisAnalis: this.state.managerTeknisAnalis,
         managerAdministrasiAnalis: this.state.managerAdministrasiAnalis,
         penyeliaAnalis: this.state.penyeliaAnalis,
-        namaAnalis: this.state.namaAnalis,      
+        namaAnalis: this.state.namaAnalis,
       })
   }
+
+  updateHasilPengujian = (p, q) => {
+    console.log(p, q);
+    // this.setState({ open: false });
+    //   this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+    //     // flagActivity: 'Permohonan pengujian diteruskan ke analis',
+    //     // tanggalUjiSampelAnalis: this.state.tanggalUjiSampelAnalis,
+    //     // managerTeknisAnalis: this.state.managerTeknisAnalis,
+    //     // managerAdministrasiAnalis: this.state.managerAdministrasiAnalis,
+    //     // penyeliaAnalis: this.state.penyeliaAnalis,
+    //     // namaAnalis: this.state.namaAnalis,      
+    //     metodePemeriksaanSampel: this.state.metodePemeriksaanSampel,
+    //     hasilUjiSampel: this.state.hasilUjiSampel,
+    //     keteranganSampel: this.state.keteranganSampel,
+    //   })
+  };
 
   handleDateChange = date => {
     this.setState({ tanggalUjiSampelAnalis: date });
   };
 
   onChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
+  onChange2 = name => event => {
     this.setState({
       [name]: event.target.value,
     });
@@ -305,6 +338,7 @@ class SampelDetailBase extends Component {
                       <TableCell>Jumlah Sampel</TableCell>
                       <TableCell>Kondisi Sampel</TableCell>
                       <TableCell>Jenis Pengujian</TableCell>
+                      <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -314,6 +348,11 @@ class SampelDetailBase extends Component {
                         <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
                         <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
                         <TableCell>{el.zItems[el1].jenisPengujianSampel}</TableCell>
+                        <TableCell>
+                          <Button variant="outlined" color="primary" onClick={() => this.updateHasilPengujian(el.idPermohonanUji, el1)}>
+                            Update hasil pengujian
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
@@ -387,6 +426,59 @@ class SampelDetailBase extends Component {
               </DialogContent>
               <DialogActions>
                 <Button color="secondary" onClick={this.handleClose}>
+                  Cancel
+                </Button>
+                <Button 
+                  variant="outlined"
+                  onClick={this.handleSubmit} 
+                  disabled={isInvalid} 
+                  color="primary">
+                  Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={this.state.open2}
+              onClose={this.handleClose2}
+              aria-labelledby="form-dialog-title2"
+              >
+              <DialogTitle id="form-dialog-title2">Hasil Uji Sampel oleh Analis</DialogTitle>
+              <DialogContent>
+                <FormControl style={{marginTop: 15}} variant="standard">
+                  <InputLabel htmlFor="metodePemeriksaanSampel">Metode Pemeriksaan Sampel</InputLabel>{" "}
+                  <Select
+                    value={metodePemeriksaanSampel}
+                    onChange={this.onChange2('metodePemeriksaanSampel')}
+                    style={{width:400}}
+                    name="metodePemeriksaanSampel"
+                  >
+                    <MenuItem value="ManajerTeknis1">Manajer Teknis1</MenuItem>
+                    <MenuItem value="ManajerTeknis2">Manajer Teknis2</MenuItem>            
+                  </Select>
+                </FormControl>
+                <FormControl style={{marginTop: 15}} variant="standard">
+                  <InputLabel htmlFor="hasilUjiSampel">Hasil Uji Sampel</InputLabel>{" "}
+                  <Select
+                    value={hasilUjiSampel}
+                    onChange={this.onChange2('hasilUjiSampel')}
+                    style={{width:400}}
+                    name="hasilUjiSampel"
+                  >
+                    <MenuItem value="ManajerAdministrasi1">Manajer Administrasi1</MenuItem>
+                    <MenuItem value="ManajerAdministrasi2">Manajer Administrasi2</MenuItem>            
+                  </Select>
+                </FormControl>
+                <TextField
+                  margin="dense"
+                  id="keteranganSampel"
+                  label="Keterangan Sampel"
+                  value={keteranganSampel}
+                  onChange={this.onChange2('keteranganSampel')}
+                  fullWidth
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button color="secondary" onClick={this.handleClose2}>
                   Cancel
                 </Button>
                 <Button 
