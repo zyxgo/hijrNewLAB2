@@ -33,6 +33,9 @@ const NavigationAuth = ({authUser}) => (
         )}
         {(authUser.roles.includes(ROLES.ADMINLAB) )&& (
           <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMINLAB}>Admin Lab</Button>
+        )}  
+        {(authUser.roles.includes(ROLES.ANALIS) )&& (
+          <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ANALIS}>Analis</Button>
         )}        
         {authUser.roles.includes(ROLES.ADMIN) && (
           <div>

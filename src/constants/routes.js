@@ -18,4 +18,6 @@ export const MASTERDATA_WILKER = '/masterdata-wilker';
 export const MASTERDATA_WILKERDETAIL = '/masterdata-wilker/:id';
 export const ADMINLAB = '/adminlab';
 export const ADMINLAB_DETAIL = '/adminlab/:id';
+export const ANALIS = '/analis';
+export const ANALIS_DETAIL = '/analis/:id';
 

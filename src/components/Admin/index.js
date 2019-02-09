@@ -315,7 +315,7 @@ class UserItemBase extends Component {
                   <MenuItem value="WILKER">WILKER</MenuItem>
                   <MenuItem value="WILKERSPV">WILKERSPV</MenuItem>
                   <MenuItem value="ADMINLAB">ADMINLAB</MenuItem>
-                  <MenuItem value="ANALYSIS">ANALYSIS</MenuItem>
+                  <MenuItem value="ANALIS">ANALIS</MenuItem>
                 </Select>
               </FormControl>
             </DialogContent>
