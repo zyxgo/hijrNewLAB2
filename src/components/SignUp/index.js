@@ -27,6 +27,7 @@ const INITIAL_STATE = {
   passwordTwo: '',
   isAdmin: false,
   error: null,
+  isLoading: false,
 };
 
 class SignUpFormBase extends Component {
@@ -36,8 +37,8 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
+    this.setState({ isLoading : true});
     const { username, email, passwordOne } = this.state;
-
     const roles = [];
     roles.push(ROLES.WILKER);
     
@@ -56,10 +57,12 @@ class SignUpFormBase extends Component {
       })
       .then(() => {
         this.setState({ ...INITIAL_STATE });
+        this.setState({ isLoading : false});
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
         this.setState({ error });
+        this.setState({ isLoading : false});
       });
 
     event.preventDefault();
@@ -79,7 +82,7 @@ class SignUpFormBase extends Component {
       email,
       passwordOne,
       passwordTwo,
-      // isAdmin,
+      isLoading,
       error,
     } = this.state;
 
@@ -87,7 +90,7 @@ class SignUpFormBase extends Component {
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       email === '' ||
-      username === '';
+      username === '' || isLoading === true;
 
     return (
       <form onSubmit={this.onSubmit}>

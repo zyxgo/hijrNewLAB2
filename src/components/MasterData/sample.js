@@ -247,7 +247,7 @@ class SampleDetailBase extends Component {
           <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
             Ubah Master Data - Sample
           </Button>{' '}
-          <Button component={Link}
+          <Button color='secondary' component={Link}
               to={{
                 pathname: `${ROUTES.MASTERDATASAMPLE}`,
               }}
@@ -309,10 +309,10 @@ class SampleDetailBase extends Component {
               />
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
+              <Button onClick={this.handleClose} color="secondary">
                 Cancel
               </Button>
-              <Button onClick={this.handleSubmit} 
+              <Button variant='outlined' onClick={this.handleSubmit} 
                 disabled={isInvalid} 
                 color="primary">
                 Submit
@@ -426,10 +426,10 @@ class FormSampleBase extends Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.onCancel} color="primary">
+          <Button onClick={this.onCancel} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.onSubmit} disabled={isInvalid} color="primary">
+          <Button  variant='outlined' onClick={this.onSubmit} disabled={isInvalid} color="primary">
             Submit
           </Button>
         </DialogActions>

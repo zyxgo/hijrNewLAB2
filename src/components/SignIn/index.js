@@ -30,6 +30,7 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   error: null,
+  isLoading: false,
 };
 
 class SignInFormBase extends Component {
@@ -40,16 +41,18 @@ class SignInFormBase extends Component {
   }
 
   onSubmit = event => {
+    this.setState({ isLoading : true});
     const { email, password } = this.state;
-
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
+        this.setState({ isLoading : false});
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
         this.setState({ error });
+        this.setState({ isLoading : false});
       });
 
     event.preventDefault();
@@ -60,9 +63,9 @@ class SignInFormBase extends Component {
   };
 
   render() {
-    const { email, password, error } = this.state;
+    const { email, password, error, isLoading } = this.state;
 
-    const isInvalid = password === '' || email === '';
+    const isInvalid = password === '' || email === '' || isLoading === true;
 
     return (
       <form onSubmit={this.onSubmit}>

@@ -245,14 +245,13 @@ class WilkerDetailBase extends Component {
           <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
             Ubah Master Data - Wilker
           </Button>{' '}
-          <Button>
-            <Link 
+          <Button component={Link}
               to={{
                 pathname: `${ROUTES.MASTERDATA_WILKER}`,
               }}
+              color='secondary'
             >
               BACK
-            </Link>
           </Button>
           <Table>
             <TableHead>
@@ -299,21 +298,14 @@ class WilkerDetailBase extends Component {
                 onChange={this.onChange('namaWilker')}
                 fullWidth
               />
-              {/* <TextField
-                margin="dense"
-                // id="countSampelWilker"
-                label="Count Sample"
-                // value={countSampelWilker}
-                // onChange={this.onChange('countSampelWilker')}
-                fullWidth
-              /> */}
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
+              <Button onClick={this.handleClose} color="secondary">
                 Cancel
               </Button>
               <Button onClick={this.handleSubmit} 
                 disabled={isInvalid} 
+                variant='outlined'
                 color="primary">
                 Submit
               </Button>
@@ -425,10 +417,10 @@ class FormSampleBase extends Component {
           /> */}
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.onCancel} color="primary">
+          <Button onClick={this.onCancel} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.onSubmit} disabled={isInvalid} color="primary">
+          <Button variant='outlined' onClick={this.onSubmit} disabled={isInvalid} color="primary">
             Submit
           </Button>
         </DialogActions>
