@@ -161,14 +161,14 @@ class SampelAllBase extends Component {
                                 pathname: `${ROUTES.WILKER_FORMUJI}/${el.idPermohonanUji}`,
                                 data: { el },
                               }}
-                              disabled={el.flagActivity === "Data sudah lengkap" ? false : true}
+                              disabled={el.flagActivity === "Belum ada sampel uji" || el.flagActivity === "Data sudah lengkap" ? false : true}
                             >
                               Detail
                           </Button>
                         </TableCell>
                         <TableCell>
                           <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.idPermohonanUji)}
-                            disabled={el.flagActivity === "Data sudah lengkap" ? false : true}
+                            disabled={el.flagActivity === "Belum ada sampel uji" || el.flagActivity === "Data sudah lengkap" ? false : true}
                           >
                             Hapus
                           </Button>
@@ -399,6 +399,7 @@ class SampelDetailBase extends Component {
       alamatPemilikSampel: '',
       asalTujuanSampel: '',
       petugasPengambilSampel: '',
+      kategoriSample: '',
       jenisSampel: '',
       jumlahSampel: '',
       kondisiSampel: '',
@@ -435,15 +436,15 @@ class SampelDetailBase extends Component {
           this.setState({ items: null, loading: false });
         }
     })
-    this.props.firebase.db.ref('masterData/sample')
-      .once('value', snap => {
-        const a = [];
-        a.push(snap.val())
-        this.setState({
-          selectJenisSampel: a[0],
-        })
-        // console.log(a);
-      })
+    // this.props.firebase.db.ref('masterData/sample')
+    //   .once('value', snap => {
+    //     const a = [];
+    //     a.push(snap.val())
+    //     this.setState({
+    //       selectJenisSampel: a[0],
+    //     })
+    //     // console.log(a);
+    //   })
   }
 
   componentWillUnmount() {
@@ -483,6 +484,7 @@ class SampelDetailBase extends Component {
   handleSubmit2 = () => {
     this.setState({ open2: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems').push({
+      kategoriSample: this.state.kategoriSample,
       jenisSampel: this.state.jenisSampel,
       jumlahSampel: this.state.jumlahSampel,
       kondisiSampel: this.state.kondisiSampel,
@@ -508,22 +510,48 @@ class SampelDetailBase extends Component {
     this.setState({
       [name]: event.target.value,
     });
-    // console.log(event.target.value);
-    if(name === 'jenisSampel') {
-      if(event.target.value === 'Daging Sapi') {
-      this.props.firebase.db.ref('masterData/pengujian')
-        .orderByChild("kategoriSampel")
-        .equalTo("Bahan Asal Hewan")
-        .once("value", snap => {
-          // console.log(snap.val())
-          const a = [];
-          a.push(snap.val());
-          this.setState({
-            selectJenisPengujian: a[0],
+    if(name === 'kategoriSample') {
+      if( event.target.value === 'Bahan Asal Hewan' ) {
+        this.props.firebase.db.ref('masterData/sample').orderByChild("kategoriSample").equalTo(event.target.value)
+          .once("value", snap => {
+            // console.log(snap.val())
+            const a = [];
+            a.push(snap.val());
+            this.setState({
+              selectJenisSampel: a[0],
+            })
           })
-        })
+        this.props.firebase.db.ref('masterData/pengujian').orderByChild("kategoriSampel").equalTo(event.target.value)
+          .once("value", snap => {
+            // console.log(snap.val())
+            const a = [];
+            a.push(snap.val());
+            this.setState({
+              selectJenisPengujian: a[0],
+            })
+          })
+      } else if( event.target.value === 'Hasil Bahan Asal Hewan' ) {
+        this.props.firebase.db.ref('masterData/sample').orderByChild("kategoriSample").equalTo(event.target.value)
+          .once("value", snap => {
+            // console.log(snap.val())
+            const a = [];
+            a.push(snap.val());
+            this.setState({
+              selectJenisSampel: a[0],
+            })
+          })
+        this.props.firebase.db.ref('masterData/pengujian').orderByChild("kategoriSampel").equalTo(event.target.value)
+          .once("value", snap => {
+            // console.log(snap.val())
+            const a = [];
+            a.push(snap.val());
+            this.setState({
+              selectJenisPengujian: a[0],
+            })
+          })
       } else {
         this.setState({
+          selectJenisSampel: null,
           selectJenisPengujian: null,
         })
       }
@@ -550,13 +578,13 @@ class SampelDetailBase extends Component {
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, 
+      jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, kategoriSample,
       loading, items,
       selectJenisPengujian, selectMetodePengujian, selectJenisSampel,
      } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
-    const isInvalid2 = jenisSampel === ''  || jumlahSampel === '' || kondisiSampel === '' || jenisPengujianSampel === '';
+    const isInvalid2 = jenisSampel === ''  || jumlahSampel === '' || kondisiSampel === '' || jenisPengujianSampel === '' || kategoriSample === '';
     return (
       <div>
         {loading ? <Typography>Loading...</Typography> : 
@@ -586,6 +614,7 @@ class SampelDetailBase extends Component {
                 <Table>
                   <TableHead>
                     <TableRow>
+                      <TableCell>Kategori Sampel</TableCell>
                       <TableCell>Jenis Sampel</TableCell>
                       <TableCell>Jumlah Sampel</TableCell>
                       <TableCell>Kondisi Sampel</TableCell>
@@ -596,6 +625,7 @@ class SampelDetailBase extends Component {
                   <TableBody>
                     {!!el.zItems && Object.keys(el.zItems).map((el1, key1) => 
                       <TableRow key={key1}>
+                        <TableCell>{el.zItems[el1].kategoriSample}</TableCell>
                         <TableCell>{el.zItems[el1].jenisSampel}</TableCell>
                         <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
                         <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
@@ -701,6 +731,23 @@ class SampelDetailBase extends Component {
               <DialogTitle id="form-dialog-title1">Tambah Item Pengujian</DialogTitle>
               <DialogContent>
                 <FormControl variant="standard">
+                  <InputLabel htmlFor="kategoriSample">Kategori Sampel</InputLabel>{" "}
+                  <Select
+                    value={kategoriSample}
+                    onChange={this.onChange2('kategoriSample')}
+                    style={{width:400}}
+                    name="kategoriSample"
+                  >
+                    <MenuItem value="Bahan Asal Hewan">Bahan Asal Hewan</MenuItem>
+                    <MenuItem value="Hasil Bahan Asal Hewan">Hasil Bahan Asal Hewan</MenuItem>
+                    <MenuItem value="Serum">Serum</MenuItem>
+                    <MenuItem value="Ulas Darah">Ulas Darah</MenuItem>
+                    <MenuItem value="Bahan Baku Pakan Ternak">Bahan Baku Pakan Ternak</MenuItem>
+                    <MenuItem value="Swab">Swab</MenuItem>
+                    <MenuItem value="Lain-lain">Lain-lain</MenuItem>            
+                  </Select>
+                </FormControl>
+                <FormControl style={{marginTop: 15}} variant="standard">
                   <InputLabel htmlFor="jenisSampel">Jenis Sampel</InputLabel>
                   <Select
                     value={jenisSampel}
@@ -708,7 +755,7 @@ class SampelDetailBase extends Component {
                     style={{width:400}}
                     name="jenisSampel"
                   >
-                    { Object.keys(selectJenisSampel).map(elx1 => 
+                    { !!selectJenisSampel && Object.keys(selectJenisSampel).map(elx1 => 
                         <MenuItem key={elx1} value={selectJenisSampel[elx1].namaSample}>{selectJenisSampel[elx1].namaSample}</MenuItem>
                     )}
                   </Select>

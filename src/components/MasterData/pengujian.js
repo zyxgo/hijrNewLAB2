@@ -20,6 +20,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 
 class MainSampleBase extends Component {
@@ -72,6 +76,7 @@ class PengujianAllBase extends Component {
                 jenisPengujian: el.val().jenisPengujian,
                 metodePengujian: el.val().metodePengujian,
                 targetPengujian: el.val().targetPengujian,
+                kategoriSampel: el.val().kategoriSampel,
               })
             });
             this.setState({ 
@@ -106,6 +111,7 @@ class PengujianAllBase extends Component {
           jenisPengujian: propSample[0].jenisPengujian,
           metodePengujian: propSample[0].metodePengujian,
           targetPengujian: propSample[0].targetPengujian,
+          kategoriSampel: propSample[0].kategoriSampel,
         })
       }}
     }
@@ -133,6 +139,7 @@ class PengujianAllBase extends Component {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Kategori Sampel</TableCell>
                 <TableCell>Jenis Pengujian</TableCell>
                 <TableCell>Metode Pengujian</TableCell>
                 <TableCell>Target Pengujian</TableCell>
@@ -143,6 +150,7 @@ class PengujianAllBase extends Component {
             {!loading && !!items && items.map((el, key) => 
             <TableBody key={key}>
                 <TableRow>
+                  <TableCell>{el.kategoriSampel}</TableCell>
                   <TableCell>{el.jenisPengujian}</TableCell>
                   <TableCell>{el.metodePengujian}</TableCell>
                   <TableCell>{el.targetPengujian}</TableCell>
@@ -183,6 +191,7 @@ class PengujianDetailBase extends Component {
       jenisPengujian: '',
       metodePengujian: '',
       targetPengujian: '',
+      kategoriSampel: '',
       }; 
   }
 
@@ -202,6 +211,7 @@ class PengujianDetailBase extends Component {
             jenisPengujian: snap.val().jenisPengujian,
             metodePengujian: snap.val().metodePengujian,
             targetPengujian: snap.val().targetPengujian,
+            kategoriSampel: snap.val().kategoriSampel,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -227,6 +237,7 @@ class PengujianDetailBase extends Component {
         jenisPengujian: this.state.jenisPengujian,
         metodePengujian: this.state.metodePengujian,
         targetPengujian: this.state.targetPengujian,
+        kategoriSampel: this.state.kategoriSampel,
       })
   }
 
@@ -237,8 +248,8 @@ class PengujianDetailBase extends Component {
   };
 
   render() {
-    const { loading, jenisPengujian, metodePengujian, targetPengujian, items } = this.state;
-    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '';
+    const { loading, jenisPengujian, metodePengujian, targetPengujian, kategoriSampel, items } = this.state;
+    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '' || kategoriSampel === '';
     return (
       <div>
           <h2>Detail Sample</h2>
@@ -255,6 +266,7 @@ class PengujianDetailBase extends Component {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Kategori Sampel</TableCell>
                 <TableCell>Jenis Pengujian</TableCell>
                 <TableCell>Metode Pengujian</TableCell>
                 <TableCell>Target Pengujian</TableCell>
@@ -263,6 +275,7 @@ class PengujianDetailBase extends Component {
             <TableBody>
               {!loading && !!items && items.map((el, key) => 
                 <TableRow key={key}>
+                  <TableCell>{el.kategoriSampel}</TableCell>
                   <TableCell>{el.jenisPengujian}</TableCell>
                   <TableCell>{el.metodePengujian}</TableCell>
                   <TableCell>{el.targetPengujian}</TableCell>
@@ -280,6 +293,23 @@ class PengujianDetailBase extends Component {
               <DialogContentText>
                 Ubah Data - Pengujian
               </DialogContentText>
+              <FormControl style={{marginTop: 15}} variant="standard">
+                <InputLabel htmlFor="kategoriSampel">Kategori Sampel</InputLabel>{" "}
+                <Select
+                  value={kategoriSampel}
+                  onChange={this.onChange('kategoriSampel')}
+                  style={{width:400}}
+                  name="kategoriSampel"
+                >
+                  <MenuItem value="Bahan Asal Hewan">Bahan Asal Hewan</MenuItem>
+                  <MenuItem value="Hasil Bahan Asal Hewan">Hasil Bahan Asal Hewan</MenuItem>
+                  <MenuItem value="Serum">Serum</MenuItem>
+                  <MenuItem value="Ulas Darah">Ulas Darah</MenuItem>
+                  <MenuItem value="Bahan Baku Pakan Ternak">Bahan Baku Pakan Ternak</MenuItem>
+                  <MenuItem value="Swab">Swab</MenuItem>
+                  <MenuItem value="Lain-lain">Lain-lain</MenuItem>            
+                </Select>
+              </FormControl>
               <TextField
                 autoFocus
                 margin="dense"
@@ -346,6 +376,7 @@ class FormSampleBase extends Component {
       jenisPengujian: '',
       metodePengujian: '',
       targetPengujian: '',
+      kategoriSampel: '',
       error: null,
     }; 
   }
@@ -362,12 +393,14 @@ class FormSampleBase extends Component {
       jenisPengujian: this.state.jenisPengujian,
       metodePengujian: this.state.metodePengujian,
       targetPengujian: this.state.targetPengujian,
+      kategoriSampel: this.state.kategoriSampel,
     })
     this.props.handleSubmit(a);
     this.setState({ 
       jenisPengujian: '',
       metodePengujian: '',
       targetPengujian: '',
+      kategoriSampel: '',
      })
   }
 
@@ -377,13 +410,14 @@ class FormSampleBase extends Component {
       jenisPengujian: '',
       metodePengujian: '',
       targetPengujian: '',
+      kategoriSampel: '',
      })
   }
 
 
   render() {
-    const { jenisPengujian, metodePengujian, targetPengujian } = this.state;
-    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '';
+    const { jenisPengujian, metodePengujian, targetPengujian, kategoriSampel } = this.state;
+    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '' || kategoriSampel === '';
 
     return (
       <Dialog
@@ -396,6 +430,23 @@ class FormSampleBase extends Component {
           <DialogContentText>
             Tambah Data
           </DialogContentText>
+          <FormControl style={{marginTop: 15}} variant="standard">
+            <InputLabel htmlFor="kategoriSampel">Kategori Sampel</InputLabel>{" "}
+            <Select
+              value={kategoriSampel}
+              onChange={this.onChange('kategoriSampel')}
+              style={{width:400}}
+              name="kategoriSampel"
+            >
+              <MenuItem value="Bahan Asal Hewan">Bahan Asal Hewan</MenuItem>
+              <MenuItem value="Hasil Bahan Asal Hewan">Hasil Bahan Asal Hewan</MenuItem>
+              <MenuItem value="Serum">Serum</MenuItem>
+              <MenuItem value="Ulas Darah">Ulas Darah</MenuItem>
+              <MenuItem value="Bahan Baku Pakan Ternak">Bahan Baku Pakan Ternak</MenuItem>
+              <MenuItem value="Swab">Swab</MenuItem>
+              <MenuItem value="Lain-lain">Lain-lain</MenuItem>            
+            </Select>
+          </FormControl>
           <TextField
             autoFocus
             margin="dense"

@@ -20,6 +20,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 
 class MainSampleBase extends Component {
@@ -72,6 +76,7 @@ class SampleAllBase extends Component {
                 namaSample: el.val().namaSample,
                 kodeSample: el.val().kodeSample,
                 kodeIdSample: el.val().kodeIdSample,
+                kategoriSample: el.val().kategoriSample,
               })
             });
             this.setState({ 
@@ -106,6 +111,7 @@ class SampleAllBase extends Component {
           namaSample: propSample[0].namaSample,
           kodeSample: propSample[0].kodeSample,
           kodeIdSample: propSample[0].kodeIdSample,
+          kategoriSample: propSample[0].kategoriSample,
         })
       }}
     }
@@ -133,6 +139,7 @@ class SampleAllBase extends Component {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Kategori Sample</TableCell>
                 <TableCell>Nama Sample</TableCell>
                 <TableCell>Kode Sample</TableCell>
                 <TableCell>Kode ID Sample</TableCell>
@@ -144,6 +151,7 @@ class SampleAllBase extends Component {
             {!loading && !!items && items.map((el, key) => 
             <TableBody key={key}>
                 <TableRow>
+                  <TableCell>{el.kategoriSample}</TableCell>
                   <TableCell>{el.namaSample}</TableCell>
                   <TableCell>{el.kodeSample}</TableCell>
                   <TableCell>{el.kodeIdSample}</TableCell>
@@ -185,6 +193,7 @@ class SampleDetailBase extends Component {
       namaSample: '',
       kodeSample: '',
       kodeIdSample: '',
+      kategoriSample: '',
       }; 
   }
 
@@ -229,6 +238,7 @@ class SampleDetailBase extends Component {
         namaSample: this.state.namaSample,
         kodeSample: this.state.kodeSample,
         kodeIdSample: this.state.kodeIdSample,
+        kategoriSample: this.state.kategoriSample,
       })
   }
 
@@ -239,8 +249,8 @@ class SampleDetailBase extends Component {
   };
 
   render() {
-    const { loading, namaSample, kodeSample, kodeIdSample, items } = this.state;
-    const isInvalid = namaSample === '' || kodeSample === '' || kodeIdSample === '';
+    const { loading, namaSample, kodeSample, kodeIdSample, kategoriSample, items } = this.state;
+    const isInvalid = namaSample === '' || kodeSample === '' || kodeIdSample === '' || kategoriSample === '';
     return (
       <div>
           <h2>Detail Sample</h2>
@@ -257,6 +267,7 @@ class SampleDetailBase extends Component {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Kategori Sample</TableCell>
                 <TableCell>Nama Sample</TableCell>
                 <TableCell>Kode Sample</TableCell>
                 <TableCell>Kode ID Sample</TableCell>
@@ -265,6 +276,7 @@ class SampleDetailBase extends Component {
             <TableBody>
               {!loading && !!items && items.map((el, key) => 
                 <TableRow key={key}>
+                  <TableCell>{el.kategoriSample}</TableCell>
                   <TableCell>{el.namaSample}</TableCell>
                   <TableCell>{el.kodeSample}</TableCell>
                   <TableCell>{el.kodeIdSample}</TableCell>
@@ -282,6 +294,23 @@ class SampleDetailBase extends Component {
               <DialogContentText>
                 Ubah Data
               </DialogContentText>
+              <FormControl style={{marginTop: 15}} variant="standard">
+                <InputLabel htmlFor="kategoriSample">Kategori Sampel</InputLabel>{" "}
+                <Select
+                  value={kategoriSample}
+                  onChange={this.onChange('kategoriSample')}
+                  style={{width:400}}
+                  name="kategoriSample"
+                >
+                  <MenuItem value="Bahan Asal Hewan">Bahan Asal Hewan</MenuItem>
+                  <MenuItem value="Hasil Bahan Asal Hewan">Hasil Bahan Asal Hewan</MenuItem>
+                  <MenuItem value="Serum">Serum</MenuItem>
+                  <MenuItem value="Ulas Darah">Ulas Darah</MenuItem>
+                  <MenuItem value="Bahan Baku Pakan Ternak">Bahan Baku Pakan Ternak</MenuItem>
+                  <MenuItem value="Swab">Swab</MenuItem>
+                  <MenuItem value="Lain-lain">Lain-lain</MenuItem>            
+                </Select>
+              </FormControl>
               <TextField
                 autoFocus
                 margin="dense"
@@ -365,12 +394,14 @@ class FormSampleBase extends Component {
       namaSample: this.state.namaSample,
       kodeSample: this.state.kodeSample,
       kodeIdSample: this.state.kodeIdSample,
+      kategoriSample: this.state.kategoriSample,
     })
     this.props.handleSubmit(a);
     this.setState({ 
       namaSample: '',
       kodeSample: '',
       kodeIdSample: '',
+      kategoriSample: '',
      })
   }
 
@@ -380,13 +411,14 @@ class FormSampleBase extends Component {
       namaSample: '',
       kodeSample: '',
       kodeIdSample: '',
+      kategoriSample: '',
      })
   }
 
 
   render() {
-    const { namaSample, kodeSample, kodeIdSample } = this.state;
-    const isInvalid = namaSample === '' || kodeSample === '' || kodeIdSample === '';
+    const { namaSample, kodeSample, kodeIdSample, kategoriSample } = this.state;
+    const isInvalid = namaSample === '' || kodeSample === '' || kodeIdSample === '' || kategoriSample === '';
 
     return (
       <Dialog
@@ -399,6 +431,23 @@ class FormSampleBase extends Component {
           <DialogContentText>
             Tambah Data
           </DialogContentText>
+          <FormControl style={{marginTop: 15}} variant="standard">
+            <InputLabel htmlFor="kategoriSample">Kategori Sampel</InputLabel>{" "}
+            <Select
+              value={kategoriSample}
+              onChange={this.onChange('kategoriSample')}
+              style={{width:400}}
+              name="kategoriSample"
+            >
+              <MenuItem value="Bahan Asal Hewan">Bahan Asal Hewan</MenuItem>
+              <MenuItem value="Hasil Bahan Asal Hewan">Hasil Bahan Asal Hewan</MenuItem>
+              <MenuItem value="Serum">Serum</MenuItem>
+              <MenuItem value="Ulas Darah">Ulas Darah</MenuItem>
+              <MenuItem value="Bahan Baku Pakan Ternak">Bahan Baku Pakan Ternak</MenuItem>
+              <MenuItem value="Swab">Swab</MenuItem>
+              <MenuItem value="Lain-lain">Lain-lain</MenuItem>            
+            </Select>
+          </FormControl>
           <TextField
             autoFocus
             margin="dense"
