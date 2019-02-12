@@ -410,6 +410,7 @@ class SampelDetailBase extends Component {
       selectJenisSampel: [],
       selectJenisPengujian: [],
       selectMetodePengujian: [],
+      selectTargetPengujian: [],
       }; 
   }
 
@@ -494,6 +495,15 @@ class SampelDetailBase extends Component {
       ruangLingkupSampel: this.state.ruangLingkupSampel,
       targetPengujianSampel: this.state.targetPengujianSampel,
     })
+    this.setState({
+      kategoriSample: '',
+      jenisSampel: '',
+      jumlahSampel: '',
+      kondisiSampel: '',
+      jenisPengujianSampel: '',
+      metodePengujianSampel: '',
+      targetPengujianSampel: '',
+    });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagActivity: 'Data sudah lengkap',
     })
@@ -574,6 +584,48 @@ class SampelDetailBase extends Component {
           selectMetodePengujian: ['MIKROSKOPIS'],
         })
       }
+    } else if(name === 'metodePengujianSampel') {
+      if ( event.target.value === 'TPC' ) {
+        this.setState({
+          selectTargetPengujian: ['Cemaran Mikroba'],
+        })
+      } else if ( event.target.value === 'RAPID TEST KIT' ) {
+        this.setState({
+          selectTargetPengujian: ['Salmonella', 'E. Coli'],
+        })
+      } else if ( event.target.value === 'HA-HI/AI-ND' || event.target.value === 'ELISA RABIES' || event.target.value === 'ELISA BVD' || event.target.value === 'ELISA PARATB'  ) {
+        this.setState({
+          selectTargetPengujian: ['Titer Antibodi'],
+        })
+      } else if ( event.target.value === 'RBT' ) {
+        this.setState({
+          selectTargetPengujian: ['Antibodi terhadap Brucella sp.'],
+        })
+      } else if ( event.target.value === 'PEWARNAAN GIEMSA' ) {
+        this.setState({
+          selectTargetPengujian: ['Trypanosoma sp.', 'Anthrax'],
+        })
+      } else if ( event.target.value === 'MIKROSKOPIS' ) {
+        this.setState({
+          selectTargetPengujian: ['Scabies'],
+        })
+      } else if ( event.target.value === 'RT-PCR' ) {
+        this.setState({
+          selectTargetPengujian: ['Al', 'Anthrax'],
+        })
+      } else if ( event.target.value === 'PCR-DNA' ) {
+        this.setState({
+          selectTargetPengujian: ['Porcine', 'Salmonella'],
+        })
+      } else if ( event.target.value === 'RESIDU NITRIT' ) {
+        this.setState({
+          selectTargetPengujian: ['Kadar Nitrit'],
+        })
+      } else if ( event.target.value === 'FEED CHECK' ) {
+        this.setState({
+          selectTargetPengujian: ['Kandungan Mamalia'],
+        })
+      }
     }
   };
 
@@ -582,7 +634,7 @@ class SampelDetailBase extends Component {
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
       jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, metodePengujianSampel, kategoriSample, targetPengujianSampel,
       loading, items,
-      selectJenisPengujian, selectMetodePengujian, selectJenisSampel,
+      selectJenisPengujian, selectMetodePengujian, selectJenisSampel, selectTargetPengujian,
      } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
@@ -791,7 +843,6 @@ class SampelDetailBase extends Component {
                     onChange={this.onChange2('metodePengujianSampel')}
                     style={{width:400}}
                     name="metodePengujianSampel"
-                    // onClose={this.onClose2(jenisPengujianSampel)}
                   >
                     {
                       !! selectMetodePengujian && selectMetodePengujian.map((elx, key) => 
@@ -800,15 +851,19 @@ class SampelDetailBase extends Component {
                     }
                   </Select>
                 </FormControl>
-                <TextField
-                  style={{marginTop: 15, width:400}}
-                  margin="dense"
-                  id="targetPengujianSampel"
-                  label="Target Pengujian Sampel"
-                  value={targetPengujianSampel}
-                  onChange={this.onChange2('targetPengujianSampel')}
-                  fullWidth
-                />
+                <FormControl style={{marginTop: 15}} variant="standard">
+                  <InputLabel htmlFor="targetPengujianSampel">Target Pengujian Sampel</InputLabel>{" "}
+                  <Select
+                    value={targetPengujianSampel}
+                    onChange={this.onChange2('targetPengujianSampel')}
+                    name="targetPengujianSampel"
+                    style={{width:400}}
+                  >
+                    {!! selectTargetPengujian && selectTargetPengujian.map((elx, key) => 
+                        <MenuItem key={key} value={elx}>{elx}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
               </DialogContent>
               <DialogActions>
                 <Button color="secondary" onClick={this.handleClose2}>
