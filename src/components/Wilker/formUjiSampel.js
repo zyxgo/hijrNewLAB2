@@ -404,7 +404,9 @@ class SampelDetailBase extends Component {
       jumlahSampel: '',
       kondisiSampel: '',
       jenisPengujianSampel: '',
+      metodePengujianSampel: '',
       ruangLingkupSampel: '',
+      targetPengujianSampel: '',
       selectJenisSampel: [],
       selectJenisPengujian: [],
       selectMetodePengujian: [],
@@ -488,8 +490,9 @@ class SampelDetailBase extends Component {
       jenisSampel: this.state.jenisSampel,
       jumlahSampel: this.state.jumlahSampel,
       kondisiSampel: this.state.kondisiSampel,
-      jenisPengujianSampel: this.state.jenisPengujianSampel,
+      metodePengujianSampel: this.state.metodePengujianSampel,
       ruangLingkupSampel: this.state.ruangLingkupSampel,
+      targetPengujianSampel: this.state.targetPengujianSampel,
     })
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagActivity: 'Data sudah lengkap',
@@ -511,80 +514,80 @@ class SampelDetailBase extends Component {
       [name]: event.target.value,
     });
     if(name === 'kategoriSample') {
-      if( event.target.value === 'Bahan Asal Hewan' ) {
-        this.props.firebase.db.ref('masterData/sample').orderByChild("kategoriSample").equalTo(event.target.value)
-          .once("value", snap => {
-            // console.log(snap.val())
-            const a = [];
-            a.push(snap.val());
-            this.setState({
-              selectJenisSampel: a[0],
-            })
-          })
-        this.props.firebase.db.ref('masterData/pengujian').orderByChild("kategoriSampel").equalTo(event.target.value)
-          .once("value", snap => {
-            // console.log(snap.val())
-            const a = [];
-            a.push(snap.val());
-            this.setState({
-              selectJenisPengujian: a[0],
-            })
-          })
-      } else if( event.target.value === 'Hasil Bahan Asal Hewan' ) {
-        this.props.firebase.db.ref('masterData/sample').orderByChild("kategoriSample").equalTo(event.target.value)
-          .once("value", snap => {
-            // console.log(snap.val())
-            const a = [];
-            a.push(snap.val());
-            this.setState({
-              selectJenisSampel: a[0],
-            })
-          })
-        this.props.firebase.db.ref('masterData/pengujian').orderByChild("kategoriSampel").equalTo(event.target.value)
-          .once("value", snap => {
-            // console.log(snap.val())
-            const a = [];
-            a.push(snap.val());
-            this.setState({
-              selectJenisPengujian: a[0],
-            })
-          })
-      } else {
+      this.props.firebase.db.ref('masterData/sample').orderByChild("kategoriSample").equalTo(event.target.value)
+      .once("value", snap => {
+        // console.log(snap.val())
+        const a = [];
+        a.push(snap.val());
         this.setState({
-          selectJenisSampel: null,
-          selectJenisPengujian: null,
+          selectJenisSampel: a[0],
+        })
+      })
+      if ( event.target.value === 'Bahan Asal Hewan' || event.target.value === 'Hasil Bahan Asal Hewan' ) {
+        this.setState({
+          selectMetodePengujian: ['TPC', 'RAPID TEST KIT'],
+        })
+      } else if ( event.target.value === 'Ulas Darah' ) {
+        this.setState({
+          selectMetodePengujian: ['PEWARNAAN GIEMSA'],
+        })
+      } else if ( event.target.value === 'Bahan Baku Pakan Ternak' ) {
+        this.setState({
+          selectMetodePengujian: ['PCR-DNA', 'RT-PCR', 'FEED CHECK'],
+        })
+      } else if ( event.target.value === 'Swab' ) {
+        this.setState({
+          selectMetodePengujian: ['RT-PCR'],
+        })
+      }
+    } else if(name === 'jenisSampel') {
+      if ( event.target.value === 'Serum Darah Sapi' ) {
+        this.setState({
+          selectMetodePengujian: ['RBT', 'ELISA BVD', 'ELISA PARATB'],
+        })
+      } else if ( event.target.value === 'Serum Darah Kerbau' || event.target.value === 'Serum Darah Kambing' ) {
+        this.setState({
+          selectMetodePengujian: ['RBT', 'ELISA BVD'],
+        })
+      } else if ( event.target.value === 'Serum Darah Anjing' || event.target.value === 'Serum Darah Kucing' ) {
+        this.setState({
+          selectMetodePengujian: ['ELISA RABIES'],
+        })
+      } else if ( event.target.value === 'Serum Darah Ayam' || event.target.value === 'Serum Darah DOC' || event.target.value === 'Serum Darah Burung' ) {
+        this.setState({
+          selectMetodePengujian: ['HA-HI/AI-ND'],
+        })
+      } else if ( event.target.value === 'Sarang Burung Walet' ) {
+        this.setState({
+          selectMetodePengujian: ['RESIDU NITRIT'],
+        })
+      } else if ( event.target.value === 'Bakteri Kering' ) {
+        this.setState({
+          selectMetodePengujian: ['TPC'],
+        })
+      } else if ( event.target.value === 'Serum Beku' ) {
+        this.setState({
+          selectMetodePengujian: ['RBT'],
+        })
+      } else if ( event.target.value === 'Kerokan kulit' ) {
+        this.setState({
+          selectMetodePengujian: ['MIKROSKOPIS'],
         })
       }
     }
   };
 
-  onClose2 = name => {
-    // console.log(name);
-    if(name === 'Daging Sapi') {
-      this.props.firebase.db.ref('masterData/pengujian')
-        .orderByChild("kategoriSampel")
-        .equalTo("Bahan Asal Hewan")
-        .once("value", snap => {
-          // console.log(snap.val())
-          const a = [];
-          a.push(snap.val());
-          this.setState({
-            selectJenisPengujian: a[0],
-          })
-        })
-    }
-  }
-
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, kategoriSample,
+      jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, metodePengujianSampel, kategoriSample, targetPengujianSampel,
       loading, items,
       selectJenisPengujian, selectMetodePengujian, selectJenisSampel,
      } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
-    const isInvalid2 = jenisSampel === ''  || jumlahSampel === '' || kondisiSampel === '' || jenisPengujianSampel === '' || kategoriSample === '';
+    const isInvalid2 = jenisSampel === ''  || jumlahSampel === '' || kondisiSampel === '' || metodePengujianSampel === '' || kategoriSample === '' || 
+      targetPengujianSampel === '';
     return (
       <div>
         {loading ? <Typography>Loading...</Typography> : 
@@ -618,7 +621,7 @@ class SampelDetailBase extends Component {
                       <TableCell>Jenis Sampel</TableCell>
                       <TableCell>Jumlah Sampel</TableCell>
                       <TableCell>Kondisi Sampel</TableCell>
-                      <TableCell>Jenis Pengujian</TableCell>
+                      <TableCell>Metode Pengujian</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
@@ -629,7 +632,7 @@ class SampelDetailBase extends Component {
                         <TableCell>{el.zItems[el1].jenisSampel}</TableCell>
                         <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
                         <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
-                        <TableCell>{el.zItems[el1].jenisPengujianSampel}</TableCell>
+                        <TableCell>{el.zItems[el1].metodePengujianSampel}</TableCell>
                         <TableCell>
                           <Button variant="text" color="secondary" onClick={() => this.handleDelete(el1)}>
                             Hapus
@@ -782,19 +785,30 @@ class SampelDetailBase extends Component {
                   </Select>
                 </FormControl>
                 <FormControl style={{marginTop: 15}} variant="standard">
-                  <InputLabel htmlFor="jenisPengujianSampel">Jenis Pengujian Sampel</InputLabel>{" "}
+                  <InputLabel htmlFor="metodePengujianSampel">Metode Pengujian Sampel</InputLabel>{" "}
                   <Select
-                    value={jenisPengujianSampel}
-                    onChange={this.onChange2('jenisPengujianSampel')}
+                    value={metodePengujianSampel}
+                    onChange={this.onChange2('metodePengujianSampel')}
                     style={{width:400}}
-                    name="jenisPengujianSampel"
-                    onClose={this.onClose2(jenisPengujianSampel)}
+                    name="metodePengujianSampel"
+                    // onClose={this.onClose2(jenisPengujianSampel)}
                   >
-                    { !!selectJenisPengujian && Object.keys(selectJenisPengujian).map(elx1 => 
-                        <MenuItem key={elx1} value={selectJenisPengujian[elx1].jenisPengujian}>{selectJenisPengujian[elx1].jenisPengujian}</MenuItem>
-                    )}
+                    {
+                      !! selectMetodePengujian && selectMetodePengujian.map((elx, key) => 
+                        <MenuItem key={key} value={elx}>{elx}</MenuItem>
+                      )
+                    }
                   </Select>
                 </FormControl>
+                <TextField
+                  style={{marginTop: 15, width:400}}
+                  margin="dense"
+                  id="targetPengujianSampel"
+                  label="Target Pengujian Sampel"
+                  value={targetPengujianSampel}
+                  onChange={this.onChange2('targetPengujianSampel')}
+                  fullWidth
+                />
               </DialogContent>
               <DialogActions>
                 <Button color="secondary" onClick={this.handleClose2}>

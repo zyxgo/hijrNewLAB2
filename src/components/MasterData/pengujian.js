@@ -139,7 +139,7 @@ class PengujianAllBase extends Component {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Kategori Sampel</TableCell>
+                {/* <TableCell>Template Metode Uji</TableCell> */}
                 <TableCell>Jenis Pengujian</TableCell>
                 <TableCell>Metode Pengujian</TableCell>
                 <TableCell>Target Pengujian</TableCell>
@@ -150,7 +150,7 @@ class PengujianAllBase extends Component {
             {!loading && !!items && items.map((el, key) => 
             <TableBody key={key}>
                 <TableRow>
-                  <TableCell>{el.kategoriSampel}</TableCell>
+                  {/* <TableCell>{el.kategoriSampel}</TableCell> */}
                   <TableCell>{el.jenisPengujian}</TableCell>
                   <TableCell>{el.metodePengujian}</TableCell>
                   <TableCell>{el.targetPengujian}</TableCell>
@@ -266,7 +266,7 @@ class PengujianDetailBase extends Component {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Kategori Sampel</TableCell>
+                {/* <TableCell>Template Metode Uji</TableCell> */}
                 <TableCell>Jenis Pengujian</TableCell>
                 <TableCell>Metode Pengujian</TableCell>
                 <TableCell>Target Pengujian</TableCell>
@@ -275,7 +275,7 @@ class PengujianDetailBase extends Component {
             <TableBody>
               {!loading && !!items && items.map((el, key) => 
                 <TableRow key={key}>
-                  <TableCell>{el.kategoriSampel}</TableCell>
+                  {/* <TableCell>{el.kategoriSampel}</TableCell> */}
                   <TableCell>{el.jenisPengujian}</TableCell>
                   <TableCell>{el.metodePengujian}</TableCell>
                   <TableCell>{el.targetPengujian}</TableCell>
@@ -293,23 +293,27 @@ class PengujianDetailBase extends Component {
               <DialogContentText>
                 Ubah Data - Pengujian
               </DialogContentText>
-              <FormControl style={{marginTop: 15}} variant="standard">
-                <InputLabel htmlFor="kategoriSampel">Kategori Sampel</InputLabel>{" "}
+              {/* <FormControl style={{marginTop: 15}} variant="standard">
+                <InputLabel htmlFor="kategoriSampel">Template Metode Uji</InputLabel>{" "}
                 <Select
                   value={kategoriSampel}
                   onChange={this.onChange('kategoriSampel')}
                   style={{width:400}}
                   name="kategoriSampel"
                 >
-                  <MenuItem value="Bahan Asal Hewan">Bahan Asal Hewan</MenuItem>
-                  <MenuItem value="Hasil Bahan Asal Hewan">Hasil Bahan Asal Hewan</MenuItem>
-                  <MenuItem value="Serum">Serum</MenuItem>
-                  <MenuItem value="Ulas Darah">Ulas Darah</MenuItem>
-                  <MenuItem value="Bahan Baku Pakan Ternak">Bahan Baku Pakan Ternak</MenuItem>
-                  <MenuItem value="Swab">Swab</MenuItem>
-                  <MenuItem value="Lain-lain">Lain-lain</MenuItem>            
+                  <MenuItem value="Metode 1">Metode 1</MenuItem>
+                  <MenuItem value="Metode 2">Metode 2</MenuItem>
+                  <MenuItem value="Metode 3">Metode 3</MenuItem>
+                  <MenuItem value="Metode 4">Metode 4</MenuItem>
+                  <MenuItem value="Metode 5">Metode 5</MenuItem>
+                  <MenuItem value="Metode 6">Metode 6</MenuItem>
+                  <MenuItem value="Metode 7">Metode 7</MenuItem>
+                  <MenuItem value="Metode 8">Metode 8</MenuItem>
+                  <MenuItem value="Metode 9">Metode 9</MenuItem>
+                  <MenuItem value="Metode 10">Metode 10</MenuItem>
+                  <MenuItem value="Metode 11">Metode 11</MenuItem>             
                 </Select>
-              </FormControl>
+              </FormControl> */}
               <TextField
                 autoFocus
                 margin="dense"
@@ -430,23 +434,27 @@ class FormSampleBase extends Component {
           <DialogContentText>
             Tambah Data
           </DialogContentText>
-          <FormControl style={{marginTop: 15}} variant="standard">
-            <InputLabel htmlFor="kategoriSampel">Kategori Sampel</InputLabel>{" "}
+          {/* <FormControl style={{marginTop: 15}} variant="standard">
+            <InputLabel htmlFor="kategoriSampel">Template Metode Uji</InputLabel>{" "}
             <Select
               value={kategoriSampel}
               onChange={this.onChange('kategoriSampel')}
               style={{width:400}}
               name="kategoriSampel"
             >
-              <MenuItem value="Bahan Asal Hewan">Bahan Asal Hewan</MenuItem>
-              <MenuItem value="Hasil Bahan Asal Hewan">Hasil Bahan Asal Hewan</MenuItem>
-              <MenuItem value="Serum">Serum</MenuItem>
-              <MenuItem value="Ulas Darah">Ulas Darah</MenuItem>
-              <MenuItem value="Bahan Baku Pakan Ternak">Bahan Baku Pakan Ternak</MenuItem>
-              <MenuItem value="Swab">Swab</MenuItem>
-              <MenuItem value="Lain-lain">Lain-lain</MenuItem>            
+              <MenuItem value="Metode 1">Metode 1</MenuItem>
+              <MenuItem value="Metode 2">Metode 2</MenuItem>
+              <MenuItem value="Metode 3">Metode 3</MenuItem>
+              <MenuItem value="Metode 4">Metode 4</MenuItem>
+              <MenuItem value="Metode 5">Metode 5</MenuItem>
+              <MenuItem value="Metode 6">Metode 6</MenuItem>
+              <MenuItem value="Metode 7">Metode 7</MenuItem>
+              <MenuItem value="Metode 8">Metode 8</MenuItem>
+              <MenuItem value="Metode 9">Metode 9</MenuItem>
+              <MenuItem value="Metode 10">Metode 10</MenuItem>
+              <MenuItem value="Metode 11">Metode 11</MenuItem>            
             </Select>
-          </FormControl>
+          </FormControl> */}
           <TextField
             autoFocus
             margin="dense"
