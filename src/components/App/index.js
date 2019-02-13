@@ -17,7 +17,7 @@ import Wilker_FormUjiSampel from '../Wilker/formUjiSampel';
 import MasterData_Sample from '../MasterData/sample';
 import MasterData_Pengujian from '../MasterData/pengujian';
 import MasterData_Wilker from '../MasterData/wilker';
-import AdminLab from '../Labs/formUjiSampel';
+import AdminLab from '../Labs/formUjiSampelAdminLab';
 import Analis from '../Labs/formUjiSampelAnalis';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';

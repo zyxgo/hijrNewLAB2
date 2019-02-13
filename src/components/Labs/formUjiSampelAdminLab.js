@@ -91,6 +91,7 @@ class SampelAllBase extends Component {
                 asalTujuanSampel: el.val().asalTujuanSampel,
                 petugasPengambilSampel: el.val().petugasPengambilSampel,
                 flagActivity: el.val().flagActivity,
+                flagActivityDetail: el.val().flagActivityDetail,
                 // zItems: el.val().zItems,
               })
             });
@@ -117,7 +118,7 @@ class SampelAllBase extends Component {
 
     handleSubmitKeAnalysis = propSample => {
       this.props.firebase.db.ref('samples/' + propSample).update({
-        flagActivity: 'Submit sampel ke admin lab'
+        flagActivity: 'Permohonan pengujian diteruskan ke analis'
       })
     }
 
@@ -136,7 +137,8 @@ class SampelAllBase extends Component {
                       <TableCell>Tanggal Masuk Sampel</TableCell>
                       <TableCell>Nama Pemilik Sampel</TableCell>
                       <TableCell>Asal Tujuan Sampel</TableCell>
-                      <TableCell>Action</TableCell>
+                      {/* <TableCell>Keterangan</TableCell> */}
+                      <TableCell colSpan={2}>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   {!loading && !!items && items.map((el, key) => 
@@ -146,6 +148,7 @@ class SampelAllBase extends Component {
                         <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
+                        {/* <TableCell>{el.flagActivity}</TableCell> */}
                         <TableCell>
                           <Button component={Link} 
                               to={{
@@ -156,13 +159,13 @@ class SampelAllBase extends Component {
                               Detail
                           </Button>
                         </TableCell>
-                        {/* <TableCell>
+                        <TableCell>
                           <Button variant="outlined" color="primary" onClick={() => this.handleSubmitKeAnalysis(el.idPermohonanUji)}
-                            // disabled={el.flagActivity === "Data sudah lengkap" ? false : true}
+                            disabled={el.flagActivityDetail === "Update detail by admin lab done" ? false : true}
                           >
-                            Teruskan ke petugas analysis
+                            Submit ke Analis
                           </Button>
-                        </TableCell> */}
+                        </TableCell>
                       </TableRow>
                   </TableBody>
                   )}
@@ -200,12 +203,16 @@ class SampelDetailBase extends Component {
       kondisiSampel: '',
       jenisPengujianSampel: '',
       ruangLingkupSampel: '',
+      unitPengujian: '',
       selectJenisPengujian: [],
       selectMetodePengujian: [],
+      selectUnitPengujian: [],
       tanggalTerimaSampelAdminLab: new Date(),
       PenerimaSampelAdminLab: '',
       ManajerTeknisAdminLab: '',
       ManajerAdministrasiAdminLab: '',
+      thisP: '',
+      thisQ: '',
       }; 
   }
 
@@ -247,22 +254,67 @@ class SampelDetailBase extends Component {
     this.setState({ open: false });
   };
 
+  handleClickOpen2 = () => {
+    this.setState({ open2: true });
+  };
+
+  handleClose2 = () => {
+    this.setState({ open2: false, unitPengujianSampel: '' });
+  };
+
   handleSubmit = () => {
     this.setState({ open: false });
       this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-        // kodeUnikSampel: this.state.kodeUnikSampel,
-        // tanggalMasukSampel: this.state.tanggalMasukSampel,
-        // nomorAgendaSurat: this.state.nomorAgendaSurat,
-        // namaPemilikSampel: this.state.namaPemilikSampel,
-        // alamatPemilikSampel: this.state.alamatPemilikSampel,
-        // asalTujuanSampel: this.state.asalTujuanSampel,
-        // petugasPengambilSampel: this.state.petugasPengambilSampel,
-        flagActivity: 'Permohonan pengujian diteruskan ke analis',
         tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab,
         PenerimaSampelAdminLab: this.state.PenerimaSampelAdminLab,
         ManajerTeknisAdminLab: this.state.ManajerTeknisAdminLab,
         ManajerAdministrasiAdminLab: this.state.ManajerAdministrasiAdminLab,  
       })
+  }
+
+  handleSubmit2 = () => {
+    this.setState({ open2: false });
+      this.props.firebase.db.ref('samples/' + this.state.thisP + '/zItems/' + this.state.thisQ).update({
+        unitPengujianSampel: this.state.unitPengujianSampel,
+      })
+      this.props.firebase.db.ref('samples/' + this.state.thisP).update({
+        flagActivityDetail: 'Update detail by admin lab done',
+      })
+  }
+
+  handleUbah2 = (p, q, r) => {
+    this.setState({ open2: true });
+    if (r === 'TPC' || r === 'RAPID TEST KIT') {
+      this.setState({
+        selectUnitPengujian: ['Mikrobiologi'],
+        thisP: p, thisQ: q
+      }) 
+    } else if (r === 'HA-HI/AI-ND') {
+      this.setState({
+        selectUnitPengujian: ['Virologi'],
+        thisP: p, thisQ: q
+      }) 
+    } else if (r === 'ELISA RABIES' || r === 'ELISA BVD' || r === 'ELISA PARATB' || r === 'RBT') {
+      this.setState({
+        selectUnitPengujian: ['Serologi'],
+        thisP: p, thisQ: q
+      }) 
+    } else if (r === 'PEWARNAAN GIEMSA' || r === 'MIKROSKOPIS') {
+      this.setState({
+        selectUnitPengujian: ['Parasitologi'],
+        thisP: p, thisQ: q
+      }) 
+    } else if (r === 'RT-PCR' || r === 'RT-DNA') {
+      this.setState({
+        selectUnitPengujian: ['Biomolekuler'],
+        thisP: p, thisQ: q
+      }) 
+    } else if (r === 'RESIDU NITRIT' || r === 'FEED CHECK') {
+      this.setState({
+        selectUnitPengujian: ['PSAH'],
+        thisP: p, thisQ: q
+      }) 
+    }
   }
 
   handleDateChange = date => {
@@ -275,17 +327,25 @@ class SampelDetailBase extends Component {
     });
   };
 
+  onChange2 = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
   render() {
     const { 
       // kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       // namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
       // jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, ruangLingkupSampel,
+      selectUnitPengujian, unitPengujianSampel,
       loading, items,
       tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab
       // selectJenisPengujian, selectMetodePengujian,
      } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '';
+    const isInvalid2 = unitPengujianSampel === '';
 
     return (
       <div>
@@ -316,7 +376,10 @@ class SampelDetailBase extends Component {
                       <TableCell>Jenis Sampel</TableCell>
                       <TableCell>Jumlah Sampel</TableCell>
                       <TableCell>Kondisi Sampel</TableCell>
-                      <TableCell>Jenis Pengujian</TableCell>
+                      <TableCell>Metode Pengujian</TableCell>
+                      <TableCell>Target Pengujian</TableCell>
+                      <TableCell>Unit Pengujian</TableCell>
+                      <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -325,7 +388,14 @@ class SampelDetailBase extends Component {
                         <TableCell>{el.zItems[el1].jenisSampel}</TableCell>
                         <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
                         <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
-                        <TableCell>{el.zItems[el1].jenisPengujianSampel}</TableCell>
+                        <TableCell>{el.zItems[el1].metodePengujianSampel}</TableCell>
+                        <TableCell>{el.zItems[el1].targetPengujianSampel}</TableCell>
+                        <TableCell>{el.zItems[el1].unitPengujianSampel}</TableCell>
+                        <TableCell>
+                          <Button variant="text" color="secondary" onClick={() => this.handleUbah2(el.idPermohonanUji, el1, el.zItems[el1].metodePengujianSampel)}>
+                            Ubah
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
@@ -393,6 +463,40 @@ class SampelDetailBase extends Component {
                   variant="outlined"
                   onClick={this.handleSubmit} 
                   disabled={isInvalid} 
+                  color="primary">
+                  Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={this.state.open2}
+              onClose={this.handleClose2}
+              aria-labelledby="form-dialog-title"
+              >
+              <DialogTitle id="form-dialog-title">Update Unit Pengujian Sampel</DialogTitle>
+              <DialogContent>
+                <FormControl style={{marginTop: 15}} variant="standard">
+                  <InputLabel htmlFor="unitPengujianSampel">Unit Pengujian Sampel</InputLabel>{" "}
+                  <Select
+                    value={unitPengujianSampel}
+                    onChange={this.onChange2('unitPengujianSampel')}
+                    name="unitPengujianSampel"
+                    style={{width:400}}
+                  >
+                    {!! selectUnitPengujian && selectUnitPengujian.map((elx, key) => 
+                        <MenuItem key={key} value={elx}>{elx}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+              </DialogContent>
+              <DialogActions>
+                <Button color="secondary" onClick={this.handleClose2}>
+                  Cancel
+                </Button>
+                <Button 
+                  variant="outlined"
+                  onClick={this.handleSubmit2} 
+                  disabled={isInvalid2} 
                   color="primary">
                   Submit
                 </Button>
