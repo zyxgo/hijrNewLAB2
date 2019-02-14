@@ -434,6 +434,7 @@ class FormSampleBase extends Component {
           <FormControl style={{marginTop: 15}} variant="standard">
             <InputLabel htmlFor="kategoriSample">Kategori Sampel</InputLabel>{" "}
             <Select
+              autoFocus
               value={kategoriSample}
               onChange={this.onChange('kategoriSample')}
               style={{width:400}}
@@ -449,7 +450,6 @@ class FormSampleBase extends Component {
             </Select>
           </FormControl>
           <TextField
-            autoFocus
             margin="dense"
             id="namaSample"
             label="Nama Sample"

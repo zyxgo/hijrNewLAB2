@@ -3,12 +3,12 @@ import 'firebase/auth';
 import 'firebase/database';
 
 const config = {
-    apiKey: "AIzaSyC04O3DtcTcx2QiX7GJQZrDQcg1b8H2rMw",
-    authDomain: "reactjsfirebase-ef94d.firebaseapp.com",
-    databaseURL: "https://reactjsfirebase-ef94d.firebaseio.com",
-    projectId: "reactjsfirebase-ef94d",
-    storageBucket: "reactjsfirebase-ef94d.appspot.com",
-    messagingSenderId: "688544737720"
+    apiKey: "AIzaSyBGvou4mkfskk6nXspzF22mkybyl7mSFv4",
+    authDomain: "appsimlab19.firebaseapp.com",
+    databaseURL: "https://appsimlab19.firebaseio.com",
+    projectId: "appsimlab19",
+    storageBucket: "appsimlab19.appspot.com",
+    messagingSenderId: "1060073229678"
   };
 
   class Firebase {
