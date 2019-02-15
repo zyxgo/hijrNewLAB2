@@ -76,7 +76,7 @@ class PengujianAllBase extends Component {
                 jenisPengujian: el.val().jenisPengujian,
                 metodePengujian: el.val().metodePengujian,
                 targetPengujian: el.val().targetPengujian,
-                kategoriSampel: el.val().kategoriSampel,
+                // kategoriSampel: el.val().kategoriSampel,
               })
             });
             this.setState({ 
@@ -111,7 +111,7 @@ class PengujianAllBase extends Component {
           jenisPengujian: propSample[0].jenisPengujian,
           metodePengujian: propSample[0].metodePengujian,
           targetPengujian: propSample[0].targetPengujian,
-          kategoriSampel: propSample[0].kategoriSampel,
+          // kategoriSampel: propSample[0].kategoriSampel,
         })
       }}
     }
@@ -191,7 +191,7 @@ class PengujianDetailBase extends Component {
       jenisPengujian: '',
       metodePengujian: '',
       targetPengujian: '',
-      kategoriSampel: '',
+      // kategoriSampel: '',
       }; 
   }
 
@@ -211,7 +211,7 @@ class PengujianDetailBase extends Component {
             jenisPengujian: snap.val().jenisPengujian,
             metodePengujian: snap.val().metodePengujian,
             targetPengujian: snap.val().targetPengujian,
-            kategoriSampel: snap.val().kategoriSampel,
+            // kategoriSampel: snap.val().kategoriSampel,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -237,7 +237,7 @@ class PengujianDetailBase extends Component {
         jenisPengujian: this.state.jenisPengujian,
         metodePengujian: this.state.metodePengujian,
         targetPengujian: this.state.targetPengujian,
-        kategoriSampel: this.state.kategoriSampel,
+        // kategoriSampel: this.state.kategoriSampel,
       })
   }
 
@@ -249,7 +249,7 @@ class PengujianDetailBase extends Component {
 
   render() {
     const { loading, jenisPengujian, metodePengujian, targetPengujian, kategoriSampel, items } = this.state;
-    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '' || kategoriSampel === '';
+    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '';
     return (
       <div>
           <h2>Detail Sample</h2>
@@ -380,7 +380,7 @@ class FormSampleBase extends Component {
       jenisPengujian: '',
       metodePengujian: '',
       targetPengujian: '',
-      kategoriSampel: '',
+      // kategoriSampel: '',
       error: null,
     }; 
   }
@@ -397,14 +397,14 @@ class FormSampleBase extends Component {
       jenisPengujian: this.state.jenisPengujian,
       metodePengujian: this.state.metodePengujian,
       targetPengujian: this.state.targetPengujian,
-      kategoriSampel: this.state.kategoriSampel,
+      // kategoriSampel: this.state.kategoriSampel,
     })
     this.props.handleSubmit(a);
     this.setState({ 
       jenisPengujian: '',
       metodePengujian: '',
       targetPengujian: '',
-      kategoriSampel: '',
+      // kategoriSampel: '',
      })
   }
 
@@ -414,14 +414,14 @@ class FormSampleBase extends Component {
       jenisPengujian: '',
       metodePengujian: '',
       targetPengujian: '',
-      kategoriSampel: '',
+      // kategoriSampel: '',
      })
   }
 
 
   render() {
     const { jenisPengujian, metodePengujian, targetPengujian, kategoriSampel } = this.state;
-    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '' || kategoriSampel === '';
+    const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '';
 
     return (
       <Dialog

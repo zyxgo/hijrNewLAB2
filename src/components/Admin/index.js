@@ -220,9 +220,10 @@ class UserItemBase extends Component {
     this.setState({ open: false });
     const roles = [];
     roles.push(this.state.roles);
+    // console.log(roles[0]);
     this.props.firebase.db.ref('users/' + this.props.match.params.id).update({
       area: this.state.area,
-      roles,
+      roles: [roles[0]],
     })
   }
 
