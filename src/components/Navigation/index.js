@@ -42,6 +42,7 @@ const NavigationAuth = ({authUser}) => (
             <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATASAMPLE}>Master Data Sample</Button>
             <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATAPENGUJIAN}>Master Data Pengujian</Button>
             <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATA_WILKER}>Master Data Wilker</Button>
+            <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATA_BAHAN}>Master Data Bahan</Button>
             <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ACCOUNT}>Account</Button>
             <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMIN}>Admin</Button>
           </div>

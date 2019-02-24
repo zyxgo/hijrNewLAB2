@@ -19,6 +19,7 @@ import MasterData_Pengujian from '../MasterData/pengujian';
 import MasterData_Wilker from '../MasterData/wilker';
 import AdminLab from '../Labs/formUjiSampelAdminLab';
 import Analis from '../Labs/formUjiSampelAnalis';
+import MasterData_Bahan from '../MasterData/bahan';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
@@ -37,6 +38,7 @@ const App = () => (
       <Route path={ROUTES.MASTERDATASAMPLE} component={MasterData_Sample} />
       <Route path={ROUTES.MASTERDATAPENGUJIAN} component={MasterData_Pengujian} />
       <Route path={ROUTES.MASTERDATA_WILKER} component={MasterData_Wilker} />
+      <Route path={ROUTES.MASTERDATA_BAHAN} component={MasterData_Bahan} />
       <Route path={ROUTES.ADMINLAB} component={AdminLab} />
       <Route path={ROUTES.ANALIS} component={Analis} />
     </div>
