@@ -92,6 +92,7 @@ class SampelAllBase extends Component {
                 petugasPengambilSampel: el.val().petugasPengambilSampel,
                 flagActivity: el.val().flagActivity,
                 flagActivityDetail: el.val().flagActivityDetail,
+                flagStatusProses: el.val().flagStatusProses,
                 // zItems: el.val().zItems,
               })
             });
@@ -118,7 +119,8 @@ class SampelAllBase extends Component {
 
     handleSubmitKeAnalysis = propSample => {
       this.props.firebase.db.ref('samples/' + propSample).update({
-        flagActivity: 'Permohonan pengujian diteruskan ke analis'
+        flagActivity: 'Permohonan pengujian diteruskan ke analis',
+        flagStatusProses: 'Sampel di Analis'
       })
     }
 
@@ -137,7 +139,7 @@ class SampelAllBase extends Component {
                       <TableCell>Tanggal Masuk Sampel</TableCell>
                       <TableCell>Nama Pemilik Sampel</TableCell>
                       <TableCell>Asal Tujuan Sampel</TableCell>
-                      {/* <TableCell>Keterangan</TableCell> */}
+                      <TableCell>Status</TableCell>
                       <TableCell colSpan={2}>Action</TableCell>
                     </TableRow>
                   </TableHead>
@@ -148,7 +150,7 @@ class SampelAllBase extends Component {
                         <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
-                        {/* <TableCell>{el.flagActivity}</TableCell> */}
+                        <TableCell>{el.flagStatusProses}</TableCell>
                         <TableCell>
                           <Button component={Link} 
                               to={{

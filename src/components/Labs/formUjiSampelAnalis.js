@@ -75,8 +75,8 @@ class SampelAllBase extends Component {
     componentDidMount() {
       this.setState({ loading: true });
       this.props.firebase.db.ref('samples')
-        .orderByChild('flagActivity')
-        .equalTo('Permohonan pengujian diteruskan ke analis')
+        .orderByChild('flagStatusProses')
+        .equalTo('Sampel di Analis')
         .on('value', snap => {
           if(snap.val()) {
             const a = [];
@@ -91,6 +91,7 @@ class SampelAllBase extends Component {
                 asalTujuanSampel: el.val().asalTujuanSampel,
                 petugasPengambilSampel: el.val().petugasPengambilSampel,
                 flagActivity: el.val().flagActivity,
+                flagStatusProses: el.val().flagStatusProses,
               })
             });
             this.setState({ 
@@ -135,6 +136,7 @@ class SampelAllBase extends Component {
                       <TableCell>Tanggal Masuk Sampel</TableCell>
                       <TableCell>Nama Pemilik Sampel</TableCell>
                       <TableCell>Asal Tujuan Sampel</TableCell>
+                      <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
@@ -145,6 +147,7 @@ class SampelAllBase extends Component {
                         <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
+                        <TableCell>{el.flagStatusProses}<br />{el.flagActivity}</TableCell>
                         <TableCell>
                           <Button component={Link} 
                               to={{
@@ -208,6 +211,7 @@ class SampelDetailBase extends Component {
       selectTargetPengujianSampel: '',  
       thisP: '',
       thisQ: '',
+      //tanggalBahanTerpakai: '',
       }; 
   }
 
@@ -265,6 +269,8 @@ class SampelDetailBase extends Component {
         managerAdministrasiAnalis: this.state.managerAdministrasiAnalis,
         penyeliaAnalis: this.state.penyeliaAnalis,
         namaAnalis: this.state.namaAnalis,
+        flagActivity: 'Permohonan pengujian selesai di analisa',
+        // flagStatusProses: 'Sampel selesai di proses',
       })
   }
 
@@ -276,6 +282,9 @@ class SampelDetailBase extends Component {
       this.props.firebase.db.ref('samples/' + this.state.thisP + '/zItems/' + this.state.thisQ).update({
         hasilUjiSampel: this.state.hasilUjiSampel,
         keteranganSampel: this.state.keteranganSampel,
+      })
+      this.props.firebase.db.ref('bahanTerpakai/' + this.state.thisQ).update({
+        tanggalBahanTerpakai: new Date(),
       })
       this.setState({
         hasilUjiSampel: '',
