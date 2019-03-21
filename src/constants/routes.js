@@ -20,6 +20,7 @@ export const ADMINLAB = '/adminlab';
 export const ADMINLAB_DETAIL = '/adminlab/:id';
 export const ANALIS = '/analis';
 export const ANALIS_DETAIL = '/analis/:id';
+export const ANALIS_ALATBAHAN = '/analis-alat-bahan';
 export const MASTERDATA_BAHAN = '/masterdata-bahan';
 export const MASTERDATA_BAHANDETAIL = '/masterdata-bahan/:id';
 

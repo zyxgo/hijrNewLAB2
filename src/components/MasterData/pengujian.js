@@ -20,10 +20,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import FormControl from '@material-ui/core/FormControl';
+// import Select from '@material-ui/core/Select';
 
 
 class MainSampleBase extends Component {
@@ -248,7 +248,7 @@ class PengujianDetailBase extends Component {
   };
 
   render() {
-    const { loading, jenisPengujian, metodePengujian, targetPengujian, kategoriSampel, items } = this.state;
+    const { loading, jenisPengujian, metodePengujian, targetPengujian, items } = this.state;
     const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '';
     return (
       <div>
@@ -420,7 +420,7 @@ class FormSampleBase extends Component {
 
 
   render() {
-    const { jenisPengujian, metodePengujian, targetPengujian, kategoriSampel } = this.state;
+    const { jenisPengujian, metodePengujian, targetPengujian } = this.state;
     const isInvalid = jenisPengujian === '' || metodePengujian === '' || targetPengujian === '';
 
     return (

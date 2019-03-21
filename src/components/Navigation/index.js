@@ -35,7 +35,10 @@ const NavigationAuth = ({authUser}) => (
           <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMINLAB}>Admin Lab</Button>
         )}  
         {(authUser.roles.includes(ROLES.ANALIS) )&& (
-          <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ANALIS}>Analis</Button>
+          <div>
+            <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ANALIS}>Analis</Button>
+            <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ANALIS_ALATBAHAN}>Alat Bahan</Button>
+          </div>
         )}        
         {authUser.roles.includes(ROLES.ADMIN) && (
           <div>

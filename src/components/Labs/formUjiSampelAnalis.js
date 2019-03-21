@@ -211,6 +211,7 @@ class SampelDetailBase extends Component {
       selectTargetPengujianSampel: '',  
       thisP: '',
       thisQ: '',
+      thisR: '',
       //tanggalBahanTerpakai: '',
       }; 
   }
@@ -276,30 +277,79 @@ class SampelDetailBase extends Component {
 
   handleSubmit2 = () => {
     this.setState({ open2: false });
-      this.props.firebase.db.ref('samples/' + this.state.thisP).update({
-        flagActivityDetail: 'Permohonan pengujian selesai di analisa'
-      })
-      this.props.firebase.db.ref('samples/' + this.state.thisP + '/zItems/' + this.state.thisQ).update({
-        hasilUjiSampel: this.state.hasilUjiSampel,
-        keteranganSampel: this.state.keteranganSampel,
-      })
-      this.props.firebase.db.ref('bahanTerpakai/' + this.state.thisQ).update({
-        tanggalBahanTerpakai: new Date(),
-      })
-      this.setState({
-        hasilUjiSampel: '',
-        keteranganSampel: '',
-      })
+      // this.props.firebase.db.ref('samples/' + this.state.thisP).update({
+      //   flagActivityDetail: 'Permohonan pengujian selesai di analisa'
+      // })
+      // this.props.firebase.db.ref('samples/' + this.state.thisP + '/zItems/' + this.state.thisQ).update({
+      //   hasilUjiSampel: this.state.hasilUjiSampel,
+      //   keteranganSampel: this.state.keteranganSampel,
+      // })
+      
+      // this.setState({
+      //   hasilUjiSampel: '',
+      //   keteranganSampel: '',
+      // })
+      this.props.firebase.db.ref('samples/' + this.state.thisP + '/zItems/' + this.state.thisQ + '/bahan')
+        .once('value', snap => {
+          const a = [];
+          snap.forEach(el => {
+            a.push(el.val())
+          })
+          this.props.firebase.db.ref('bahanAlatTerpakai')
+            .orderByChild('pengujian')
+            .equalTo('TPC')
+            .once('value', snap1 => {
+              if(snap1.val()) {
+                // update data
+                const b = [];
+                snap1.forEach(el => {
+                  b.push(el.val())
+                });
+                const c = []
+                c.push(JSON.parse(b[0].item))
+                const d = {}
+                  d['AQUADEST'] = parseInt(a[0].AQUADEST,10) + parseInt(c[0].AQUADEST,10)
+                  d['BPW'] = parseInt(a[0].BPW,10) + parseInt(c[0].BPW,10)
+                  d['CAWAN_PETRI'] = parseInt(a[0].CAWAN_PETRI,10) + parseInt(c[0].CAWAN_PETRI,10)
+                  d['COLONY_COUNTER'] = parseInt(a[0].COLONY_COUNTER,10) + parseInt(c[0].COLONY_COUNTER,10)
+                  d['FINTIPP'] = parseInt(a[0].FINTIPP,10) + parseInt(c[0].FINTIPP,10)
+                  d['HOT_PLASTER_STIRER'] = parseInt(a[0].HOT_PLASTER_STIRER,10) + parseInt(c[0].HOT_PLASTER_STIRER,10)
+                  d['INKUBATOR'] = parseInt(a[0].INKUBATOR,10) + parseInt(c[0].INKUBATOR,10)
+                  d['KERTAS_TIMBANG'] = parseInt(a[0].KERTAS_TIMBANG,10) + parseInt(c[0].KERTAS_TIMBANG,10)
+                  d['LAMINAR_AIRFLOW'] = parseInt(a[0].LAMINAR_AIRFLOW,10) + parseInt(c[0].LAMINAR_AIRFLOW,10)
+                  d['MICROWAVE'] = parseInt(a[0].MICROWAVE,10) + parseInt(c[0].MICROWAVE,10)
+                  d['PCA'] = parseInt(a[0].PCA,10) + parseInt(c[0].PCA,10)
+                  d['PH_METER'] = parseInt(a[0].PH_METER,10) + parseInt(c[0].PH_METER,10)
+                  d['PLASTIK_SAMPEL'] = parseInt(a[0].PLASTIK_SAMPEL,10) + parseInt(c[0].PLASTIK_SAMPEL,10)
+                  d['PLASTIK_STOMACHER'] = parseInt(a[0].PLASTIK_STOMACHER,10) + parseInt(c[0].PLASTIK_STOMACHER,10)
+                  d['SCALPEL'] = parseInt(a[0].SCALPEL,10) + parseInt(c[0].SCALPEL,10)
+                  d['STOMACHER'] = parseInt(a[0].STOMACHER,10) + parseInt(c[0].STOMACHER,10)
+                  d['TABUNG_REAKSI'] = parseInt(a[0].TABUNG_REAKSI,10) + parseInt(c[0].TABUNG_REAKSI,10)
+                  d['TIMBANGAN_ELEKTRIK'] = parseInt(a[0].TIMBANGAN_ELEKTRIK,10) + parseInt(c[0].TIMBANGAN_ELEKTRIK,10)
+                  d['VORTEX'] = parseInt(a[0].VORTEX,10) + parseInt(c[0].VORTEX,10)
+                this.props.firebase.db.ref('bahanAlatTerpakai/' + Object.keys(snap1.val())[0]).update({
+                  item: JSON.stringify(d),
+                })
+              } else {
+                // new data
+                const z = this.props.firebase.db.ref('bahanAlatTerpakai').push();
+                this.props.firebase.db.ref('bahanAlatTerpakai/' + z.key).update({
+                  item: JSON.stringify(a[0]),
+                  pengujian: this.state.thisR,
+                  tanggalSelesaiAnalisa: new Date,
+                })
+              } 
+            })
+          // console.log(a[0].AQUADEST);
+        })
+
   }
 
   updateHasilPengujian = (p, q, r) => {
     this.setState({ open2: true });
-    // if (r === '') {
       this.setState({
-        // targetPengujianSampel: [],
-        thisP: p, thisQ: q,
+        thisP: p, thisQ: q, thisR: r,
       })
-    // }
   };
 
   handleDateChange = date => {
@@ -379,7 +429,7 @@ class SampelDetailBase extends Component {
                         <TableCell>{el.zItems[el1].unitPengujianSampel}</TableCell>
                         <TableCell>{el.zItems[el1].hasilUjiSampel}</TableCell>
                         <TableCell>
-                          <Button variant="outlined" color="primary" onClick={() => this.updateHasilPengujian(el.idPermohonanUji, el1, el.zItems[el1].unitPengujianSampel)}>
+                          <Button variant="outlined" color="primary" onClick={() => this.updateHasilPengujian(el.idPermohonanUji, el1, el.zItems[el1].metodePengujianSampel)}>
                             Update hasil
                           </Button>
                         </TableCell>
