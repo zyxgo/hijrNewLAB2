@@ -499,66 +499,36 @@ class SampelDetailBase extends Component {
           AQUADEST: '72', PBS_TWEEN: '8', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '3,2', STOP_SOLUTION: '3,2', 
           VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
-            AQUADEST: '72', PBS_TWEEN: '8', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '3,2', STOP_SOLUTION: '3,2', 
-            VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) > 8 && parseInt(this.state.jumlahSampel, 10) <= 16 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
           AQUADEST: '81', PBS_TWEEN: '9', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '4,8', STOP_SOLUTION: '4,8', 
           VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
-            AQUADEST: '81', PBS_TWEEN: '9', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '4,8', STOP_SOLUTION: '4,8', 
-            VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) > 16 && parseInt(this.state.jumlahSampel, 10) <= 24 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
           AQUADEST: '90', PBS_TWEEN: '10', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '6,4', STOP_SOLUTION: '6,4', 
           VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
-            AQUADEST: '90', PBS_TWEEN: '10', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '6,4', STOP_SOLUTION: '6,4', 
-            VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) > 24 && parseInt(this.state.jumlahSampel, 10) <= 32 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
           AQUADEST: '99', PBS_TWEEN: '11', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '8,0', STOP_SOLUTION: '8,0', 
           VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
-            AQUADEST: '99', PBS_TWEEN: '11', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '8,0', STOP_SOLUTION: '8,0', 
-            VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) > 32 && parseInt(this.state.jumlahSampel, 10) <= 40 ) {
         this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
           AQUADEST: '108', PBS_TWEEN: '12', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '9,6', STOP_SOLUTION: '9,6', 
           VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
-            AQUADEST: '108', PBS_TWEEN: '12', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '9,6', STOP_SOLUTION: '9,6', 
-            VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) > 40 && parseInt(this.state.jumlahSampel, 10) <= 46 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
           AQUADEST: '117', PBS_TWEEN: '13', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '11,2', STOP_SOLUTION: '11,2', 
           VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'ELISA',
-            AQUADEST: '117', PBS_TWEEN: '13', K_POS: '0,010', K_NEG: '0,0025', ST_1_EU: '0,0025', KONJUGAT: '0,0005', SUBSTRAK: '11,2', STOP_SOLUTION: '11,2', 
-            VORTEX: '0', ELISA_READER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0'
-          })
       }
     } else if ( this.state.metodePengujianSampel === 'TPC' ) {
       if (parseInt(this.state.jumlahSampel, 10) === 1 ) {
@@ -567,40 +537,20 @@ class SampelDetailBase extends Component {
           AQUADEST: '400', BPW: '8', PCA: '3', TABUNG_REAKSI: '3', CAWAN_PETRI: '8', KERTAS_TIMBANG: '1', PLASTIK_STOMACHER: '1', PLASTIK_SAMPEL: '1', FINTIPP: '7', SCALPEL: '1', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '400', BPW: '8', PCA: '3', TABUNG_REAKSI: '3', CAWAN_PETRI: '8', KERTAS_TIMBANG: '1', PLASTIK_STOMACHER: '1', PLASTIK_SAMPEL: '1', FINTIPP: '7', SCALPEL: '1', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 2 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '800', BPW: '16', PCA: '6', TABUNG_REAKSI: '6', CAWAN_PETRI: '14', KERTAS_TIMBANG: '2', PLASTIK_STOMACHER: '2', PLASTIK_SAMPEL: '2', FINTIPP: '14', SCALPEL: '2', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '800', BPW: '16', PCA: '6', TABUNG_REAKSI: '6', CAWAN_PETRI: '14', KERTAS_TIMBANG: '2', PLASTIK_STOMACHER: '2', PLASTIK_SAMPEL: '2', FINTIPP: '14', SCALPEL: '2', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 3 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '1200', BPW: '24', PCA: '9', TABUNG_REAKSI: '9', CAWAN_PETRI: '20', KERTAS_TIMBANG: '3', PLASTIK_STOMACHER: '3', PLASTIK_SAMPEL: '3', FINTIPP: '21', SCALPEL: '3', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '1200', BPW: '24', PCA: '9', TABUNG_REAKSI: '9', CAWAN_PETRI: '20', KERTAS_TIMBANG: '3', PLASTIK_STOMACHER: '3', PLASTIK_SAMPEL: '3', FINTIPP: '21', SCALPEL: '3', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 4 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
-          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-          AQUADEST: '1600', BPW: '32', PCA: '12', TABUNG_REAKSI: '12', CAWAN_PETRI: '26', KERTAS_TIMBANG: '4', PLASTIK_STOMACHER: '4', PLASTIK_SAMPEL: '4', FINTIPP: '28', SCALPEL: '4', 
-          TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-        })
-        this.props.firebase.db.ref(bahanTerpakaiUrl).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '1600', BPW: '32', PCA: '12', TABUNG_REAKSI: '12', CAWAN_PETRI: '26', KERTAS_TIMBANG: '4', PLASTIK_STOMACHER: '4', PLASTIK_SAMPEL: '4', FINTIPP: '28', SCALPEL: '4', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
@@ -611,90 +561,411 @@ class SampelDetailBase extends Component {
           AQUADEST: '2000', BPW: '40', PCA: '15', TABUNG_REAKSI: '15', CAWAN_PETRI: '32', KERTAS_TIMBANG: '5', PLASTIK_STOMACHER: '5', PLASTIK_SAMPEL: '5', FINTIPP: '35', SCALPEL: '5', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '2000', BPW: '40', PCA: '15', TABUNG_REAKSI: '15', CAWAN_PETRI: '32', KERTAS_TIMBANG: '5', PLASTIK_STOMACHER: '5', PLASTIK_SAMPEL: '5', FINTIPP: '35', SCALPEL: '5', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 6 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '2400', BPW: '48', PCA: '18', TABUNG_REAKSI: '18', CAWAN_PETRI: '38', KERTAS_TIMBANG: '6', PLASTIK_STOMACHER: '6', PLASTIK_SAMPEL: '6', FINTIPP: '42', SCALPEL: '6', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '2400', BPW: '48', PCA: '18', TABUNG_REAKSI: '18', CAWAN_PETRI: '38', KERTAS_TIMBANG: '6', PLASTIK_STOMACHER: '6', PLASTIK_SAMPEL: '6', FINTIPP: '42', SCALPEL: '6', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 7 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '2800', BPW: '56', PCA: '21', TABUNG_REAKSI: '21', CAWAN_PETRI: '44', KERTAS_TIMBANG: '7', PLASTIK_STOMACHER: '7', PLASTIK_SAMPEL: '7', FINTIPP: '49', SCALPEL: '7', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '2800', BPW: '56', PCA: '21', TABUNG_REAKSI: '21', CAWAN_PETRI: '44', KERTAS_TIMBANG: '7', PLASTIK_STOMACHER: '7', PLASTIK_SAMPEL: '7', FINTIPP: '49', SCALPEL: '7', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 8 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '3200', BPW: '64', PCA: '24', TABUNG_REAKSI: '24', CAWAN_PETRI: '50', KERTAS_TIMBANG: '8', PLASTIK_STOMACHER: '8', PLASTIK_SAMPEL: '8', FINTIPP: '56', SCALPEL: '8', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '3200', BPW: '64', PCA: '24', TABUNG_REAKSI: '24', CAWAN_PETRI: '50', KERTAS_TIMBANG: '8', PLASTIK_STOMACHER: '8', PLASTIK_SAMPEL: '8', FINTIPP: '56', SCALPEL: '8', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 9 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '3600', BPW: '72', PCA: '27', TABUNG_REAKSI: '27', CAWAN_PETRI: '56', KERTAS_TIMBANG: '9', PLASTIK_STOMACHER: '9', PLASTIK_SAMPEL: '9', FINTIPP: '63', SCALPEL: '9', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '3600', BPW: '72', PCA: '27', TABUNG_REAKSI: '27', CAWAN_PETRI: '56', KERTAS_TIMBANG: '9', PLASTIK_STOMACHER: '9', PLASTIK_SAMPEL: '9', FINTIPP: '63', SCALPEL: '9', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 10 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '4000', BPW: '80', PCA: '30', TABUNG_REAKSI: '30', CAWAN_PETRI: '62', KERTAS_TIMBANG: '10', PLASTIK_STOMACHER: '10', PLASTIK_SAMPEL: '10', FINTIPP: '70', SCALPEL: '10', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '4000', BPW: '80', PCA: '30', TABUNG_REAKSI: '30', CAWAN_PETRI: '62', KERTAS_TIMBANG: '10', PLASTIK_STOMACHER: '10', PLASTIK_SAMPEL: '10', FINTIPP: '70', SCALPEL: '10', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 11 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '4400', BPW: '88', PCA: '33', TABUNG_REAKSI: '33', CAWAN_PETRI: '68', KERTAS_TIMBANG: '11', PLASTIK_STOMACHER: '11', PLASTIK_SAMPEL: '11', FINTIPP: '77', SCALPEL: '11', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '4400', BPW: '88', PCA: '33', TABUNG_REAKSI: '33', CAWAN_PETRI: '68', KERTAS_TIMBANG: '11', PLASTIK_STOMACHER: '11', PLASTIK_SAMPEL: '11', FINTIPP: '77', SCALPEL: '11', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       } else if (parseInt(this.state.jumlahSampel, 10) === 12 ) {
         this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
           idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
           AQUADEST: '4800', BPW: '96', PCA: '36', TABUNG_REAKSI: '36', CAWAN_PETRI: '74', KERTAS_TIMBANG: '12', PLASTIK_STOMACHER: '12', PLASTIK_SAMPEL: '12', FINTIPP: '84', SCALPEL: '12', 
           TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
         })
-          this.props.firebase.db.ref(bahanTerpakaiUrl).update({
-            idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'TPC',
-            AQUADEST: '4800', BPW: '96', PCA: '36', TABUNG_REAKSI: '36', CAWAN_PETRI: '74', KERTAS_TIMBANG: '12', PLASTIK_STOMACHER: '12', PLASTIK_SAMPEL: '12', FINTIPP: '84', SCALPEL: '12', 
-            TIMBANGAN_ELEKTRIK: '0', STOMACHER: '0', HOT_PLATE_STIRER: '0', MICROWAVE: '0', VORTEX: '0', PH_METER: '0', INKUBATOR: '0', LAMINAR_AIRFLOW: '0', COLONY_COUNTER: '0'
-          })
       }
-
+    } else if ( this.state.metodePengujianSampel === 'RAPID TEST KIT' && this.state.targetPengujianSampel === 'Salmonella' ) {
+      if (parseInt(this.state.jumlahSampel, 10) === 1 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 300, BPW: 8, KIT_SALMONELLA: 1, PLASTIK_STOMACHER: 1, JUMLAH_FINTIPP: 1, JUMLAH_SCALPEL: 1, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 2 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 600, BPW: 16, KIT_SALMONELLA: 2, PLASTIK_STOMACHER: 2, JUMLAH_FINTIPP: 2, JUMLAH_SCALPEL: 2, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 3 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 900, BPW: 24, KIT_SALMONELLA: 3, PLASTIK_STOMACHER: 3, JUMLAH_FINTIPP: 3, JUMLAH_SCALPEL: 3, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 4 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 1200, BPW: 32, KIT_SALMONELLA: 4, PLASTIK_STOMACHER: 4, JUMLAH_FINTIPP: 4, JUMLAH_SCALPEL: 4, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 5 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 1500, BPW: 40, KIT_SALMONELLA: 5, PLASTIK_STOMACHER: 5, JUMLAH_FINTIPP: 5, JUMLAH_SCALPEL: 5, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 6 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 1800, BPW: 48, KIT_SALMONELLA: 6, PLASTIK_STOMACHER: 6, JUMLAH_FINTIPP: 6, JUMLAH_SCALPEL: 6, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 7 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 2100, BPW: 56, KIT_SALMONELLA: 7, PLASTIK_STOMACHER: 7, JUMLAH_FINTIPP: 7, JUMLAH_SCALPEL: 7, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 8 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 2400, BPW: 64, KIT_SALMONELLA: 8, PLASTIK_STOMACHER: 8, JUMLAH_FINTIPP: 8, JUMLAH_SCALPEL: 8, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 9 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 2700, BPW: 72, KIT_SALMONELLA: 9, PLASTIK_STOMACHER: 9, JUMLAH_FINTIPP: 9, JUMLAH_SCALPEL: 9, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 10 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 3000, BPW: 80, KIT_SALMONELLA: 10, PLASTIK_STOMACHER: 10, JUMLAH_FINTIPP: 10, JUMLAH_SCALPEL: 10, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 11 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 3300, BPW: 88, KIT_SALMONELLA: 11, PLASTIK_STOMACHER: 11, JUMLAH_FINTIPP: 11, JUMLAH_SCALPEL: 11, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 12 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 3600, BPW: 96, KIT_SALMONELLA: 12, PLASTIK_STOMACHER: 12, JUMLAH_FINTIPP: 12, JUMLAH_SCALPEL: 12, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 13 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 3900, BPW: 104, KIT_SALMONELLA: 13, PLASTIK_STOMACHER: 13, JUMLAH_FINTIPP: 13, JUMLAH_SCALPEL: 13, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 14 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 4200, BPW: 112, KIT_SALMONELLA: 14, PLASTIK_STOMACHER: 14, JUMLAH_FINTIPP: 14, JUMLAH_SCALPEL: 14, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 15 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_SALMONELLA',
+          AQUADEST: 4500, BPW: 120, KIT_SALMONELLA: 15, PLASTIK_STOMACHER: 15, JUMLAH_FINTIPP: 15, JUMLAH_SCALPEL: 15, 
+          MIKROPIPETTE: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      }
+    } else if ( this.state.metodePengujianSampel === 'RT-PCR' ) {
+      if (parseInt(this.state.jumlahSampel, 10) === 1 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 7.75, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 12.5, PRIMER_AL_F: 1, PRIMER_AL_R: 1, PROB_AL: 0.5, QUANTITECH_RT_MIX: 0.25, RNA_AVE: 5.6, 
+          BUFFER_AVL: 560, BUFFER_AW1: 500, BUFFER_AW2: 500, BUFFER_AVE: 60, ETHANOL_96_100: 560, TUBE_2ML: 4, QIACUBE: 1, FINTIPP: 6,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 2 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 15.5, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 25, PRIMER_AL_F: 2, PRIMER_AL_R: 2, PROB_AL: 1.0, QUANTITECH_RT_MIX: 0.50, RNA_AVE: 11.20, 
+          BUFFER_AVL: 1120, BUFFER_AW1: 1000, BUFFER_AW2: 500, BUFFER_AVE: 120, ETHANOL_96_100: 1120, TUBE_2ML: 8, QIACUBE: 1, FINTIPP: 12,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 3 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 23.5, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 38, PRIMER_AL_F: 3, PRIMER_AL_R: 3, PROB_AL: 1.5, QUANTITECH_RT_MIX: 0.75, RNA_AVE: 16.80, 
+          BUFFER_AVL: 1680, BUFFER_AW1: 1500, BUFFER_AW2: 1500, BUFFER_AVE: 180, ETHANOL_96_100: 1680, TUBE_2ML: 12, QIACUBE: 2, FINTIPP: 18,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 4 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 31, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 50, PRIMER_AL_F: 4, PRIMER_AL_R: 4, PROB_AL: 2.0, QUANTITECH_RT_MIX: 1.00, RNA_AVE: 22.40, 
+          BUFFER_AVL: 2240, BUFFER_AW1: 2000, BUFFER_AW2: 2000, BUFFER_AVE: 240, ETHANOL_96_100: 2240, TUBE_2ML: 16, QIACUBE: 3, FINTIPP: 24,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 5 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 38.75, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 63, PRIMER_AL_F: 5, PRIMER_AL_R: 5, PROB_AL: 2.5, QUANTITECH_RT_MIX: 1.25, RNA_AVE: 28.00, 
+          BUFFER_AVL: 2800, BUFFER_AW1: 2500, BUFFER_AW2: 2500, BUFFER_AVE: 300, ETHANOL_96_100: 2800, TUBE_2ML: 20, QIACUBE: 8, FINTIPP: 30,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 6 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 46.5, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 75, PRIMER_AL_F: 6, PRIMER_AL_R: 6, PROB_AL: 3.0, QUANTITECH_RT_MIX: 1.50, RNA_AVE: 33.60, 
+          BUFFER_AVL: 3360, BUFFER_AW1: 3000, BUFFER_AW2: 3000, BUFFER_AVE: 360, ETHANOL_96_100: 3360, TUBE_2ML: 24, QIACUBE: 23, FINTIPP: 36,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 7 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 54.25, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 88, PRIMER_AL_F: 7, PRIMER_AL_R: 7, PROB_AL: 3.5, QUANTITECH_RT_MIX: 1.75, RNA_AVE: 39.20, 
+          BUFFER_AVL: 3920, BUFFER_AW1: 3500, BUFFER_AW2: 3500, BUFFER_AVE: 420, ETHANOL_96_100: 3920, TUBE_2ML: 28, QIACUBE: 79, FINTIPP: 42,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 8 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 62, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 100, PRIMER_AL_F: 8, PRIMER_AL_R: 8, PROB_AL: 4.0, QUANTITECH_RT_MIX: 2.00, RNA_AVE: 44.80, 
+          BUFFER_AVL: 4480, BUFFER_AW1: 4000, BUFFER_AW2: 4000, BUFFER_AVE: 480, ETHANOL_96_100: 4480, TUBE_2ML: 32, QIACUBE: 315, FINTIPP: 48,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 9 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 69.75, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 113, PRIMER_AL_F: 9, PRIMER_AL_R: 9, PROB_AL: 4.5, QUANTITECH_RT_MIX: 2.25, RNA_AVE: 50.40, 
+          BUFFER_AVL: 5040, BUFFER_AW1: 4500, BUFFER_AW2: 4500, BUFFER_AVE: 540, ETHANOL_96_100: 5040, TUBE_2ML: 36, QIACUBE: 1418, FINTIPP: 54,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 10 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 77.5, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 125, PRIMER_AL_F: 10, PRIMER_AL_R: 10, PROB_AL: 5.0, QUANTITECH_RT_MIX: 2.50, RNA_AVE: 56.00, 
+          BUFFER_AVL: 5600, BUFFER_AW1: 5000, BUFFER_AW2: 5000, BUFFER_AVE: 600, ETHANOL_96_100: 5600, TUBE_2ML: 40, QIACUBE: 7088, FINTIPP: 60,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 11 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 85.25, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 138, PRIMER_AL_F: 11, PRIMER_AL_R: 11, PROB_AL: 5.5, QUANTITECH_RT_MIX: 2.75, RNA_AVE: 61.60, 
+          BUFFER_AVL: 6160, BUFFER_AW1: 5500, BUFFER_AW2: 5500, BUFFER_AVE: 660, ETHANOL_96_100: 6160, TUBE_2ML: 44, QIACUBE: 38981, FINTIPP: 66,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 12 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RT_PCR',
+          RNASE_FREE_WATER: 93, QUANTITECT_PROB_RT_PCR_MASTER_MIX: 150, PRIMER_AL_F: 12, PRIMER_AL_R: 12, PROB_AL: 6.0, QUANTITECH_RT_MIX: 3.00, RNA_AVE: 67.20, 
+          BUFFER_AVL: 6720, BUFFER_AW1: 6000, BUFFER_AW2: 6000, BUFFER_AVE: 720, ETHANOL_96_100: 6720, TUBE_2ML: 48, QIACUBE: 233888, FINTIPP: 72,
+          MIKROPIPETTE_100UL: 1, MIKROPIPETTE_10UL: 1, SPIN_DOWN: 1, VORTEX: 1, SENTRIFUGE: 1, PCR_HOOD: 1, ROTOR_GENE_Q: 2
+        })
+      }
+    } else if ( this.state.metodePengujianSampel === 'RAPID TEST KIT' && this.state.targetPengujianSampel === 'E. Coli' ) {
+      if (parseInt(this.state.jumlahSampel, 10) === 1 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 300, BPW: 8, KIT_ECOLI: 1, PLASTIK_STOMACHER: 1, JUMLAH_FINTIPP: 1, JUMLAH_SCALPEL: 1, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 2 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 600, BPW: 16, KIT_ECOLI: 2, PLASTIK_STOMACHER: 2, JUMLAH_FINTIPP: 2, JUMLAH_SCALPEL: 2, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 3 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 900, BPW: 24, KIT_ECOLI: 3, PLASTIK_STOMACHER: 3, JUMLAH_FINTIPP: 3, JUMLAH_SCALPEL: 3, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 4 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 1200, BPW: 32, KIT_ECOLI: 4, PLASTIK_STOMACHER: 4, JUMLAH_FINTIPP: 4, JUMLAH_SCALPEL: 4, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 5 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 1500, BPW: 40, KIT_ECOLI: 5, PLASTIK_STOMACHER: 5, JUMLAH_FINTIPP: 5, JUMLAH_SCALPEL: 5, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 6 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 1800, BPW: 48, KIT_ECOLI: 6, PLASTIK_STOMACHER: 6, JUMLAH_FINTIPP: 6, JUMLAH_SCALPEL: 6, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 7 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 2100, BPW: 56, KIT_ECOLI: 7, PLASTIK_STOMACHER: 7, JUMLAH_FINTIPP: 7, JUMLAH_SCALPEL: 7, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 8 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 2400, BPW: 64, KIT_ECOLI: 8, PLASTIK_STOMACHER: 8, JUMLAH_FINTIPP: 8, JUMLAH_SCALPEL: 8, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 9 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 2700, BPW: 72, KIT_ECOLI: 9, PLASTIK_STOMACHER: 9, JUMLAH_FINTIPP: 9, JUMLAH_SCALPEL: 9, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 10 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 3000, BPW: 80, KIT_ECOLI: 10, PLASTIK_STOMACHER: 10, JUMLAH_FINTIPP: 10, JUMLAH_SCALPEL: 10, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 11 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 3300, BPW: 88, KIT_ECOLI: 11, PLASTIK_STOMACHER: 11, JUMLAH_FINTIPP: 11, JUMLAH_SCALPEL: 11, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 12 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 3600, BPW: 96, KIT_ECOLI: 12, PLASTIK_STOMACHER: 12, JUMLAH_FINTIPP: 12, JUMLAH_SCALPEL: 12, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 13 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 3900, BPW: 104, KIT_ECOLI: 13, PLASTIK_STOMACHER: 13, JUMLAH_FINTIPP: 13, JUMLAH_SCALPEL: 13, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 14 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 4200, BPW: 112, KIT_ECOLI: 14, PLASTIK_STOMACHER: 14, JUMLAH_FINTIPP: 14, JUMLAH_SCALPEL: 14, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 15 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'RTK_ECOLI',
+          AQUADEST: 4500, BPW: 120, KIT_ECOLI: 15, PLASTIK_STOMACHER: 15, JUMLAH_FINTIPP: 15, JUMLAH_SCALPEL: 15, 
+          MIKROPIPETTE_100UL: 1, TIMBANGAN_ELEKTRIK: 1, STOMACHER: 1, HOT_PLATE_STIRER: 1, MICROWAVE: 1, GELAS_UKUR_1000ML: 1, PH_METER: 2, PINGSET: 1, GUNTING: 1, BUNSEN_SPIRTUS: 1
+        })
+      }
+    } else if ( this.state.metodePengujianSampel === 'PEWARNAAN GIEMSA' ) {
+      if (parseInt(this.state.jumlahSampel, 10) === 1 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 9, BPW: 8, GIEMZA: 1, SLIDE: 1,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 2 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 9, BPW: 16, GIEMZA: 1, SLIDE: 2,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 3 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 9, BPW: 24, GIEMZA: 1, SLIDE: 3,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 4 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 9, BPW: 32, GIEMZA: 1, SLIDE: 4,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 5 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 9, BPW: 40, GIEMZA: 1, SLIDE: 5,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 6 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 13.5, BPW: 48, GIEMZA: 1.5, SLIDE: 6,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 7 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 13.5, BPW: 56, GIEMZA: 1.5, SLIDE: 7,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 8 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 13.5, BPW: 64, GIEMZA: 1.5, SLIDE: 8,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 9 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 13.5, BPW: 72, GIEMZA: 1.5, SLIDE: 9,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 10 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 13.5, BPW: 80, GIEMZA: 1.5, SLIDE: 10,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 11 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 18, BPW: 88, GIEMZA: 2, SLIDE: 11,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 12 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 18, BPW: 96, GIEMZA: 2, SLIDE: 12,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 13 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 18, BPW: 104, GIEMZA: 2, SLIDE: 13,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 14 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 18, BPW: 112, GIEMZA: 2, SLIDE: 14,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      } else if (parseInt(this.state.jumlahSampel, 10) === 15 ) {
+        this.props.firebase.db.ref('samples/'  + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
+          idZItems: a.key, idPermohonanUji: this.state.idPermohonanUji, pengujian: 'PEWARNAAN_GIEMSA',
+          AQUADEST: 18, BPW: 120, GIEMZA: 2, SLIDE: 15,
+          PIPET_PASTEUR: 1, ETHANOL_96: 1, MIKROSKOPE: 1, OIL_EMERSION: 1
+        })
+      }
     }
 
     this.setState({
