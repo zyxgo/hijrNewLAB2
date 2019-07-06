@@ -29,7 +29,7 @@ const NavigationAuth = ({authUser}) => (
         </Typography>
         <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.HOME}>Home</Button>
         {(authUser.roles.includes(ROLES.WILKER) || authUser.roles.includes(ROLES.WILKERSPV) )&& (
-          <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER_FORMUJI}>Wilker</Button>
+          <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER_FORMUJI}>Permohonan</Button>
         )}
         {(authUser.roles.includes(ROLES.ADMINLAB) )&& (
           <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMINLAB}>Admin Lab</Button>

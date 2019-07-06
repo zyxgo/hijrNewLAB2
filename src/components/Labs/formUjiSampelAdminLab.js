@@ -8,7 +8,7 @@ import * as ROUTES from '../../constants/routes';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-// import TextField from '@material-ui/core/TextField';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -44,8 +44,8 @@ class MainSampleBase extends Component {
 
   render() {
     return (
-      <Grid style={{flex: 1, margin: 10}} item xs={12}>
-        <Paper style={{padding: 10}}>
+      <Grid style={{ flex: 1, margin: 10 }} item xs={12}>
+        <Paper style={{ padding: 10 }}>
           <Typography variant="h5" gutterBottom>
             Admin Lab Page
           </Typography>
@@ -62,103 +62,105 @@ class MainSampleBase extends Component {
 
 ///////////////////////////// VIEW ALL DATA
 class SampelAllBase extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        loading: true,
-        items: [],
-        open: false,
-        formMode: [],
-        }; 
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      items: [],
+      open: false,
+      formMode: [],
+    };
+  }
 
-    componentDidMount() {
-      this.setState({ loading: true });
-      this.props.firebase.db.ref('samples')
-        .orderByChild('flagActivity')
-        .equalTo('Submit sampel ke admin lab')
-        .on('value', snap => {
-          if(snap.val()) {
-            const a = [];
-            snap.forEach(el => {
-              a.push({
-                idPermohonanUji: el.val().idPermohonanUji,
-                kodeUnikSampel: el.val().kodeUnikSampel,
-                tanggalMasukSampel: el.val().tanggalMasukSampel,
-                nomorAgendaSurat: el.val().nomorAgendaSurat,
-                namaPemilikSampel: el.val().namaPemilikSampel,
-                alamatPemilikSampel: el.val().alamatPemilikSampel,
-                asalTujuanSampel: el.val().asalTujuanSampel,
-                petugasPengambilSampel: el.val().petugasPengambilSampel,
-                flagActivity: el.val().flagActivity,
-                flagActivityDetail: el.val().flagActivityDetail,
-                flagStatusProses: el.val().flagStatusProses,
-                // zItems: el.val().zItems,
-              })
-            });
-            this.setState({ 
-              items: a,
-              loading: false,
-            });
-          } else {
-            this.setState({ items: null, loading: false });
-          }
+  componentDidMount() {
+    this.setState({ loading: true });
+    this.props.firebase.db.ref('samples')
+      // .orderByChild('flagActivity')
+      // .equalTo('Submit sampel ke admin lab')
+      .on('value', snap => {
+        if (snap.val()) {
+          const a = [];
+          snap.forEach(el => {
+            a.push({
+              idPermohonanUji: el.val().idPermohonanUji,
+              kodeUnikSampel: el.val().kodeUnikSampel,
+              tanggalMasukSampel: el.val().tanggalMasukSampel,
+              nomorAgendaSurat: el.val().nomorAgendaSurat,
+              namaPemilikSampel: el.val().namaPemilikSampel,
+              alamatPemilikSampel: el.val().alamatPemilikSampel,
+              asalTujuanSampel: el.val().asalTujuanSampel,
+              petugasPengambilSampel: el.val().petugasPengambilSampel,
+              flagActivity: el.val().flagActivity,
+              flagActivityDetail: el.val().flagActivityDetail,
+              flagStatusProses: el.val().flagStatusProses,
+              // zItems: el.val().zItems,
+            })
+          });
+          this.setState({
+            items: a,
+            loading: false,
+          });
+        } else {
+          this.setState({ items: null, loading: false });
+        }
       })
-    }
+  }
 
-    componentWillUnmount() {
-      this.props.firebase.db.ref('samples').off();
-    }
+  componentWillUnmount() {
+    this.props.firebase.db.ref('samples').off();
+  }
 
-    handleDelete = propSample =>
-      this.props.firebase.db.ref('samples/' + propSample).remove();
+  handleDelete = propSample =>
+    this.props.firebase.db.ref('samples/' + propSample).remove();
 
-    handleUbah = propSample => {
-      this.setState({ open: true, formMode: [propSample] });
-    }
+  handleUbah = propSample => {
+    this.setState({ open: true, formMode: [propSample] });
+  }
 
-    handleSubmitKeAnalysis = propSample => {
-      this.props.firebase.db.ref('samples/' + propSample).update({
-        flagActivity: 'Permohonan pengujian diteruskan ke analis',
-        flagStatusProses: 'Sampel di Analis'
-      })
-    }
+  handleSubmitKeAnalysis = propSample => {
+    this.props.firebase.db.ref('samples/' + propSample).update({
+      flagActivity: 'Permohonan pengujian diteruskan ke analis',
+      flagActivityDetail: 'Permohonan pengujian diteruskan ke analis',
+      flagStatusProses: 'Sampel di Analis'
+    })
+  }
 
-    render() {
-      const { items, loading } = this.state;
-      return (
-        <AuthUserContext.Consumer>
+  render() {
+    const { items, loading } = this.state;
+    return (
+      <AuthUserContext.Consumer>
         {authUser => (
           <div>
-            {loading ? <Typography>Loading...</Typography> : 
+            {loading ? <Typography>Loading...</Typography> :
               <div>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Kode Unik Sampel</TableCell>
+                      <TableCell>Nomor Permohonan (IQFAST)</TableCell>
                       <TableCell>Tanggal Masuk Sampel</TableCell>
                       <TableCell>Nama Pemilik Sampel</TableCell>
-                      <TableCell>Asal Tujuan Sampel</TableCell>
+                      <TableCell>Asal/Tujuan Media Pembawa</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell colSpan={2}>Action</TableCell>
                     </TableRow>
                   </TableHead>
-                  {!loading && !!items && items.map((el, key) => 
-                  <TableBody key={key}>
+                  {!loading && !!items && items.map((el, key) =>
+                    <TableBody key={key}>
                       <TableRow>
-                        <TableCell>{el.kodeUnikSampel}</TableCell>
+                        <TableCell>{el.nomorAgendaSurat}</TableCell>
                         <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
                         <TableCell>{el.flagStatusProses}</TableCell>
                         <TableCell>
-                          <Button component={Link} 
-                              to={{
-                                pathname: `${ROUTES.ADMINLAB}/${el.idPermohonanUji}`,
-                                data: { el },
-                              }}
-                            >
-                              Detail
+                          <Button component={Link}
+                            to={{
+                              pathname: `${ROUTES.ADMINLAB}/${el.idPermohonanUji}`,
+                              data: { el },
+                            }}
+                            disabled={el.flagStatusProses === "Sampel di Admin Lab" ? false : true}
+                          >
+                            Detail
                           </Button>
                         </TableCell>
                         <TableCell>
@@ -169,16 +171,16 @@ class SampelAllBase extends Component {
                           </Button>
                         </TableCell>
                       </TableRow>
-                  </TableBody>
+                    </TableBody>
                   )}
                 </Table>
               </div>
             }
           </div>
         )}
-        </AuthUserContext.Consumer>
-      )
-    }
+      </AuthUserContext.Consumer>
+    )
+  }
 
 }
 
@@ -195,6 +197,7 @@ class SampelDetailBase extends Component {
       idPermohonanUji: '',
       kodeUnikSampel: '',
       tanggalMasukSampel: '',
+      kodeUnikSampelAdminLab: '',
       nomorAgendaSurat: '',
       namaPemilikSampel: '',
       alamatPemilikSampel: '',
@@ -210,12 +213,13 @@ class SampelDetailBase extends Component {
       selectMetodePengujian: [],
       selectUnitPengujian: [],
       tanggalTerimaSampelAdminLab: new Date(),
-      PenerimaSampelAdminLab: '',
-      ManajerTeknisAdminLab: '',
-      ManajerAdministrasiAdminLab: '',
+      penerimaSampelAdminLab: '',
+      penerimaSampelAnalisLab: '',
+      manajerTeknisAdminLab: '',
+      manajerAdministrasiAdminLab: '',
       thisP: '',
       thisQ: '',
-      }; 
+    };
   }
 
   componentDidMount() {
@@ -223,15 +227,16 @@ class SampelDetailBase extends Component {
     this.setState({ loading: true });
     this.props.firebase.db.ref('samples/' + this.props.match.params.id)
       .on('value', snap => {
-        if(snap.val()) {
+        if (snap.val()) {
           const a = [];
           a.push(snap.val());
-          this.setState({ 
+          this.setState({
             items: a,
             loading: false,
             idPermohonanUji: snap.val().idPermohonanUji,
             kodeUnikSampel: snap.val().kodeUnikSampel,
             tanggalMasukSampel: snap.val().tanggalMasukSampel,
+            // kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab,
             nomorAgendaSurat: snap.val().nomorAgendaSurat,
             namaPemilikSampel: snap.val().namaPemilikSampel,
             alamatPemilikSampel: snap.val().alamatPemilikSampel,
@@ -241,7 +246,7 @@ class SampelDetailBase extends Component {
         } else {
           this.setState({ items: null, loading: false });
         }
-    })
+      })
   }
 
   componentWillUnmount() {
@@ -266,22 +271,25 @@ class SampelDetailBase extends Component {
 
   handleSubmit = () => {
     this.setState({ open: false });
-      this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-        tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab,
-        PenerimaSampelAdminLab: this.state.PenerimaSampelAdminLab,
-        ManajerTeknisAdminLab: this.state.ManajerTeknisAdminLab,
-        ManajerAdministrasiAdminLab: this.state.ManajerAdministrasiAdminLab,  
-      })
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab,
+      kodeUnikSampelAdminLab: this.state.kodeUnikSampelAdminLab,
+      penerimaSampelAdminLab: this.state.penerimaSampelAdminLab,
+      manajerAdministrasiAdminLab: this.state.manajerAdministrasiAdminLab,
+      manajerTeknisAdminLab: this.state.manajerTeknisAdminLab,
+      penerimaSampelAnalisLab: this.state.penerimaSampelAnalisLab,
+    });
+    console.log(this.state);
   }
 
   handleSubmit2 = () => {
     this.setState({ open2: false });
-      this.props.firebase.db.ref('samples/' + this.state.thisP + '/zItems/' + this.state.thisQ).update({
-        unitPengujianSampel: this.state.unitPengujianSampel,
-      })
-      this.props.firebase.db.ref('samples/' + this.state.thisP).update({
-        flagActivityDetail: 'Update detail by admin lab done',
-      })
+    this.props.firebase.db.ref('samples/' + this.state.thisP + '/zItems/' + this.state.thisQ).update({
+      unitPengujianSampel: this.state.unitPengujianSampel,
+    })
+    this.props.firebase.db.ref('samples/' + this.state.thisP).update({
+      flagActivityDetail: 'Update detail by admin lab done',
+    })
   }
 
   handleUbah2 = (p, q, r) => {
@@ -290,32 +298,32 @@ class SampelDetailBase extends Component {
       this.setState({
         selectUnitPengujian: ['Mikrobiologi'],
         thisP: p, thisQ: q
-      }) 
+      })
     } else if (r === 'HA-HI/AI-ND') {
       this.setState({
         selectUnitPengujian: ['Virologi'],
         thisP: p, thisQ: q
-      }) 
+      })
     } else if (r === 'ELISA RABIES' || r === 'ELISA BVD' || r === 'ELISA PARATB' || r === 'RBT') {
       this.setState({
         selectUnitPengujian: ['Serologi'],
         thisP: p, thisQ: q
-      }) 
+      })
     } else if (r === 'PEWARNAAN GIEMSA' || r === 'MIKROSKOPIS') {
       this.setState({
         selectUnitPengujian: ['Parasitologi'],
         thisP: p, thisQ: q
-      }) 
+      })
     } else if (r === 'RT-PCR' || r === 'RT-DNA') {
       this.setState({
         selectUnitPengujian: ['Biomolekuler'],
         thisP: p, thisQ: q
-      }) 
+      })
     } else if (r === 'RESIDU NITRIT' || r === 'FEED CHECK') {
       this.setState({
         selectUnitPengujian: ['PSAH'],
         thisP: p, thisQ: q
-      }) 
+      })
     }
   }
 
@@ -323,10 +331,14 @@ class SampelDetailBase extends Component {
     this.setState({ tanggalTerimaSampelAdminLab: date });
   };
 
-  onChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
+  // onChange = id => event => {
+  //   this.setState({
+  //     [id]: event.target.value,
+  //   });
+  // };
+
+  onChange = event => {
+    this.setState({ [event.target.id]: event.target.value });
   };
 
   onChange2 = name => event => {
@@ -336,42 +348,37 @@ class SampelDetailBase extends Component {
   };
 
   render() {
-    const { 
-      // kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
-      // namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      // jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, ruangLingkupSampel,
-      selectUnitPengujian, unitPengujianSampel,
-      loading, items,
+    const {
+      selectUnitPengujian, unitPengujianSampel, loading, items,
       tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab
-      // selectJenisPengujian, selectMetodePengujian,
-     } = this.state;
+    } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '';
     const isInvalid2 = unitPengujianSampel === '';
 
     return (
       <div>
-        {loading ? <Typography>Loading...</Typography> : 
+        {loading ? <Typography>Loading...</Typography> :
           <div>
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
               Proses Sampel
             </Button>{' '}
             <Button component={Link}
-                to={{
-                  pathname: `${ROUTES.ADMINLAB}`,
-                }}
-              >
-                BACK
+              to={{
+                pathname: `${ROUTES.ADMINLAB}`,
+              }}
+            >
+              BACK
             </Button>
-            {!loading && items.map((el, key) => 
-              <div style={{marginTop:25}} key={key}>
-                <Typography variant="subtitle1" gutterBottom>Kode Unik Sample : {el.kodeUnikSampel}</Typography>
-                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sample : {dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</Typography>
-                <Typography variant="subtitle1" gutterBottom>Nomor Agenda Sample : {el.nomorAgendaSurat}</Typography>
-                <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sample : {el.namaPemilikSampel}</Typography>
-                <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sample : {el.alamatPemilikSampel}</Typography>
-                <Typography variant="subtitle1" gutterBottom>Asal Tujuan Sample : {el.asalTujuanSampel}</Typography>
-                <Typography variant="subtitle1" gutterBottom>Petugas Penerima Sample : {el.petugasPengambilSampel}</Typography>
+            {!loading && items.map((el, key) =>
+              <div style={{ marginTop: 25 }} key={key}>
+                {/* <Typography variant="subtitle1" gutterBottom>Nomor Permohonan (IQFAST) : {el.kodeUnikSampel}</Typography> */}
+                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sampel : {dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Nomor Permohonan (IQFAST) : {el.nomorAgendaSurat}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sampel : {el.namaPemilikSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sampel : {el.alamatPemilikSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Asal/Tujuan Media Pembawa : {el.asalTujuanSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Petugas Pengambil Sampel (PPC) : {el.petugasPengambilSampel}</Typography>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -385,7 +392,7 @@ class SampelDetailBase extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {!!el.zItems && Object.keys(el.zItems).map((el1, key1) => 
+                    {!!el.zItems && Object.keys(el.zItems).map((el1, key1) =>
                       <TableRow key={key1}>
                         <TableCell>{el.zItems[el1].jenisSampel}</TableCell>
                         <TableCell>{el.zItems[el1].jumlahSampel}</TableCell>
@@ -401,26 +408,61 @@ class SampelDetailBase extends Component {
                       </TableRow>
                     )}
                   </TableBody>
-                  </Table>
+                </Table>
               </div>
             )}
             <Dialog
               open={this.state.open}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
-              >
+            >
               <DialogTitle id="form-dialog-title">Proses Terima Sampel oleh Admin Lab</DialogTitle>
               <DialogContent>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <DatePicker
                     margin="normal"
-                    style={{width: 350}}
-                    label="Tanggal Terima Sampel oleh Admin Lab" 
-                    value={tanggalTerimaSampelAdminLab} 
+                    style={{ width: 350 }}
+                    label="Tanggal Terima Sampel oleh Admin Lab"
+                    value={tanggalTerimaSampelAdminLab}
                     format={'MM/dd/yyyy'}
                     onChange={this.handleDateChange} />
                 </MuiPickersUtilsProvider>
-                <FormControl style={{marginTop: 15}} variant="standard">
+                <TextField
+                  id="kodeUnikSampelAdminLab"
+                  label="Kode Sampel"
+                  style={{ width: "100%", marginBottom: 10 }}
+                  variant="outlined"
+                  onChange={this.onChange}
+                />
+                <TextField
+                  id="penerimaSampelAdminLab"
+                  label="Admin Lab"
+                  style={{ width: "100%", marginBottom: 10 }}
+                  variant="outlined"
+                  onChange={this.onChange}
+                />
+                <TextField
+                  id="manajerAdministrasiAdminLab"
+                  label="Manajer Administrasi"
+                  style={{ width: "100%", marginBottom: 10 }}
+                  variant="outlined"
+                  onChange={this.onChange}
+                />
+                <TextField
+                  id="manajerTeknisAdminLab"
+                  label="Manajer Teknis"
+                  style={{ width: "100%", marginBottom: 10 }}
+                  variant="outlined"
+                  onChange={this.onChange}
+                />
+                <TextField
+                  id="penerimaSampelAnalisLab"
+                  label="Analis"
+                  style={{ width: "100%", marginBottom: 10 }}
+                  variant="outlined"
+                  onChange={this.onChange}
+                />
+                {/* <FormControl style={{marginTop: 15}} variant="standard">
                   <InputLabel htmlFor="PenerimaSampelAdminLab">Petugas Penerima Sampel</InputLabel>{" "}
                   <Select
                     value={PenerimaSampelAdminLab}
@@ -455,16 +497,16 @@ class SampelDetailBase extends Component {
                     <MenuItem value="ManajerAdministrasi1">Manajer Administrasi1</MenuItem>
                     <MenuItem value="ManajerAdministrasi2">Manajer Administrasi2</MenuItem>            
                   </Select>
-                </FormControl>
+                </FormControl> */}
               </DialogContent>
               <DialogActions>
                 <Button color="secondary" onClick={this.handleClose}>
                   Cancel
                 </Button>
-                <Button 
+                <Button
                   variant="outlined"
-                  onClick={this.handleSubmit} 
-                  disabled={isInvalid} 
+                  onClick={this.handleSubmit}
+                  disabled={isInvalid}
                   color="primary">
                   Submit
                 </Button>
@@ -474,19 +516,19 @@ class SampelDetailBase extends Component {
               open={this.state.open2}
               onClose={this.handleClose2}
               aria-labelledby="form-dialog-title"
-              >
+            >
               <DialogTitle id="form-dialog-title">Update Unit Pengujian Sampel</DialogTitle>
               <DialogContent>
-                <FormControl style={{marginTop: 15}} variant="standard">
+                <FormControl style={{ marginTop: 15 }} variant="standard">
                   <InputLabel htmlFor="unitPengujianSampel">Unit Pengujian Sampel</InputLabel>{" "}
                   <Select
                     value={unitPengujianSampel}
                     onChange={this.onChange2('unitPengujianSampel')}
                     name="unitPengujianSampel"
-                    style={{width:400}}
+                    style={{ width: 400 }}
                   >
-                    {!! selectUnitPengujian && selectUnitPengujian.map((elx, key) => 
-                        <MenuItem key={key} value={elx}>{elx}</MenuItem>
+                    {!!selectUnitPengujian && selectUnitPengujian.map((elx, key) =>
+                      <MenuItem key={key} value={elx}>{elx}</MenuItem>
                     )}
                   </Select>
                 </FormControl>
@@ -495,10 +537,10 @@ class SampelDetailBase extends Component {
                 <Button color="secondary" onClick={this.handleClose2}>
                   Cancel
                 </Button>
-                <Button 
+                <Button
                   variant="outlined"
-                  onClick={this.handleSubmit2} 
-                  disabled={isInvalid2} 
+                  onClick={this.handleSubmit2}
+                  disabled={isInvalid2}
                   color="primary">
                   Submit
                 </Button>

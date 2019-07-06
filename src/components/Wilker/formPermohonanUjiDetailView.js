@@ -66,12 +66,12 @@ class FormIsianDetailViewBase extends Component {
         <Typography>{loading && <div>Loading...</div>}</Typography>
         {!loading && samples.map((el, key) => 
           <div key={key}>
-            <Typography>Kode Unik Sample : {el.kodeUnikSample}</Typography>
+            {/* <Typography>Kode Unik Sample : {el.kodeUnikSample}</Typography> */}
             <Typography>Tanggal Masuk Sample : {el.tanggalMasukSample}</Typography>
-            <Typography>Nomor Agenda Sample : {el.nomorAgendaSample}</Typography>
+            <Typography>Nomor Permohonan (IQFAST) : {el.nomorAgendaSample}</Typography>
             <Typography>Nama Pemilik Sample : {el.namaPemilikSample}</Typography>
             <Typography>Alamat Pemilik Sample : {el.alamatPemilikSample}</Typography>
-            <Typography>Asal Tujuan Sample : {el.asalTujuanSample}</Typography>
+            <Typography>Asal/Tujuan Media Pembawa : {el.asalTujuanSample}</Typography>
             <Typography>Petugas Penerima Sample : {el.petugasPenerimaSample}</Typography>
             <Table>
               <TableHead>

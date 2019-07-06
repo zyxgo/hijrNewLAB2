@@ -87,14 +87,14 @@ class FormIsianBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <TextField
+        {/* <TextField
           id="kodeUnikSample"
           label="Kode Unik Sample"
           // value={email}
           onChange={this.onChange}
           style={{width: "100%", marginBottom: 10}}
           variant="outlined"
-        />
+        /> */}
         <TextField
           id="tanggalMasukSample"
           label="Tanggal Masuk Sample"
@@ -106,7 +106,7 @@ class FormIsianBase extends Component {
         />
         <TextField
           id="nomorAgendaSample"
-          label="Nomor Agenda / Surat"
+          label="Nomor Permohonan (IQFAST)"
           // value={password}
           onChange={this.onChange}
           style={{width: "100%", marginBottom: 10}}
@@ -133,7 +133,7 @@ class FormIsianBase extends Component {
         />
         <TextField
           id="asalTujuanSample"
-          label="Asal Tujuan Sample"
+          label="Asal/Tujuan Media Pembawa"
           // value={password}
           onChange={this.onChange}
           style={{width: "100%", marginBottom: 10}}
