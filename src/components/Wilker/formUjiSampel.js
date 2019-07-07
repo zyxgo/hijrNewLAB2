@@ -179,7 +179,7 @@ class SampelAllBase extends Component {
                         </TableCell>
                         <TableCell>
                           <PDFDownloadLink document={<Quixote q={el} />} fileName="permohonan-pengujian.pdf">
-                            {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download PDF!')}
+                            {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Permohonan Pengujian')}
                           </PDFDownloadLink>
                         </TableCell>
                         <TableCell>
