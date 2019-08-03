@@ -420,6 +420,7 @@ class SampelDetailBase extends Component {
       metodePengujianSampel: '',
       ruangLingkupSampel: '',
       targetPengujianSampel: '',
+      keteranganSampel: '',
       selectJenisSampel: [],
       selectJenisPengujian: [],
       selectMetodePengujian: [],
@@ -498,8 +499,9 @@ class SampelDetailBase extends Component {
       jumlahSampel: this.state.jumlahSampel,
       kondisiSampel: this.state.kondisiSampel,
       metodePengujianSampel: this.state.metodePengujianSampel,
-      ruangLingkupSampel: this.state.ruangLingkupSampel,
       targetPengujianSampel: this.state.targetPengujianSampel,
+      ruangLingkupSampel: this.state.ruangLingkupSampel,
+      keteranganSampel: this.state.keteranganSampel,
     })
     const b = this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/').push();
     const bahanTerpakaiUrl = 'bahanTerpakai/' + a.key;
@@ -987,6 +989,8 @@ class SampelDetailBase extends Component {
       jenisPengujianSampel: '',
       metodePengujianSampel: '',
       targetPengujianSampel: '',
+      ruangLingkupSampel: '',
+      keteranganSampel: '',
     });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagActivity: 'Data sudah lengkap',
@@ -1119,7 +1123,7 @@ class SampelDetailBase extends Component {
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
       jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, metodePengujianSampel, kategoriSample, targetPengujianSampel,
       loading, items,
-      selectJenisPengujian, selectMetodePengujian, selectJenisSampel, selectTargetPengujian,
+      selectJenisPengujian, selectMetodePengujian, selectJenisSampel, selectTargetPengujian, ruangLingkupSampel, keteranganSampel,
     } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
@@ -1354,6 +1358,27 @@ class SampelDetailBase extends Component {
                     )}
                   </Select>
                 </FormControl>
+                <FormControl style={{ marginTop: 15 }} variant="standard">
+                  <InputLabel htmlFor="ruangLingkupSampel">Ruang Lingkup Sampel</InputLabel>{" "}
+                  <Select
+                    value={ruangLingkupSampel}
+                    onChange={this.onChange2('ruangLingkupSampel')}
+                    style={{ width: 400 }}
+                    name="ruangLingkupSampel"
+                  >
+                    <MenuItem value="Akreditasi">Akreditasi</MenuItem>
+                    <MenuItem value="Diluar Akreditasi">Diluar Akreditasi</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  style={{ marginTop: 15, width: 400 }}
+                  margin="dense"
+                  id="keteranganSampel"
+                  label="Keterangan Sampel"
+                  value={keteranganSampel}
+                  onChange={this.onChange2('keteranganSampel')}
+                  fullWidth
+                />
               </DialogContent>
               <DialogActions>
                 <Button color="secondary" onClick={this.handleClose2}>
@@ -1647,7 +1672,7 @@ const Quixote = (p) => {
               <Text style={styles.tableCell}>{p.q.zItems[el1].ruangLingkupSampel}</Text>
             </View>
             <View style={styles.tableCol15}>
-              <Text style={styles.tableCell}></Text>
+              <Text style={styles.tableCell}>{p.q.zItems[el1].keteranganSampel}</Text>
             </View>
           </View>
         )}
@@ -1656,7 +1681,7 @@ const Quixote = (p) => {
       <View style={styles.footerRow}>
         <View style={styles.footerRow2}>
           <View style={styles.footerCol}>
-            <Text>Manajer Administrasi</Text>
+            <Text>Penerima Sampel</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
@@ -1665,12 +1690,12 @@ const Quixote = (p) => {
           </View>
           <View style={styles.spaceV400}></View>
           <View style={styles.footerCol}>
-            <Text>Customer,        20....</Text>
+            <Text>Petugas Pengambil Sampel, {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "MM/dd/yyyy")}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>(...................)</Text>
+            <Text>( {p.q.petugasPengambilSampel} )</Text>
           </View>
         </View>
       </View>
