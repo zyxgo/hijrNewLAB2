@@ -254,6 +254,52 @@ class SampelDetailBase extends Component {
           this.setState({ items: null, loading: false });
         }
       })
+    this.props.firebase.db.ref('masterData/userform')
+      .on('value', snap1 => {
+        if (snap1.val()) {
+          const b1 = [];
+          const b2 = [];
+          const b3 = [];
+          const b4 = [];
+          snap1.forEach((res) => {
+            if (res.val().jabatanUserForm === 'Admin Lab') {
+              b1.push({
+                idUserForm: res.val().idUserForm,
+                jabatanUserForm: res.val().jabatanUserForm,
+                namaUserForm: res.val().namaUserForm,
+                nipUserForm: res.val().nipUserForm,
+              })
+            } else if (res.val().jabatanUserForm === 'Manajer Administrasi') {
+              b2.push({
+                idUserForm: res.val().idUserForm,
+                jabatanUserForm: res.val().jabatanUserForm,
+                namaUserForm: res.val().namaUserForm,
+                nipUserForm: res.val().nipUserForm,
+              })
+            } else if (res.val().jabatanUserForm === 'Manajer Teknis') {
+              b3.push({
+                idUserForm: res.val().idUserForm,
+                jabatanUserForm: res.val().jabatanUserForm,
+                namaUserForm: res.val().namaUserForm,
+                nipUserForm: res.val().nipUserForm,
+              })
+            } else if (res.val().jabatanUserForm === 'Analis') {
+              b4.push({
+                idUserForm: res.val().idUserForm,
+                jabatanUserForm: res.val().jabatanUserForm,
+                namaUserForm: res.val().namaUserForm,
+                nipUserForm: res.val().nipUserForm,
+              })
+            }
+          })
+          this.setState({
+            selectUserformAdminLab: b1,
+            selectUserformManajerAdministrasi: b2,
+            selectUserformManajerTeknis: b3,
+            selectUserformAnalis: b4,
+          });
+        }
+      })
   }
 
   componentWillUnmount() {
@@ -285,8 +331,9 @@ class SampelDetailBase extends Component {
       manajerAdministrasiAdminLab: this.state.manajerAdministrasiAdminLab,
       manajerTeknisAdminLab: this.state.manajerTeknisAdminLab,
       penerimaSampelAnalisLab: this.state.penerimaSampelAnalisLab,
+      unitPengujianSampel: this.state.unitPengujianSampel,
     });
-    console.log(this.state);
+    // console.log(this.state);
   }
 
   handleSubmit2 = () => {
@@ -357,11 +404,14 @@ class SampelDetailBase extends Component {
   render() {
     const {
       selectUnitPengujian, unitPengujianSampel, loading, items,
-      tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab
+      tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab,
+      penerimaSampelAdminLab, manajerTeknisAdminLab, manajerAdministrasiAdminLab, penerimaSampelAnalisLab,
+      selectUserformAdminLab, selectUserformManajerAdministrasi, selectUserformManajerTeknis, selectUserformAnalis,
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '';
     const isInvalid2 = unitPengujianSampel === '';
+    // console.log(this.state)
 
     return (
       <div>
@@ -386,6 +436,7 @@ class SampelDetailBase extends Component {
                 <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sampel : {el.alamatPemilikSampel}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Asal/Tujuan Media Pembawa : {el.asalTujuanSampel}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Petugas Pengambil Sampel (PPC) : {el.petugasPengambilSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Unit Pengujian Sampel : {el.unitPengujianSampel}</Typography>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -394,8 +445,8 @@ class SampelDetailBase extends Component {
                       <TableCell>Kondisi Sampel</TableCell>
                       <TableCell>Metode Pengujian</TableCell>
                       <TableCell>Target Pengujian</TableCell>
-                      <TableCell>Unit Pengujian</TableCell>
-                      <TableCell colSpan={2}>Action</TableCell>
+                      {/* <TableCell>Unit Pengujian</TableCell> */}
+                      <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -406,12 +457,12 @@ class SampelDetailBase extends Component {
                         <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
                         <TableCell>{el.zItems[el1].metodePengujianSampel}</TableCell>
                         <TableCell>{el.zItems[el1].targetPengujianSampel}</TableCell>
-                        <TableCell>{el.zItems[el1].unitPengujianSampel}</TableCell>
-                        <TableCell>
+                        {/* <TableCell>{el.zItems[el1].unitPengujianSampel}</TableCell> */}
+                        {/* <TableCell>
                           <Button variant="text" color="secondary" onClick={() => this.handleUbah2(el.idPermohonanUji, el1, el.zItems[el1].metodePengujianSampel)}>
                             Ubah
                           </Button>
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell>
                           <PDFDownloadLink document={<Quixote q={el} />} fileName="form-permohonan-pengujian.pdf">
                             {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Permohonan Pengujian')}
@@ -433,47 +484,116 @@ class SampelDetailBase extends Component {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <DatePicker
                     margin="normal"
-                    style={{ width: 350 }}
+                    style={{ width: 350, marginBottom: 20 }}
                     label="Tanggal Terima Sampel oleh Admin Lab"
                     value={tanggalTerimaSampelAdminLab}
                     format={'MM/dd/yyyy'}
                     onChange={this.handleDateChange} />
                 </MuiPickersUtilsProvider>
+
                 <TextField
                   id="kodeUnikSampelAdminLab"
                   label="Kode Sampel"
-                  style={{ width: "100%", marginBottom: 10 }}
+                  style={{ width: "100%", marginBottom: 20 }}
                   variant="outlined"
                   onChange={this.onChange}
                 />
-                <TextField
+                <FormControl style={{ marginBottom: 20 }} variant="standard">
+                  <InputLabel htmlFor="unitPengujianSampel">Unit Pengujian Sampel</InputLabel>{" "}
+                  <Select
+                    value={unitPengujianSampel}
+                    onChange={this.onChange2('unitPengujianSampel')}
+                    name="unitPengujianSampel"
+                    style={{ width: 400 }}
+                  >
+                    <MenuItem value="Mikrobiologi">Mikrobiologi</MenuItem>
+                    <MenuItem value="Virologi">Virologi</MenuItem>
+                    <MenuItem value="Serologi">Serologi</MenuItem>
+                    <MenuItem value="Parasitologi">Parasitologi</MenuItem>
+                    <MenuItem value="Biomolekuler">Biomolekuler</MenuItem>
+                    <MenuItem value="PSAH">PSAH</MenuItem>
+                  </Select>
+                </FormControl>
+                {/* <TextField
                   id="penerimaSampelAdminLab"
                   label="Admin Lab"
                   style={{ width: "100%", marginBottom: 10 }}
                   variant="outlined"
                   onChange={this.onChange}
-                />
-                <TextField
+                /> */}
+                <FormControl style={{ marginBottom: 20 }} variant="standard">
+                  <InputLabel htmlFor="penerimaSampelAdminLab">Admin Lab</InputLabel>{" "}
+                  <Select
+                    value={penerimaSampelAdminLab}
+                    onChange={this.onChange2('penerimaSampelAdminLab')}
+                    style={{ width: 400 }}
+                    name="penerimaSampelAdminLab"
+                  >
+                    {!!selectUserformAdminLab && Object.keys(selectUserformAdminLab).map((el) =>
+                      <MenuItem key={el} value={selectUserformAdminLab[el].namaUserForm}>{selectUserformAdminLab[el].namaUserForm}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+                {/* <TextField
                   id="manajerAdministrasiAdminLab"
                   label="Manajer Administrasi"
                   style={{ width: "100%", marginBottom: 10 }}
                   variant="outlined"
                   onChange={this.onChange}
-                />
-                <TextField
+                /> */}
+                <FormControl style={{ marginBottom: 20 }} variant="standard">
+                  <InputLabel htmlFor="manajerAdministrasiAdminLab">Manajer Administrasi</InputLabel>{" "}
+                  <Select
+                    value={manajerAdministrasiAdminLab}
+                    onChange={this.onChange2('manajerAdministrasiAdminLab')}
+                    style={{ width: 400 }}
+                    name="manajerAdministrasiAdminLab"
+                  >
+                    {!!selectUserformManajerAdministrasi && Object.keys(selectUserformManajerAdministrasi).map((el) =>
+                      <MenuItem key={el} value={selectUserformManajerAdministrasi[el].namaUserForm}>{selectUserformManajerAdministrasi[el].namaUserForm}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+                {/* <TextField
                   id="manajerTeknisAdminLab"
                   label="Manajer Teknis"
                   style={{ width: "100%", marginBottom: 10 }}
                   variant="outlined"
                   onChange={this.onChange}
-                />
-                <TextField
+                /> */}
+                <FormControl style={{ marginBottom: 20 }} variant="standard">
+                  <InputLabel htmlFor="manajerTeknisAdminLab">Manajer Teknis</InputLabel>{" "}
+                  <Select
+                    value={manajerTeknisAdminLab}
+                    onChange={this.onChange2('manajerTeknisAdminLab')}
+                    style={{ width: 400 }}
+                    name="manajerTeknisAdminLab"
+                  >
+                    {!!selectUserformManajerTeknis && Object.keys(selectUserformManajerTeknis).map((el) =>
+                      <MenuItem key={el} value={selectUserformManajerTeknis[el].namaUserForm}>{selectUserformManajerTeknis[el].namaUserForm}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+                {/* <TextField
                   id="penerimaSampelAnalisLab"
                   label="Analis"
                   style={{ width: "100%", marginBottom: 10 }}
                   variant="outlined"
                   onChange={this.onChange}
-                />
+                /> */}
+                <FormControl style={{ marginBottom: 20 }} variant="standard">
+                  <InputLabel htmlFor="penerimaSampelAnalisLab">Analis</InputLabel>{" "}
+                  <Select
+                    value={penerimaSampelAnalisLab}
+                    onChange={this.onChange2('penerimaSampelAnalisLab')}
+                    style={{ width: 400 }}
+                    name="penerimaSampelAnalisLab"
+                  >
+                    {!!selectUserformAnalis && Object.keys(selectUserformAnalis).map((el) =>
+                      <MenuItem key={el} value={selectUserformAnalis[el].namaUserForm}>{selectUserformAnalis[el].namaUserForm}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
               </DialogContent>
               <DialogActions>
                 <Button color="secondary" onClick={this.handleClose}>
@@ -751,7 +871,7 @@ const Quixote = (p) => {
       </View>
       <View style={styles.headerRowCenter}>
         <Text style={styles.headerTitle16}>SURAT PENGANTAR PENGUJIAN</Text>
-        <Text style={styles.headerTitle11}>Nomor : {p.q.nomorAgendaSurat} {'   '}Tanggal : {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "MM/dd/yyyy")}</Text>
+        <Text style={styles.headerTitle11}>Nomor : {p.q.nomorAgendaSurat} {'   '}Tanggal : {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
       </View>
       <View style={[styles.marginV10, styles.marginL20]}>
         <Text style={styles.headerTitle11}>Kepada Yth.</Text>
@@ -761,15 +881,19 @@ const Quixote = (p) => {
       </View>
       <View style={[styles.marginV10, styles.marginL20]}>
         <Text style={styles.headerTitle11}>Bersama ini disampaikan sampel :</Text>
-        <Text style={styles.headerTitle11}>Kode Sampel : </Text>
-        <Text style={styles.headerTitle11}>Jenis Sampel : </Text>
-        <Text style={styles.headerTitle11}>Jumlah Sampel : </Text>
-        <Text style={styles.headerTitle11}>{' '}</Text>
-        <Text style={styles.headerTitle11}>Untuk dilakukan pengujian dari ruang lingkup </Text>
-        <Text style={styles.headerTitle11}>Untuk dilakukan pengujian di luar ruang lingkup </Text>
+        <Text style={styles.headerTitle11}>Kode Sampel : {p.q.kodeUnikSampelAdminLab}</Text>
+        {!!p.q.zItems && Object.keys(p.q.zItems).map((el1, key1) =>
+          <View>
+            <Text style={styles.headerTitle11}>Jenis Sampel : {p.q.zItems[el1].jenisSampel}</Text>
+            <Text style={styles.headerTitle11}>Jumlah Sampel : {p.q.zItems[el1].jumlahSampel}</Text>
+            <Text style={styles.headerTitle11}>{' '}</Text>
+            <Text style={styles.headerTitle11}>Untuk dilakukan pengujian dari ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? 'Akreditasi' : ''}</Text>
+            <Text style={styles.headerTitle11}>Untuk dilakukan pengujian di luar ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? '' : 'Diluar Akreditasi'}</Text>
+          </View>
+        )}
       </View>
       <View style={styles.footerRow100}>
-        <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar,        20....</Text>
+        <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
         <View style={styles.footerRow2}>
           <View style={styles.footerCol}>
             <Text>Pelaksana Fungsi</Text>
@@ -778,7 +902,7 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>(...................)</Text>
+            <Text>( {p.q.manajerTeknisAdminLab} )</Text>
           </View>
           <View style={styles.spaceV200}></View>
           <View style={styles.footerCol}>
@@ -788,7 +912,7 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>(...................)</Text>
+            <Text>( {p.q.manajerAdministrasiAdminLab} )</Text>
           </View>
         </View>
       </View>
