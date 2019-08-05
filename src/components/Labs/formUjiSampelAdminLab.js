@@ -730,7 +730,7 @@ const styles = StyleSheet.create({
 });
 
 const Quixote = (p) => {
-  // console.log(p);
+  console.log(p);
 
   return <Document>
     <Page size='A4' orientation='portrait' style={styles.body}>
