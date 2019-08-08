@@ -325,7 +325,7 @@ class SampelDetailBase extends Component {
   handleSubmit = () => {
     this.setState({ open: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab,
+      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab.toString(),
       kodeUnikSampelAdminLab: this.state.kodeUnikSampelAdminLab,
       penerimaSampelAdminLab: this.state.penerimaSampelAdminLab,
       manajerAdministrasiAdminLab: this.state.manajerAdministrasiAdminLab,
@@ -333,6 +333,12 @@ class SampelDetailBase extends Component {
       penerimaSampelAnalisLab: this.state.penerimaSampelAnalisLab,
       unitPengujianSampel: this.state.unitPengujianSampel,
     });
+    // this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems/' + this.state.thisQ).update({
+    //   unitPengujianSampel: this.state.unitPengujianSampel,
+    // })
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+      flagActivityDetail: 'Update detail by admin lab done',
+    })
     // console.log(this.state);
   }
 
@@ -843,8 +849,8 @@ const styles = StyleSheet.create({
     width: 400,
     height: 5,
   },
-  spaceV200: {
-    width: 200,
+  spaceV150: {
+    width: 150,
     height: 5,
   }
 });
@@ -904,7 +910,7 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>( {p.q.manajerTeknisAdminLab} )</Text>
           </View>
-          <View style={styles.spaceV200}></View>
+          <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
             <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Administrasi</Text>
