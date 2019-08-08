@@ -25,3 +25,5 @@ export const MASTERDATA_BAHAN = '/masterdata-bahan';
 export const MASTERDATA_BAHANDETAIL = '/masterdata-bahan/:id';
 export const MASTERDATA_USERFORM = '/masterdata-userform';
 export const MASTERDATA_USERFORMDETAIL = '/masterdata-userform/:id';
+export const TEKNIS = '/teknis';
+export const TEKNIS_DETAILS = '/teknis/:id';
