@@ -82,6 +82,7 @@ class SampelAllBase extends Component {
         if (snap.val()) {
           const a = [];
           snap.forEach(el => {
+            console.log(el.val());
             a.push({
               idPermohonanUji: el.val().idPermohonanUji,
               kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
@@ -93,6 +94,9 @@ class SampelAllBase extends Component {
               petugasPengambilSampel: el.val().petugasPengambilSampel,
               flagActivity: el.val().flagActivity,
               flagStatusProses: el.val().flagStatusProses,
+              tanggalUjiSampelAnalis:el.val().tanggalUjiSampelAnalis,
+              penyeliaAnalis: el.val().penyeliaAnalis,
+              penerimaSampelAnalisLab: el.val().penerimaSampelAnalisLab,
               zItems: el.val().zItems,
             })
           });
@@ -225,7 +229,6 @@ class SampelDetailBase extends Component {
   }
 
   componentDidMount() {
-    // console.log(this.props);
     this.setState({ loading: true });
     this.props.firebase.db.ref('samples/' + this.props.match.params.id)
       .on('value', snap => {
@@ -243,10 +246,29 @@ class SampelDetailBase extends Component {
             alamatPemilikSampel: snap.val().alamatPemilikSampel,
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
-            penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab,            
+            penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab,
           });
         } else {
           this.setState({ items: null, loading: false });
+        }
+      })
+    this.props.firebase.db.ref('masterData/userform')
+      .on('value', snap1 => {
+        if (snap1.val()) {
+          const b1 = [];
+          snap1.forEach((res) => {
+            if (res.val().jabatanUserForm === 'Penyelia') {
+              b1.push({
+                idUserForm: res.val().idUserForm,
+                jabatanUserForm: res.val().jabatanUserForm,
+                namaUserForm: res.val().namaUserForm,
+                nipUserForm: res.val().nipUserForm,
+              })
+            }
+          })
+          this.setState({
+            selectUserformPenyelia: b1,
+          });
         }
       })
   }
@@ -274,7 +296,7 @@ class SampelDetailBase extends Component {
   handleSubmit = () => {
     this.setState({ open: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-      tanggalUjiSampelAnalis: this.state.tanggalUjiSampelAnalis,
+      tanggalUjiSampelAnalis: this.state.tanggalUjiSampelAnalis.toString(),
       managerTeknisAnalis: this.state.managerTeknisAnalis,
       managerAdministrasiAnalis: this.state.managerAdministrasiAnalis,
       penyeliaAnalis: this.state.penyeliaAnalis,
@@ -611,11 +633,12 @@ class SampelDetailBase extends Component {
   };
 
   render() {
+    console.log(this.state);
     const {
       loading, items,
       tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab,
       tanggalUjiSampelAnalis, managerTeknisAnalis, managerAdministrasiAnalis, penyeliaAnalis, namaAnalis,
-      hasilUjiSampel, keteranganSampel, penerimaSampelAnalisLab,
+      hasilUjiSampel, keteranganSampel, penerimaSampelAnalisLab, selectUserformPenyelia,
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '';
@@ -651,7 +674,7 @@ class SampelDetailBase extends Component {
                       <TableCell>Kondisi Sampel</TableCell>
                       <TableCell>Metode Pengujian</TableCell>
                       <TableCell>Target Pengujian</TableCell>
-                      <TableCell>Unit Pengujian</TableCell>
+                      {/* <TableCell>Unit Pengujian</TableCell> */}
                       <TableCell>Hasil Pengujian</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
@@ -664,7 +687,7 @@ class SampelDetailBase extends Component {
                         <TableCell>{el.zItems[el1].kondisiSampel}</TableCell>
                         <TableCell>{el.zItems[el1].metodePengujianSampel}</TableCell>
                         <TableCell>{el.zItems[el1].targetPengujianSampel}</TableCell>
-                        <TableCell>{el.zItems[el1].unitPengujianSampel}</TableCell>
+                        {/* <TableCell>{el.zItems[el1].unitPengujianSampel}</TableCell> */}
                         <TableCell>{el.zItems[el1].hasilUjiSampel}</TableCell>
                         <TableCell>
                           <Button variant="outlined" color="primary" onClick={() => this.updateHasilPengujian(el.idPermohonanUji, el1, el.zItems[el1].metodePengujianSampel, el.zItems[el1].targetPengujianSampel)}>
@@ -717,16 +740,17 @@ class SampelDetailBase extends Component {
                     <MenuItem value="ManajerAdministrasi2">Manajer Administrasi2</MenuItem>            
                   </Select>
                 </FormControl> */}
-                <FormControl style={{ marginBottom: 20  }} variant="standard">
+                <FormControl style={{ marginBottom: 20 }} variant="standard">
                   <InputLabel htmlFor="penyeliaAnalis">Penyelia</InputLabel>{" "}
                   <Select
                     value={penyeliaAnalis}
                     onChange={this.onChange('penyeliaAnalis')}
-                    style={{ width: 400}}
+                    style={{ width: 400 }}
                     name="penyeliaAnalis"
                   >
-                    <MenuItem value="Penyelia1">Penyelia1</MenuItem>
-                    <MenuItem value="Penyelia2">Penyelia2</MenuItem>
+                    {!!selectUserformPenyelia && Object.keys(selectUserformPenyelia).map((el) =>
+                      <MenuItem key={el} value={selectUserformPenyelia[el].namaUserForm}>{selectUserformPenyelia[el].namaUserForm}</MenuItem>
+                    )}
                   </Select>
                 </FormControl>
                 <TextField
@@ -1013,7 +1037,7 @@ const Quixote = (p) => {
         <Text style={styles.headerTitle16}>LAPORAN HASIL PENGUJIAN</Text>
       </View>
       <View style={styles.marginV10}>
-        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(new Date(), "MM/dd/yyyy")}</Text>
+        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
       </View>
       <View style={styles.table}>
         <View style={styles.tableRow}>
@@ -1042,7 +1066,7 @@ const Quixote = (p) => {
               <Text style={styles.tableCell}>{key1 + 1}</Text>
             </View>
             <View style={styles.tableCol20}>
-              <Text style={styles.tableCell}>{p.q.zItems[el1].kodeUnikSampelAdminLab}</Text>
+              <Text style={styles.tableCell}>{p.q.kodeUnikSampelAdminLab}</Text>
             </View>
             <View style={styles.tableCol20}>
               <Text style={styles.tableCell}>{p.q.zItems[el1].jenisSampel}</Text>
@@ -1061,7 +1085,7 @@ const Quixote = (p) => {
 
       </View>
       <View style={styles.footerRow}>
-        <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar,        20....</Text>
+        <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
         <View style={styles.footerRow2}>
           <View style={styles.footerCol}>
             <Text>Penyelia</Text>
@@ -1069,7 +1093,7 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>(...................)</Text>
+            <Text>( {p.q.penyeliaAnalis} )</Text>
           </View>
           <View style={styles.spaceV400}></View>
           <View style={styles.footerCol}>
@@ -1078,7 +1102,7 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>(...................)</Text>
+            <Text>( {p.q.penerimaSampelAnalisLab} )</Text>
           </View>
         </View>
       </View>
