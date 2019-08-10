@@ -103,6 +103,8 @@ class SampelAllBase extends Component {
               manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
               kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
               nomorAgendaSurat: el.val().nomorAgendaSurat,
+              formLaporanKeterangan: el.val().formLaporanKeterangan,
+              formLaporanKesimpulan: el.val().formLaporanKesimpulan,
               zItems: el.val().zItems,
             })
           });
@@ -256,17 +258,17 @@ class SampelDetailBase extends Component {
             alamatPemilikSampel: snap.val().alamatPemilikSampel,
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
-            kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab === undefined ? '' : snap.val().kodeUnikSampelAdminLab,
-            tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : snap.val().tanggalTerimaSampelAdminLab,
-            unitPengujianSampel: snap.val().unitPengujianSampel === undefined ? '' : snap.val().unitPengujianSampel,
-            penerimaSampelAdminLab: snap.val().penerimaSampelAdminLab === undefined ? '' : snap.val().penerimaSampelAdminLab,
-            penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab === undefined ? '' : snap.val().penerimaSampelAnalisLab,
-            manajerAdministrasiAdminLab: snap.val().manajerAdministrasiAdminLab === undefined ? '' : snap.val().manajerAdministrasiAdminLab,
-            manajerTeknisAdminLab: snap.val().manajerTeknisAdminLab === undefined ? '' : snap.val().manajerTeknisAdminLab,
-            nipPenerimaSampelAdminLab: snap.val().nipPenerimaSampelAdminLab === undefined ? '' : snap.val().nipPenerimaSampelAdminLab,
-            nipPenerimaSampelAnalisLab: snap.val().nipPenerimaSampelAnalisLab === undefined ? '' : snap.val().nipPenerimaSampelAnalisLab,
-            nipManajerAdministrasiAdminLab: snap.val().nipManajerAdministrasiAdminLab === undefined ? '' : snap.val().nipManajerAdministrasiAdminLab,
-            nipManajerTeknisAdminLab: snap.val().nipManajerTeknisAdminLab === undefined ? '' : snap.val().nipManajerTeknisAdminLab,
+            // kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab === undefined ? '' : snap.val().kodeUnikSampelAdminLab,
+            // tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : snap.val().tanggalTerimaSampelAdminLab,
+            // unitPengujianSampel: snap.val().unitPengujianSampel === undefined ? '' : snap.val().unitPengujianSampel,
+            // penerimaSampelAdminLab: snap.val().penerimaSampelAdminLab === undefined ? '' : snap.val().penerimaSampelAdminLab,
+            // penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab === undefined ? '' : snap.val().penerimaSampelAnalisLab,
+            // manajerAdministrasiAdminLab: snap.val().manajerAdministrasiAdminLab === undefined ? '' : snap.val().manajerAdministrasiAdminLab,
+            // manajerTeknisAdminLab: snap.val().manajerTeknisAdminLab === undefined ? '' : snap.val().manajerTeknisAdminLab,
+            // nipPenerimaSampelAdminLab: snap.val().nipPenerimaSampelAdminLab === undefined ? '' : snap.val().nipPenerimaSampelAdminLab,
+            // nipPenerimaSampelAnalisLab: snap.val().nipPenerimaSampelAnalisLab === undefined ? '' : snap.val().nipPenerimaSampelAnalisLab,
+            // nipManajerAdministrasiAdminLab: snap.val().nipManajerAdministrasiAdminLab === undefined ? '' : snap.val().nipManajerAdministrasiAdminLab,
+            // nipManajerTeknisAdminLab: snap.val().nipManajerTeknisAdminLab === undefined ? '' : snap.val().nipManajerTeknisAdminLab,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -485,8 +487,8 @@ class SampelDetailBase extends Component {
                           </Button>
                         </TableCell> */}
                         <TableCell>
-                          <PDFDownloadLink document={<Quixote q={el} />} fileName="form-permohonan-pengujian.pdf">
-                            {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Permohonan Pengujian')}
+                          <PDFDownloadLink document={<Quixote q={el} />} fileName="surat-pengantar-pengujian.pdf">
+                            {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Surat Pengantar Pengujian')}
                           </PDFDownloadLink>
                         </TableCell>
                       </TableRow>
@@ -564,7 +566,7 @@ class SampelDetailBase extends Component {
                   onChange={this.onChange}
                 /> */}
                 <FormControl style={{ marginBottom: 20 }} variant="standard">
-                  <InputLabel htmlFor="manajerAdministrasiAdminLab">Manajer Administrasi</InputLabel>{" "}
+                  <InputLabel htmlFor="manajerAdministrasiAdminLab">Pelaksana Fungsi Manajer Administrasi</InputLabel>{" "}
                   <Select
                     value={manajerAdministrasiAdminLab}
                     onChange={this.onChange2('manajerAdministrasiAdminLab')}
@@ -584,7 +586,7 @@ class SampelDetailBase extends Component {
                   onChange={this.onChange}
                 /> */}
                 <FormControl style={{ marginBottom: 20 }} variant="standard">
-                  <InputLabel htmlFor="manajerTeknisAdminLab">Manajer Teknis</InputLabel>{" "}
+                  <InputLabel htmlFor="manajerTeknisAdminLab">Pelaksana Fungsi Manajer Teknis</InputLabel>{" "}
                   <Select
                     value={manajerTeknisAdminLab}
                     onChange={this.onChange2('manajerTeknisAdminLab')}
@@ -706,6 +708,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0
+  },
+  tableColSmall: {
+    width: "15px",
+    borderStyle: "solid",
+    borderColor: '#000',
+    borderWidth: 1,
   },
   tableCellHeader: {
     margin: "auto",
@@ -896,7 +904,7 @@ const Quixote = (p) => {
       </View>
       <View style={[styles.marginV10, styles.marginL20]}>
         <Text style={styles.headerTitle11}>Kepada Yth.</Text>
-        <Text style={styles.headerTitle11}>Manajer Teknis</Text>
+        <Text style={styles.headerTitle11}>Pelaksana Fungsi Manajer Teknis</Text>
         <Text style={styles.headerTitle11}>Di</Text>
         <Text style={styles.headerTitle11}>Tempat</Text>
       </View>
@@ -908,8 +916,8 @@ const Quixote = (p) => {
             <Text style={styles.headerTitle11}>Jenis Sampel : {p.q.zItems[el1].jenisSampel}</Text>
             <Text style={styles.headerTitle11}>Jumlah Sampel : {p.q.zItems[el1].jumlahSampel}</Text>
             <Text style={styles.headerTitle11}>{' '}</Text>
-            <Text style={styles.headerTitle11}>Untuk dilakukan pengujian dari ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? p.q.zItems[el1].metodePengujianSampel : ''}</Text>
-            <Text style={styles.headerTitle11}>Untuk dilakukan pengujian di luar ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? '' : p.q.zItems[el1].metodePengujianSampel}</Text>
+            <Text style={styles.headerTitle11}><Text style={styles.tableColSmall}>{' '}</Text> Untuk dilakukan pengujian dari ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? p.q.zItems[el1].metodePengujianSampel : ''}</Text>
+            <Text style={styles.headerTitle11}><Text style={styles.tableColSmall}>{' '}</Text> Untuk dilakukan pengujian di luar ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? '' : p.q.zItems[el1].metodePengujianSampel}</Text>
           </View>
         )}
       </View>
@@ -1037,6 +1045,10 @@ const PDFLHU = (p) => {
           </View>
         )}
       </View>
+      <Text>{' '}</Text>
+      <View style={styles.headerTitle10}><Text>Keterangan: {p.q.formLaporanKeterangan}</Text></View>
+      <Text>{' '}</Text>
+      <View style={styles.headerTitle10}><Text>Kesimpulan: {p.q.formLaporanKesimpulan}</Text></View>
       <View style={styles.footerRow200}>
         <View style={styles.footerRow2}>
           <View style={styles.footerCol}>

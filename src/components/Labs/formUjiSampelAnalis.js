@@ -305,7 +305,7 @@ class SampelDetailBase extends Component {
       managerAdministrasiAnalis: this.state.managerAdministrasiAnalis,
       penyeliaAnalis: this.state.penyeliaAnalis,
       namaAnalis: this.state.namaAnalis,
-      flagActivity: 'Permohonan pengujian selesai di analisa',
+      flagActivity: 'Sampel selesai diuji oleh Analis',
       flagStatusProses: 'Proses di Pelaksana Teknis',
     })
   }
@@ -313,7 +313,7 @@ class SampelDetailBase extends Component {
   handleSubmit2 = () => {
     this.setState({ open2: false });
     this.props.firebase.db.ref('samples/' + this.state.thisP).update({
-      flagActivityDetail: 'Permohonan pengujian selesai di analisa'
+      flagActivityDetail: 'Sampel selesai diuji oleh Analis'
     })
     this.props.firebase.db.ref('samples/' + this.state.thisP + '/zItems/' + this.state.thisQ).update({
       hasilUjiSampel: this.state.hasilUjiSampel,

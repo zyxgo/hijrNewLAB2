@@ -318,7 +318,7 @@ class SampelAddBase extends Component {
             >
               BACK
             </Button>
-            <Typography variant="h5" gutterBottom>Tambah Sample</Typography>
+            <Typography variant="h5" gutterBottom>Tambah Sampel</Typography>
             <div>
               {/* <TextField
                 disabled
