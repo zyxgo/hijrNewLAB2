@@ -31,6 +31,8 @@ import Select from '@material-ui/core/Select';
 // import FormHelperText from '@material-ui/core/FormHelperText';
 // import Input from '@material-ui/core/Input';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
+import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
+
 import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
 
@@ -258,17 +260,17 @@ class SampelDetailBase extends Component {
             alamatPemilikSampel: snap.val().alamatPemilikSampel,
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
-            // kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab === undefined ? '' : snap.val().kodeUnikSampelAdminLab,
-            // tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : snap.val().tanggalTerimaSampelAdminLab,
-            // unitPengujianSampel: snap.val().unitPengujianSampel === undefined ? '' : snap.val().unitPengujianSampel,
-            // penerimaSampelAdminLab: snap.val().penerimaSampelAdminLab === undefined ? '' : snap.val().penerimaSampelAdminLab,
-            // penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab === undefined ? '' : snap.val().penerimaSampelAnalisLab,
-            // manajerAdministrasiAdminLab: snap.val().manajerAdministrasiAdminLab === undefined ? '' : snap.val().manajerAdministrasiAdminLab,
-            // manajerTeknisAdminLab: snap.val().manajerTeknisAdminLab === undefined ? '' : snap.val().manajerTeknisAdminLab,
-            // nipPenerimaSampelAdminLab: snap.val().nipPenerimaSampelAdminLab === undefined ? '' : snap.val().nipPenerimaSampelAdminLab,
-            // nipPenerimaSampelAnalisLab: snap.val().nipPenerimaSampelAnalisLab === undefined ? '' : snap.val().nipPenerimaSampelAnalisLab,
-            // nipManajerAdministrasiAdminLab: snap.val().nipManajerAdministrasiAdminLab === undefined ? '' : snap.val().nipManajerAdministrasiAdminLab,
-            // nipManajerTeknisAdminLab: snap.val().nipManajerTeknisAdminLab === undefined ? '' : snap.val().nipManajerTeknisAdminLab,
+            kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab === undefined ? '' : snap.val().kodeUnikSampelAdminLab,
+            tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : snap.val().tanggalTerimaSampelAdminLab,
+            unitPengujianSampel: snap.val().unitPengujianSampel === undefined ? '' : snap.val().unitPengujianSampel,
+            penerimaSampelAdminLab: snap.val().penerimaSampelAdminLab === undefined ? '' : snap.val().penerimaSampelAdminLab,
+            penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab === undefined ? '' : snap.val().penerimaSampelAnalisLab,
+            manajerAdministrasiAdminLab: snap.val().manajerAdministrasiAdminLab === undefined ? '' : snap.val().manajerAdministrasiAdminLab,
+            manajerTeknisAdminLab: snap.val().manajerTeknisAdminLab === undefined ? '' : snap.val().manajerTeknisAdminLab,
+            nipPenerimaSampelAdminLab: snap.val().nipPenerimaSampelAdminLab === undefined ? '' : snap.val().nipPenerimaSampelAdminLab,
+            nipPenerimaSampelAnalisLab: snap.val().nipPenerimaSampelAnalisLab === undefined ? '' : snap.val().nipPenerimaSampelAnalisLab,
+            nipManajerAdministrasiAdminLab: snap.val().nipManajerAdministrasiAdminLab === undefined ? '' : snap.val().nipManajerAdministrasiAdminLab,
+            nipManajerTeknisAdminLab: snap.val().nipManajerTeknisAdminLab === undefined ? '' : snap.val().nipManajerTeknisAdminLab,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -709,11 +711,16 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderTopWidth: 0
   },
-  tableColSmall: {
-    width: "15px",
+  tableColUncheck: {
+    width: "11px",
+    height: '11px',
     borderStyle: "solid",
     borderColor: '#000',
-    borderWidth: 1,
+    borderWidth: 1.5,
+    marginRight: '5px',
+  },
+  tableDirectionRow: {
+    flexDirection: "row"
   },
   tableCellHeader: {
     margin: "auto",
@@ -750,6 +757,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
     width: 40,
     height: 40,
+  },
+  logoChecklist: {
+    marginVertical: 0,
+    marginRight: 3,
+    width: 13,
+    height: 13,
   },
   headerRowRight: {
     textAlign: 'right',
@@ -916,8 +929,26 @@ const Quixote = (p) => {
             <Text style={styles.headerTitle11}>Jenis Sampel : {p.q.zItems[el1].jenisSampel}</Text>
             <Text style={styles.headerTitle11}>Jumlah Sampel : {p.q.zItems[el1].jumlahSampel}</Text>
             <Text style={styles.headerTitle11}>{' '}</Text>
-            <Text style={styles.headerTitle11}><Text style={styles.tableColSmall}>{' '}</Text> Untuk dilakukan pengujian dari ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? p.q.zItems[el1].metodePengujianSampel : ''}</Text>
-            <Text style={styles.headerTitle11}><Text style={styles.tableColSmall}>{' '}</Text> Untuk dilakukan pengujian di luar ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? '' : p.q.zItems[el1].metodePengujianSampel}</Text>
+            <View style={styles.tableDirectionRow}>
+              {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ?
+                <Image
+                  style={styles.logoChecklist}
+                  src='data:image/png;base64,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lO9kpAAgQCHuyEYBQICCu+HfuC3AzWoKAAIU3g2/7HL+M0VNAUCAwhz+V3fzX6yqACBACH03u5q/ugKAAGGcvsfN/D9VVwAQIJSRTu6GVRYABAjnxrQXAAQowgM+FYAFAQIo3w3Pdy3/wgUg9uehIUAIbZc4VgC6KS0ACFCUbmv8KABt6xFADydud6gAfLPgl9khQABNnLvX/QKAADoZ60r+MwQBrPBTRwpAJQJYYrrbBQABdNPq9w4UgAGCANY47B2HCwACGKDPJssC/EQQwCqD7O6GZwgCWGZEo8X8F1UigHX+zdUCgACGuN/RAoAAhsg/ZakAjBQEcIKqN5wsAAhgjK6rLeT/G0EAZzj+EwcLAAIYZJjp3fBH3QQBXOJK9woAAhjlVucKAAKY5X8MCjBREMA5ASpecKwAIIBhOqx0qwAggGl6bTRTALoKAjgpgJz2qYkCcIoggKMCyEX6d8OlFwAEsMAPHCoACGCDe90pAAhgg/wcrfm/XokAbgsgVYtcKQAIYIfOHzhSABDAEv+wTVcBuFgQwAMB5B/r9QjwY0EALwSQ0Vryf1wQwBMB5CcuFAAEsMg0BwoAAlikYqH9AoAANmm/Qmn+cQoAAlil53rbBQAB7DJgt+UCgACW+ecGuwUAAWxzvaL8/9ZVEMBHAWJ9Tseh7O4vCOCnAPknVRSAbwgCeCqAtPljcgEmCAJ4K4AcsSpp/o8JAngsgBz7sbUCgABOcHadrQKAAG5weYKPmEpUABDAESZYKgAI4AqP2ikACOAK5f9rpQAggDPULI/zDf6xNQKkRADpsS5GAegiCJAWAaT/LvMFAAFc4oIG4wUAAZziWuMFAAHcYorpAoAAbpF7wnABQADHqHzVbAFAANfo9F6JBeBkQYA0CiD9tpZUAEYIAqRTABlcym74R4IAaRVAvlV8NzxdECC9Ash/misACOAkD4d/V2u6CAKkWoDyZ00VAARwk3ZvGioACOAoR641UwAQwFVO3mmkACCAs3x1X4vf0WutESAbAsh3TRQABHCYSQYKAAI4TG6m/gKAAC7T+pVm3854QYAsCSAd3z3ou/m1IEC2BJCjt2guAAjgOGfU6i0ACOA63/xiN7zrZEGADAog//F5Afi6IEAmBZAHdRYABHCfsgUaCwACeED1Un0FAAF8oPsrnQUBMiyAbhAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAAXQLMBdKYEF6BQDNIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAKAzwKMAGe5UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBv8P4MEpJXxK5GbAAAAAElFTkSuQmCC'
+                />
+                :
+                <View style={styles.tableColSmall}></View>
+              }
+              <Text style={styles.headerTitle11}> Untuk dilakukan pengujian dari ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? p.q.zItems[el1].metodePengujianSampel : ''}</Text></View>
+            <View style={styles.tableDirectionRow}>
+              {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ?
+                <View style={styles.tableColSmall}></View>
+                :
+                <Image
+                  style={styles.logoChecklist}
+                  src='data:image/png;base64,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lO9kpAAgQCHuyEYBQICCu+HfuC3AzWoKAAIU3g2/7HL+M0VNAUCAwhz+V3fzX6yqACBACH03u5q/ugKAAGGcvsfN/D9VVwAQIJSRTu6GVRYABAjnxrQXAAQowgM+FYAFAQIo3w3Pdy3/wgUg9uehIUAIbZc4VgC6KS0ACFCUbmv8KABt6xFADydud6gAfLPgl9khQABNnLvX/QKAADoZ60r+MwQBrPBTRwpAJQJYYrrbBQABdNPq9w4UgAGCANY47B2HCwACGKDPJssC/EQQwCqD7O6GZwgCWGZEo8X8F1UigHX+zdUCgACGuN/RAoAAhsg/ZakAjBQEcIKqN5wsAAhgjK6rLeT/G0EAZzj+EwcLAAIYZJjp3fBH3QQBXOJK9woAAhjlVucKAAKY5X8MCjBREMA5ASpecKwAIIBhOqx0qwAggGl6bTRTALoKAjgpgJz2qYkCcIoggKMCyEX6d8OlFwAEsMAPHCoACGCDe90pAAhgg/wcrfm/XokAbgsgVYtcKQAIYIfOHzhSABDAEv+wTVcBuFgQwAMB5B/r9QjwY0EALwSQ0Vryf1wQwBMB5CcuFAAEsMg0BwoAAlikYqH9AoAANmm/Qmn+cQoAAlil53rbBQAB7DJgt+UCgACW+ecGuwUAAWxzvaL8/9ZVEMBHAWJ9Tseh7O4vCOCnAPknVRSAbwgCeCqAtPljcgEmCAJ4K4AcsSpp/o8JAngsgBz7sbUCgABOcHadrQKAAG5weYKPmEpUABDAESZYKgAI4AqP2ikACOAK5f9rpQAggDPULI/zDf6xNQKkRADpsS5GAegiCJAWAaT/LvMFAAFc4oIG4wUAAZziWuMFAAHcYorpAoAAbpF7wnABQADHqHzVbAFAANfo9F6JBeBkQYA0CiD9tpZUAEYIAqRTABlcym74R4IAaRVAvlV8NzxdECC9Ash/misACOAkD4d/V2u6CAKkWoDyZ00VAARwk3ZvGioACOAoR641UwAQwFVO3mmkACCAs3x1X4vf0WutESAbAsh3TRQABHCYSQYKAAI4TG6m/gKAAC7T+pVm3854QYAsCSAd3z3ou/m1IEC2BJCjt2guAAjgOGfU6i0ACOA63/xiN7zrZEGADAog//F5Afi6IEAmBZAHdRYABHCfsgUaCwACeED1Un0FAAF8oPsrnQUBMiyAbhAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAAXQLMBdKYEF6BQDNIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACIAACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAKAzwKMAGe5UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBv8P4MEpJXxK5GbAAAAAElFTkSuQmCC'
+                />
+              }
+              <Text style={styles.headerTitle11}> Untuk dilakukan pengujian dari ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? '' : p.q.zItems[el1].metodePengujianSampel}</Text></View>
           </View>
         )}
       </View>
@@ -936,7 +967,7 @@ const Quixote = (p) => {
           </View>
           <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
-            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat( p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
             <Text>{' '}</Text>
             <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Administrasi</Text>
@@ -992,9 +1023,9 @@ const PDFLHU = (p) => {
           <Text style={styles.headerTitle11}>No. Identifikasi Sampel : {p.q.kodeUnikSampelAdminLab}</Text>
           <Text style={styles.headerTitle11}>No. Surat Pengiriman : {p.q.nomorAgendaSurat}</Text>
           <Text style={styles.headerTitle11}>Tanggal Pengiriman Surat : {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "MM/dd/yyyy")}</Text>
-          <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat( p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
           <Text style={styles.headerTitle11}>Jenis Pengujian : {p.q.unitPengujianSampel}</Text>
-          <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat( p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
           <Text style={styles.headerTitle11}>Kondisi Sampel : {p.q.zItems[el1].kondisiSampel}</Text>
         </View>
       )}
@@ -1065,7 +1096,7 @@ const PDFLHU = (p) => {
           </View>
           <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
-            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat( p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
             <Text>{' '}</Text>
             <Text style={[styles.headerTitle11, styles.headerRowLeft]}>Mengetahui,</Text>
             <Text>Pelaksana Fungsi</Text>
