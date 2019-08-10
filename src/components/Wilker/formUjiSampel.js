@@ -93,6 +93,7 @@ class SampelAllBase extends Component {
               petugasPengambilSampel: el.val().petugasPengambilSampel,
               flagActivity: el.val().flagActivity,
               flagStatusProses: el.val().flagStatusProses,
+              flagStatusLaporan: el.val().flagStatusLaporan,
               zItems: el.val().zItems,
             })
           });
@@ -451,6 +452,25 @@ class SampelDetailBase extends Component {
           });
         } else {
           this.setState({ items: null, loading: false });
+        }
+      })
+      this.props.firebase.db.ref('masterData/userform')
+      .on('value', snap1 => {
+        if (snap1.val()) {
+          const b1 = [];
+          snap1.forEach((res) => {
+            if (res.val().jabatanUserForm === 'Wilker') {
+              b1.push({
+                idUserForm: res.val().idUserForm,
+                jabatanUserForm: res.val().jabatanUserForm,
+                namaUserForm: res.val().namaUserForm,
+                nipUserForm: res.val().nipUserForm,
+              })
+            }
+          })
+          this.setState({
+            selectUserformPenyelia: b1,
+          });
         }
       })
   }

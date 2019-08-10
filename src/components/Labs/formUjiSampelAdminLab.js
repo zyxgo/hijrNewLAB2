@@ -227,7 +227,7 @@ class SampelDetailBase extends Component {
       selectJenisPengujian: [],
       selectMetodePengujian: [],
       selectUnitPengujian: [],
-      tanggalTerimaSampelAdminLab: new Date(),
+      tanggalTerimaSampelAdminLab: dateFnsFormat(new Date(), "MM/dd/yyyy"),
       penerimaSampelAdminLab: '',
       penerimaSampelAnalisLab: '',
       manajerTeknisAdminLab: '',
@@ -251,18 +251,22 @@ class SampelDetailBase extends Component {
             idPermohonanUji: snap.val().idPermohonanUji,
             kodeUnikSampel: snap.val().kodeUnikSampel,
             tanggalMasukSampel: snap.val().tanggalMasukSampel,
-            kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab,
             nomorAgendaSurat: snap.val().nomorAgendaSurat,
             namaPemilikSampel: snap.val().namaPemilikSampel,
             alamatPemilikSampel: snap.val().alamatPemilikSampel,
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
-            tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab,
-            unitPengujianSampel: snap.val().unitPengujianSampel,
-            penerimaSampelAdminLab: snap.val().penerimaSampelAdminLab,
-            penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab,
-            manajerAdministrasiAdminLab: snap.val().manajerAdministrasiAdminLab,
-            manajerTeknisAdminLab: snap.val().manajerTeknisAdminLab,
+            kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab === undefined ? '' : snap.val().kodeUnikSampelAdminLab,
+            tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : snap.val().tanggalTerimaSampelAdminLab,
+            unitPengujianSampel: snap.val().unitPengujianSampel === undefined ? '' : snap.val().unitPengujianSampel,
+            penerimaSampelAdminLab: snap.val().penerimaSampelAdminLab === undefined ? '' : snap.val().penerimaSampelAdminLab,
+            penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab === undefined ? '' : snap.val().penerimaSampelAnalisLab,
+            manajerAdministrasiAdminLab: snap.val().manajerAdministrasiAdminLab === undefined ? '' : snap.val().manajerAdministrasiAdminLab,
+            manajerTeknisAdminLab: snap.val().manajerTeknisAdminLab === undefined ? '' : snap.val().manajerTeknisAdminLab,
+            nipPenerimaSampelAdminLab: snap.val().nipPenerimaSampelAdminLab === undefined ? '' : snap.val().nipPenerimaSampelAdminLab,
+            nipPenerimaSampelAnalisLab: snap.val().nipPenerimaSampelAnalisLab === undefined ? '' : snap.val().nipPenerimaSampelAnalisLab,
+            nipManajerAdministrasiAdminLab: snap.val().nipManajerAdministrasiAdminLab === undefined ? '' : snap.val().nipManajerAdministrasiAdminLab,
+            nipManajerTeknisAdminLab: snap.val().nipManajerTeknisAdminLab === undefined ? '' : snap.val().nipManajerTeknisAdminLab,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -339,7 +343,7 @@ class SampelDetailBase extends Component {
   handleSubmit = () => {
     this.setState({ open: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : this.state.tanggalTerimaSampelAdminLab.toString(),
+      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab.toString(),   //=== undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : this.state.tanggalTerimaSampelAdminLab.toString(),
       kodeUnikSampelAdminLab: this.state.kodeUnikSampelAdminLab,
       penerimaSampelAdminLab: this.state.penerimaSampelAdminLab,
       manajerAdministrasiAdminLab: this.state.manajerAdministrasiAdminLab,
@@ -347,9 +351,6 @@ class SampelDetailBase extends Component {
       penerimaSampelAnalisLab: this.state.penerimaSampelAnalisLab,
       unitPengujianSampel: this.state.unitPengujianSampel,
     });
-    // this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems/' + this.state.thisQ).update({
-    //   unitPengujianSampel: this.state.unitPengujianSampel,
-    // })
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagActivityDetail: 'Update detail by admin lab done',
     })
@@ -892,7 +893,6 @@ const Quixote = (p) => {
       </View>
       <View style={styles.headerRowCenter}>
         <Text style={styles.headerTitle16}>SURAT PENGANTAR PENGUJIAN</Text>
-        {/* <Text style={styles.headerTitle11}>Nomor : {p.q.nomorAgendaSurat} {'   '}Tanggal : {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab ? new Date() : p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text> */}
       </View>
       <View style={[styles.marginV10, styles.marginL20]}>
         <Text style={styles.headerTitle11}>Kepada Yth.</Text>
@@ -928,7 +928,7 @@ const Quixote = (p) => {
           </View>
           <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
-            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat( p.q.tanggalTerimaSampelAdminLab === undefined ? new Date(p.q.tanggalMasukSampel) : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat( p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
             <Text>{' '}</Text>
             <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Administrasi</Text>
@@ -984,9 +984,9 @@ const PDFLHU = (p) => {
           <Text style={styles.headerTitle11}>No. Identifikasi Sampel : {p.q.kodeUnikSampelAdminLab}</Text>
           <Text style={styles.headerTitle11}>No. Surat Pengiriman : {p.q.nomorAgendaSurat}</Text>
           <Text style={styles.headerTitle11}>Tanggal Pengiriman Surat : {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "MM/dd/yyyy")}</Text>
-          <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat( p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
           <Text style={styles.headerTitle11}>Jenis Pengujian : {p.q.unitPengujianSampel}</Text>
-          <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat( p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
           <Text style={styles.headerTitle11}>Kondisi Sampel : {p.q.zItems[el1].kondisiSampel}</Text>
         </View>
       )}
@@ -1053,7 +1053,7 @@ const PDFLHU = (p) => {
           </View>
           <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
-            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat( p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
             <Text>{' '}</Text>
             <Text style={[styles.headerTitle11, styles.headerRowLeft]}>Mengetahui,</Text>
             <Text>Pelaksana Fungsi</Text>
