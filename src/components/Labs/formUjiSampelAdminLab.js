@@ -95,6 +95,14 @@ class SampelAllBase extends Component {
               flagActivity: el.val().flagActivity,
               flagActivityDetail: el.val().flagActivityDetail,
               flagStatusProses: el.val().flagStatusProses,
+              tanggalTerimaSampelAdminLab: el.val().tanggalTerimaSampelAdminLab,
+              unitPengujianSampel: el.val().unitPengujianSampel,
+              tanggalUjiSampelAnalis: el.val().tanggalUjiSampelAnalis,
+              kondisiSampel: el.val().kondisiSampel,
+              manajerAdministrasiAdminLab: el.val().manajerAdministrasiAdminLab,
+              manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
+              kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
+              nomorAgendaSurat: el.val().nomorAgendaSurat,
               zItems: el.val().zItems,
             })
           });
@@ -243,12 +251,18 @@ class SampelDetailBase extends Component {
             idPermohonanUji: snap.val().idPermohonanUji,
             kodeUnikSampel: snap.val().kodeUnikSampel,
             tanggalMasukSampel: snap.val().tanggalMasukSampel,
-            // kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab,
+            kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab,
             nomorAgendaSurat: snap.val().nomorAgendaSurat,
             namaPemilikSampel: snap.val().namaPemilikSampel,
             alamatPemilikSampel: snap.val().alamatPemilikSampel,
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
+            tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab,
+            unitPengujianSampel: snap.val().unitPengujianSampel,
+            penerimaSampelAdminLab: snap.val().penerimaSampelAdminLab,
+            penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab,
+            manajerAdministrasiAdminLab: snap.val().manajerAdministrasiAdminLab,
+            manajerTeknisAdminLab: snap.val().manajerTeknisAdminLab,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -325,7 +339,7 @@ class SampelDetailBase extends Component {
   handleSubmit = () => {
     this.setState({ open: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab.toString(),
+      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : this.state.tanggalTerimaSampelAdminLab.toString(),
       kodeUnikSampelAdminLab: this.state.kodeUnikSampelAdminLab,
       penerimaSampelAdminLab: this.state.penerimaSampelAdminLab,
       manajerAdministrasiAdminLab: this.state.manajerAdministrasiAdminLab,
@@ -409,7 +423,7 @@ class SampelDetailBase extends Component {
 
   render() {
     const {
-      selectUnitPengujian, unitPengujianSampel, loading, items,
+      selectUnitPengujian, unitPengujianSampel, loading, items, kodeUnikSampelAdminLab,
       tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab,
       penerimaSampelAdminLab, manajerTeknisAdminLab, manajerAdministrasiAdminLab, penerimaSampelAnalisLab,
       selectUserformAdminLab, selectUserformManajerAdministrasi, selectUserformManajerTeknis, selectUserformAnalis,
@@ -417,7 +431,7 @@ class SampelDetailBase extends Component {
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '';
     const isInvalid2 = unitPengujianSampel === '';
-    // console.log(this.state)
+    console.log(this.state)
 
     return (
       <div>
@@ -499,6 +513,7 @@ class SampelDetailBase extends Component {
 
                 <TextField
                   id="kodeUnikSampelAdminLab"
+                  value={kodeUnikSampelAdminLab}
                   label="Kode Sampel"
                   style={{ width: "100%", marginBottom: 20 }}
                   variant="outlined"
@@ -877,7 +892,7 @@ const Quixote = (p) => {
       </View>
       <View style={styles.headerRowCenter}>
         <Text style={styles.headerTitle16}>SURAT PENGANTAR PENGUJIAN</Text>
-        <Text style={styles.headerTitle11}>Nomor : {p.q.nomorAgendaSurat} {'   '}Tanggal : {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+        {/* <Text style={styles.headerTitle11}>Nomor : {p.q.nomorAgendaSurat} {'   '}Tanggal : {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab ? new Date() : p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text> */}
       </View>
       <View style={[styles.marginV10, styles.marginL20]}>
         <Text style={styles.headerTitle11}>Kepada Yth.</Text>
@@ -893,15 +908,16 @@ const Quixote = (p) => {
             <Text style={styles.headerTitle11}>Jenis Sampel : {p.q.zItems[el1].jenisSampel}</Text>
             <Text style={styles.headerTitle11}>Jumlah Sampel : {p.q.zItems[el1].jumlahSampel}</Text>
             <Text style={styles.headerTitle11}>{' '}</Text>
-            <Text style={styles.headerTitle11}>Untuk dilakukan pengujian dari ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? 'Akreditasi' : ''}</Text>
-            <Text style={styles.headerTitle11}>Untuk dilakukan pengujian di luar ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? '' : 'Diluar Akreditasi'}</Text>
+            <Text style={styles.headerTitle11}>Untuk dilakukan pengujian dari ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? p.q.zItems[el1].metodePengujianSampel : ''}</Text>
+            <Text style={styles.headerTitle11}>Untuk dilakukan pengujian di luar ruang lingkup {p.q.zItems[el1].ruangLingkupSampel === 'Akreditasi' ? '' : p.q.zItems[el1].metodePengujianSampel}</Text>
           </View>
         )}
       </View>
       <View style={styles.footerRow100}>
-        <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
         <View style={styles.footerRow2}>
           <View style={styles.footerCol}>
+            <Text>{' '}</Text>
+            <Text>{' '}</Text>
             <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Teknis</Text>
             <Text>{' '}</Text>
@@ -912,6 +928,8 @@ const Quixote = (p) => {
           </View>
           <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
+            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat( p.q.tanggalTerimaSampelAdminLab === undefined ? new Date(p.q.tanggalMasukSampel) : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+            <Text>{' '}</Text>
             <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Administrasi</Text>
             <Text>{' '}</Text>
@@ -927,7 +945,7 @@ const Quixote = (p) => {
 }
 
 const PDFLHU = (p) => {
-  // console.log(p);
+  console.log(p);
 
   return <Document>
     <Page size='LEGAL' orientation='portrait' style={styles.body}>
@@ -953,23 +971,25 @@ const PDFLHU = (p) => {
         <Text style={styles.headerTitle11}>Laporan / Sertifikat ini diberikan kepada :</Text>
       </View>
       <View style={[styles.marginV10, styles.marginL40]}>
-        <Text style={styles.headerTitle11}>Nama / Instansi Pemilik Sampel : </Text>
-        <Text style={styles.headerTitle11}>Alamat : </Text>
-        <Text style={styles.headerTitle11}>Ket. Asal / Tujuan : </Text>
+        <Text style={styles.headerTitle11}>Nama / Instansi Pemilik Sampel : {p.q.namaPemilikSampel}</Text>
+        <Text style={styles.headerTitle11}>Alamat : {p.q.alamatPemilikSampel}</Text>
+        <Text style={styles.headerTitle11}>Ket. Asal / Tujuan : {p.q.asalTujuanSampel}</Text>
       </View>
       <View style={[styles.marginV10, styles.marginL20]}>
         <Text style={styles.headerTitle11}>Yang telah mengirim sampel untuk pengujian Laboratorium, Identitas sampel, jenis dan hasil pengujian sebagai berikut : </Text>
       </View>
-      <View style={[styles.marginV10, styles.marginL40]}>
-        <Text style={styles.headerTitle11}>Sampel (jenis dan jumlah) : {p.q.jenisSampel}</Text>
-        <Text style={styles.headerTitle11}>No. Identifikasi Sampel : {p.q.kodeUnikSampelAdminLab}</Text>
-        <Text style={styles.headerTitle11}>No. Surat Pengiriman : {p.q.nomorAgendaSurat}</Text>
-        <Text style={styles.headerTitle11}>Tanggal Pengiriman Surat : {p.q.tanggalMasukSampel}</Text>
-        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {p.q.tanggalTerimaSampelAdminLab}</Text>
-        <Text style={styles.headerTitle11}>Jenis Pengujian : {p.q.jenisPengujianSampel}</Text>
-        <Text style={styles.headerTitle11}>Tanggal Pengujian : {p.q.tanggalTerimaSampelAdminLab}</Text>
-        <Text style={styles.headerTitle11}>Kondisi Sampel : {p.q.kondisiSampel}</Text>
-      </View>
+      {!!p.q.zItems && Object.keys(p.q.zItems).map((el1, key1) =>
+        <View style={[styles.marginV10, styles.marginL40]}>
+          <Text style={styles.headerTitle11}>Sampel (jenis dan jumlah) : {p.q.zItems[el1].jenisSampel} / {p.q.zItems[el1].jumlahSampel}</Text>
+          <Text style={styles.headerTitle11}>No. Identifikasi Sampel : {p.q.kodeUnikSampelAdminLab}</Text>
+          <Text style={styles.headerTitle11}>No. Surat Pengiriman : {p.q.nomorAgendaSurat}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Pengiriman Surat : {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Jenis Pengujian : {p.q.unitPengujianSampel}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Kondisi Sampel : {p.q.zItems[el1].kondisiSampel}</Text>
+        </View>
+      )}
       <View style={styles.headerRowCenter}>
         <Text style={styles.headerTitle16}>HASIL</Text>
       </View>
@@ -1003,7 +1023,7 @@ const PDFLHU = (p) => {
               <Text style={styles.tableCell}>{p.q.zItems[el1].jumlahSampel}</Text>
             </View>
             <View style={styles.tableCol15}>
-              <Text style={styles.tableCell}>{p.q.zItems[el1].jenisPengujianSampel}</Text>
+              <Text style={styles.tableCell}>{p.q.zItems[el1].targetPengujianSampel}</Text>
             </View>
             <View style={styles.tableCol15}>
               <Text style={styles.tableCell}>{p.q.zItems[el1].metodePengujianSampel}</Text>
@@ -1018,25 +1038,31 @@ const PDFLHU = (p) => {
         )}
       </View>
       <View style={styles.footerRow200}>
-        <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar,        20....</Text>
-        <Text style={[styles.headerTitle11, styles.headerRowLeft]}>Mengetahui,</Text>
         <View style={styles.footerRow2}>
           <View style={styles.footerCol}>
+            <Text>{' '}</Text>
+            <Text>{' '}</Text>
+            <Text>{' '}</Text>
+            <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Administrasi</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>(...................)</Text>
+            <Text>( {p.q.manajerAdministrasiAdminLab} )</Text>
           </View>
-          <View style={styles.spaceV200}></View>
+          <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
+            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+            <Text>{' '}</Text>
+            <Text style={[styles.headerTitle11, styles.headerRowLeft]}>Mengetahui,</Text>
+            <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Teknis</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>(...................)</Text>
+            <Text>( {p.q.manajerTeknisAdminLab})</Text>
           </View>
         </View>
       </View>

@@ -76,8 +76,8 @@ class SampelAllBase extends Component {
   componentDidMount() {
     this.setState({ loading: true });
     this.props.firebase.db.ref('samples')
-      .orderByChild('flagStatusProses')
-      .equalTo('Sampel di Analis')
+      // .orderByChild('flagStatusProses')
+      // .equalTo('Sampel di Analis')
       .on('value', snap => {
         if (snap.val()) {
           const a = [];
@@ -94,7 +94,7 @@ class SampelAllBase extends Component {
               petugasPengambilSampel: el.val().petugasPengambilSampel,
               flagActivity: el.val().flagActivity,
               flagStatusProses: el.val().flagStatusProses,
-              tanggalUjiSampelAnalis:el.val().tanggalUjiSampelAnalis,
+              tanggalUjiSampelAnalis: el.val().tanggalUjiSampelAnalis,
               penyeliaAnalis: el.val().penyeliaAnalis,
               penerimaSampelAnalisLab: el.val().penerimaSampelAnalisLab,
               zItems: el.val().zItems,
@@ -123,7 +123,7 @@ class SampelAllBase extends Component {
 
   handleSubmitKeAnalysis = propSample => {
     this.props.firebase.db.ref('samples/' + propSample).update({
-      flagActivity: 'Submit sampel ke admin lab'
+      flagActivity: 'Proses ke pelaksana teknis'
     })
   }
 
@@ -247,6 +247,10 @@ class SampelDetailBase extends Component {
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
             penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab,
+            tanggalUjiSampelAnalis: snap.val().tanggalUjiSampelAnalis,
+            penyeliaAnalis: snap.val().penyeliaAnalis,
+
+
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -296,13 +300,13 @@ class SampelDetailBase extends Component {
   handleSubmit = () => {
     this.setState({ open: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-      tanggalUjiSampelAnalis: this.state.tanggalUjiSampelAnalis.toString(),
+      tanggalUjiSampelAnalis: this.state.tanggalUjiSampelAnalis === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : this.state.tanggalUjiSampelAnalis.toString(),
       managerTeknisAnalis: this.state.managerTeknisAnalis,
       managerAdministrasiAnalis: this.state.managerAdministrasiAnalis,
       penyeliaAnalis: this.state.penyeliaAnalis,
       namaAnalis: this.state.namaAnalis,
       flagActivity: 'Permohonan pengujian selesai di analisa',
-      // flagStatusProses: 'Sampel selesai di proses',
+      flagStatusProses: 'Proses di Pelaksana Teknis',
     })
   }
 
@@ -1037,7 +1041,7 @@ const Quixote = (p) => {
         <Text style={styles.headerTitle16}>LAPORAN HASIL PENGUJIAN</Text>
       </View>
       <View style={styles.marginV10}>
-        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
       </View>
       <View style={styles.table}>
         <View style={styles.tableRow}>
@@ -1085,9 +1089,10 @@ const Quixote = (p) => {
 
       </View>
       <View style={styles.footerRow}>
-        <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
         <View style={styles.footerRow2}>
           <View style={styles.footerCol}>
+            <Text>{' '}</Text>
+            <Text>{' '}</Text>
             <Text>Penyelia</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
@@ -1097,6 +1102,8 @@ const Quixote = (p) => {
           </View>
           <View style={styles.spaceV400}></View>
           <View style={styles.footerCol}>
+            <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+            <Text>{' '}</Text>
             <Text>Analis</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
