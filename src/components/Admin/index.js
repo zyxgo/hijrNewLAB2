@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-// import TextField from '@material-ui/core/TextField';
+import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -60,8 +60,8 @@ class AdminPage extends Component {
 
   render() {
     return (
-      <Grid style={{flex: 1, margin: 10}} item xs={12}>
-        <Paper style={{padding: 10}}>
+      <Grid style={{ flex: 1, margin: 10 }} item xs={12}>
+        <Paper style={{ padding: 10 }}>
           <Typography variant="h5" gutterBottom>
             Admin Page
           </Typography>
@@ -82,9 +82,9 @@ class UserListBase extends Component {
     this.state = {
       loading: false,
       users: [],
-      }; 
+    };
   }
-    
+
   componentDidMount() {
     this.setState({ loading: true });
     this.props.firebase.users().on('value', snapshot => {
@@ -96,67 +96,69 @@ class UserListBase extends Component {
       this.setState({
         users: usersList,
         loading: false,
-      }); 
+      });
     });
   }
-  
+
   componentWillUnmount() {
     this.props.firebase.users().off();
   }
 
   handleDelete = propSample =>
-  this.props.firebase.db.ref('users/' + propSample).remove();
+    this.props.firebase.db.ref('users/' + propSample).remove();
 
-  
+
   render() {
     const { users, loading } = this.state;
     console.log(users);
     return (
       <div>
-        {loading && <Typography>Loading...</Typography>} 
+        {loading && <Typography>Loading...</Typography>}
         <h2>Users</h2>
-          <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Username</TableCell>
-                  <TableCell>Area</TableCell>
-                  <TableCell>Role</TableCell>
-                  <TableCell colSpan={2}>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {!loading && !!users && users.map((el, key) => 
-                  <TableRow key={key}>
-                    <TableCell>{el.email}</TableCell>
-                    <TableCell>{el.username}</TableCell>
-                    <TableCell>{el.area}</TableCell>
-                    <TableCell>{el.roles}</TableCell>
-                      <TableCell>
-                        { el.roles[0] === 'ADMIN' ? '' :
-                          <Button component={Link} 
-                              to={{
-                                pathname: `${ROUTES.ADMIN}/${el.uid}`,
-                                state: { el },
-                              }}
-                            >
-                              Detail
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Email</TableCell>
+              <TableCell>Username</TableCell>
+              <TableCell>NIP</TableCell>
+              <TableCell>Area</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell colSpan={2}>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {!loading && !!users && users.map((el, key) =>
+              <TableRow key={key}>
+                <TableCell>{el.email}</TableCell>
+                <TableCell>{el.username}</TableCell>
+                <TableCell>{el.nipUser}</TableCell>
+                <TableCell>{el.area}</TableCell>
+                <TableCell>{el.roles}</TableCell>
+                <TableCell>
+                  {el.roles[0] === 'ADMIN' ? '' :
+                    <Button component={Link}
+                      to={{
+                        pathname: `${ROUTES.ADMIN}/${el.uid}`,
+                        state: { el },
+                      }}
+                    >
+                      Detail
                           </Button>
-                        }
-                      </TableCell>
-                    <TableCell>
-                      { el.roles[0] === 'ADMIN' ? '' :
-                        <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.uid)}>
-                          Hapus
+                  }
+                </TableCell>
+                <TableCell>
+                  {el.roles[0] === 'ADMIN' ? '' :
+                    <Button variant="text" color="secondary" onClick={() => this.handleDelete(el.uid)}>
+                      Hapus
                         </Button>
-                      }
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+                  }
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
-    ); 
+    );
   }
 
 }
@@ -168,11 +170,13 @@ class UserItemBase extends Component {
     this.state = {
       loading: false,
       user: null,
+      nipUser: null,
       open: false,
+      roles: [],
       ...props.location.state,
-    }; 
+    };
   }
-  
+
   componentDidMount() {
     if (this.state.user) {
       return;
@@ -183,10 +187,11 @@ class UserItemBase extends Component {
       .on('value', snapshot => {
         this.setState({
           user: snapshot.val(),
+          nipUser: snapshot.val().nipUser,
           area: snapshot.val().area,
           roles: snapshot.val().roles,
           loading: false,
-        }); 
+        });
         // console.log(snapshot.val());
       });
     // console.log(this.props);
@@ -222,13 +227,17 @@ class UserItemBase extends Component {
     roles.push(this.state.roles);
     // console.log(roles[0]);
     this.props.firebase.db.ref('users/' + this.props.match.params.id).update({
+      nipUser: this.state.nipUser,
       area: this.state.area,
       roles: [roles[0]],
     })
   }
 
-  
+
   render() {
+    console.log(this.state);
+    // console.log(this.props.match.params.id)
+
     const { user, loading, area, roles } = this.state;
     return (
       <div>
@@ -236,7 +245,7 @@ class UserItemBase extends Component {
           Ubah Data
         </Button>{' '}
         <Button>
-          <Link 
+          <Link
             to={{
               pathname: `${ROUTES.ADMIN}`,
             }}
@@ -245,95 +254,107 @@ class UserItemBase extends Component {
           </Link>
         </Button>
         {loading && <div>Loading ...</div>}
-          <Table>
-            <TableHead>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Email</TableCell>
+              <TableCell>Username</TableCell>
+              <TableCell>NIP</TableCell>
+              <TableCell>Area</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Reset Password</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {!loading && !!user &&
               <TableRow>
-                <TableCell>Email</TableCell>
-                <TableCell>Username</TableCell>
-                <TableCell>Area</TableCell>
-                <TableCell>Role</TableCell>
-                <TableCell>Reset Password</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {!loading && !!user && 
-                <TableRow>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.username}</TableCell>
-                  <TableCell>{user.area}</TableCell>
-                  <TableCell>{user.roles}</TableCell>
-                  <TableCell>
-                    <Button variant="text" color="primary" onClick={() => this.onSendPasswordResetEmail()}>
-                      Kirim Password Reset
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.nipUser}</TableCell>
+                <TableCell>{user.area}</TableCell>
+                <TableCell>{user.roles}</TableCell>
+                <TableCell>
+                  <Button variant="text" color="primary" onClick={() => this.onSendPasswordResetEmail()}>
+                    Kirim Password Reset
                     </Button>
-                  </TableCell>
-                </TableRow>
-              }
-            </TableBody>
-          </Table>
-          <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-            >
-            <DialogTitle id="form-dialog-title">User</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Ubah Data area dan user role
+                </TableCell>
+              </TableRow>
+            }
+          </TableBody>
+        </Table>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">User</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Ubah Data area dan user role
               </DialogContentText>
-              <FormControl style={{marginTop: 15}} variant="standard">
-                <InputLabel htmlFor="area">Area</InputLabel>{" "}
-                <Select
-                  value={area}
-                  onChange={this.onChange('area')}
-                  style={{width:400}}
-                  name="area"
-                >
-                  <MenuItem value="0501">0501</MenuItem>
-                  <MenuItem value="0502">0502</MenuItem>
-                  <MenuItem value="0503">0503</MenuItem>
-                  <MenuItem value="0504">0504</MenuItem>
-                  <MenuItem value="0505">0505</MenuItem>
-                  <MenuItem value="0506">0506</MenuItem>
-                  <MenuItem value="0507">0507</MenuItem>
-                  <MenuItem value="0508">0508</MenuItem>
-                  <MenuItem value="0509">0509</MenuItem>
-                  <MenuItem value="0510">0510</MenuItem>
-                  <MenuItem value="0511">0511</MenuItem>
-                  <MenuItem value="0512">0512</MenuItem>
-                  <MenuItem value="0513">0513</MenuItem>
-                  <MenuItem value="0514">0514</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl style={{marginTop: 15}} variant="standard">
-                <InputLabel htmlFor="roles">Role</InputLabel>{" "}
-                <Select
-                  value={roles}
-                  onChange={this.onChange('roles')}
-                  style={{width:400}}
-                  name="roles"
-                >
-                  <MenuItem value="WILKER">WILKER</MenuItem>
-                  <MenuItem value="WILKERSPV">WILKERSPV</MenuItem>
-                  <MenuItem value="ADMINLAB">ADMINLAB</MenuItem>
-                  <MenuItem value="ANALIS">ANALIS</MenuItem>
-                  <MenuItem value="PELAKSANATEKNIS">PELAKSANATEKNIS</MenuItem>
-                </Select>
-              </FormControl>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
-                Cancel
+            <TextField
+              id="nipUser"
+              name='nipUser'
+              // value={username}
+              onChange={this.onChange('nipUser')}
+              // type="text"
+              label="NIP"
+              style={{ width: "100%", marginTop: 15 }}
+              variant="outlined"
+            />
+            <FormControl style={{ marginTop: 15 }} variant="standard">
+              <InputLabel htmlFor="area">Area</InputLabel>{" "}
+              <Select
+                value={area}
+                onChange={this.onChange('area')}
+                style={{ width: 400 }}
+                name="area"
+              >
+                <MenuItem value="0501">0501</MenuItem>
+                <MenuItem value="0502">0502</MenuItem>
+                <MenuItem value="0503">0503</MenuItem>
+                <MenuItem value="0504">0504</MenuItem>
+                <MenuItem value="0505">0505</MenuItem>
+                <MenuItem value="0506">0506</MenuItem>
+                <MenuItem value="0507">0507</MenuItem>
+                <MenuItem value="0508">0508</MenuItem>
+                <MenuItem value="0509">0509</MenuItem>
+                <MenuItem value="0510">0510</MenuItem>
+                <MenuItem value="0511">0511</MenuItem>
+                <MenuItem value="0512">0512</MenuItem>
+                <MenuItem value="0513">0513</MenuItem>
+                <MenuItem value="0514">0514</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl style={{ marginTop: 15 }} variant="standard">
+              <InputLabel htmlFor="roles">Role</InputLabel>{" "}
+              <Select
+                value={roles}
+                onChange={this.onChange('roles')}
+                style={{ width: 400 }}
+                name="roles"
+              >
+                <MenuItem value="WILKER">WILKER</MenuItem>
+                <MenuItem value="WILKERSPV">WILKERSPV</MenuItem>
+                <MenuItem value="ADMINLAB">ADMINLAB</MenuItem>
+                <MenuItem value="ANALIS">ANALIS</MenuItem>
+                <MenuItem value="PELAKSANATEKNIS">PELAKSANATEKNIS</MenuItem>
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
               </Button>
-              <Button onClick={this.handleSubmit} 
-                color="primary">
-                Submit
+            <Button onClick={this.handleSubmit}
+              color="primary">
+              Submit
               </Button>
-            </DialogActions>
-          </Dialog>
+          </DialogActions>
+        </Dialog>
       </div>
     );
-  } 
+  }
 
 }
 
