@@ -91,6 +91,7 @@ class SampelAllBase extends Component {
               alamatPemilikSampel: el.val().alamatPemilikSampel,
               asalTujuanSampel: el.val().asalTujuanSampel,
               petugasPengambilSampel: el.val().petugasPengambilSampel,
+              nipUser: el.val().nipUser,
               flagActivity: el.val().flagActivity,
               flagStatusProses: el.val().flagStatusProses,
               flagStatusLaporan: el.val().flagStatusLaporan,
@@ -131,6 +132,8 @@ class SampelAllBase extends Component {
   }
 
   render() {
+    // console.log(this.props.location.data);
+    
     const { items, loading } = this.state;
     return (
       <AuthUserContext.Consumer>
@@ -264,6 +267,7 @@ class SampelAddBase extends Component {
             ('00000' + (parseInt(a[0].countSampelWilker, 10) + 1)).slice(-5),
           tanggalMasukSampel: new Date(),
           petugasPengambilSampel: this.props.location.data.authUser.username,
+          nipUser: this.props.location.data.authUser.nipUser,
         });
       })
 
@@ -294,6 +298,7 @@ class SampelAddBase extends Component {
       alamatPemilikSampel: this.state.alamatPemilikSampel,
       asalTujuanSampel: this.state.asalTujuanSampel,
       petugasPengambilSampel: this.state.petugasPengambilSampel,
+      nipUser: this.state.nipUser,
       flagActivity: 'Belum ada sampel uji',
       flagStatusProses: 'Sampel di Wilker',
     })
@@ -316,10 +321,12 @@ class SampelAddBase extends Component {
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      loading,
+      loading, nipUser,
     } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
+    console.log(this.state)
+
     return (
       <div>
         {loading ? <Typography>Loading...</Typography> :
@@ -462,6 +469,7 @@ class SampelDetailBase extends Component {
             alamatPemilikSampel: snap.val().alamatPemilikSampel,
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
+            nipUser:snap.val().nipUser,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -519,6 +527,7 @@ class SampelDetailBase extends Component {
       alamatPemilikSampel: this.state.alamatPemilikSampel,
       asalTujuanSampel: this.state.asalTujuanSampel,
       petugasPengambilSampel: this.state.petugasPengambilSampel,
+      nipUser: this.state.nipUser,
     })
   }
 
@@ -1625,7 +1634,11 @@ const styles = StyleSheet.create({
   spaceV150: {
     width: 150,
     height: 5,
-  }
+  },
+  textUnderline: {
+    fontWeight: 'bold',
+    textDecoration: 'underline',
+  },
 });
 
 const Quixote = (p) => {
@@ -1742,7 +1755,8 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.petugasPengambilSampel} )</Text>
+            <Text style={styles.textUnderline}>( {p.q.petugasPengambilSampel} )</Text>
+            <Text>NIP. {p.q.nipUser}</Text>
           </View>
         </View>
       </View>

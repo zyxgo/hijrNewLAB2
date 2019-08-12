@@ -110,7 +110,7 @@ class UserListBase extends Component {
 
   render() {
     const { users, loading } = this.state;
-    console.log(users);
+    // console.log(users);
     return (
       <div>
         {loading && <Typography>Loading...</Typography>}
@@ -235,7 +235,7 @@ class UserItemBase extends Component {
 
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     // console.log(this.props.match.params.id)
 
     const { user, loading, area, roles } = this.state;
