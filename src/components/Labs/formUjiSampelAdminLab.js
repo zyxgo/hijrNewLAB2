@@ -238,6 +238,8 @@ class SampelDetailBase extends Component {
       manajerAdministrasiAdminLab: '',
       thisP: '',
       thisQ: '',
+      statusLaporanSPP: false,
+      loadingReport: true,
     };
   }
 
@@ -271,6 +273,7 @@ class SampelDetailBase extends Component {
             nipPenerimaSampelAnalisLab: snap.val().nipPenerimaSampelAnalisLab === undefined ? '' : snap.val().nipPenerimaSampelAnalisLab,
             nipManajerAdministrasiAdminLab: snap.val().nipManajerAdministrasiAdminLab === undefined ? '' : snap.val().nipManajerAdministrasiAdminLab,
             nipManajerTeknisAdminLab: snap.val().nipManajerTeknisAdminLab === undefined ? '' : snap.val().nipManajerTeknisAdminLab,
+            statusLaporanSPP: snap.val().statusLaporanSPP,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -345,7 +348,7 @@ class SampelDetailBase extends Component {
   };
 
   handleSubmit = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, loadingReport: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab.toString(),   //=== undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : this.state.tanggalTerimaSampelAdminLab.toString(),
       kodeUnikSampelAdminLab: this.state.kodeUnikSampelAdminLab,
@@ -354,10 +357,16 @@ class SampelDetailBase extends Component {
       manajerTeknisAdminLab: this.state.manajerTeknisAdminLab,
       penerimaSampelAnalisLab: this.state.penerimaSampelAnalisLab,
       unitPengujianSampel: this.state.unitPengujianSampel,
+      statusLaporanSPP: true,
+      nipManajerAdministrasiAdminLab: this.state.nipManajerAdministrasiAdminLab,
+      nipManajerTeknisAdminLab: this.state.nipManajerTeknisAdminLab,
+      nipPenerimaSampelAdminLab: this.state.nipPenerimaSampelAdminLab,
+      nipPenerimaSampelAnalisLab: this.state.nipPenerimaSampelAnalisLab,
     });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagActivityDetail: 'Update detail by admin lab done',
-    })
+    });
+
     // console.log(this.state);
   }
 
@@ -424,7 +433,34 @@ class SampelDetailBase extends Component {
     this.setState({
       [name]: event.target.value,
     });
+    if (name === 'penerimaSampelAdminLab') {
+      const filtered = this.state.selectUserformAdminLab.filter(str => {
+        return str.namaUserForm === event.target.value;
+      });
+      // console.log(filtered);
+      this.setState({ nipPenerimaSampelAdminLab: filtered[0].nipUserForm });
+    } else if (name === 'penerimaSampelAnalisLab') {
+      const filtered = this.state.selectUserformAnalis.filter(str => {
+        return str.namaUserForm === event.target.value;
+      });
+      // console.log(filtered);
+      this.setState({ nipPenerimaSampelAnalisLab: filtered[0].nipUserForm });
+    } else if (name === 'manajerAdministrasiAdminLab') {
+      const filtered = this.state.selectUserformManajerAdministrasi.filter(str => {
+        return str.namaUserForm === event.target.value;
+      });
+      // console.log(filtered);
+      this.setState({ nipManajerAdministrasiAdminLab: filtered[0].nipUserForm });
+    } else if (name === 'manajerTeknisAdminLab') {
+      const filtered = this.state.selectUserformManajerTeknis.filter(str => {
+        return str.namaUserForm === event.target.value;
+      });
+      // console.log(filtered);
+      this.setState({ nipManajerTeknisAdminLab: filtered[0].nipUserForm });
+    }
   };
+
+  
 
   render() {
     const {
@@ -432,6 +468,8 @@ class SampelDetailBase extends Component {
       tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab,
       penerimaSampelAdminLab, manajerTeknisAdminLab, manajerAdministrasiAdminLab, penerimaSampelAnalisLab,
       selectUserformAdminLab, selectUserformManajerAdministrasi, selectUserformManajerTeknis, selectUserformAnalis,
+      selectNipUserformAdminLab, selectNipUserformManajerAdministrasi, selectNipUserformManajerTeknis, selectNipUserformAnalis,
+      statusLaporanSPP, loadingReport,
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '';
@@ -454,7 +492,6 @@ class SampelDetailBase extends Component {
             </Button>
             {!loading && items.map((el, key) =>
               <div style={{ marginTop: 25 }} key={key}>
-                {/* <Typography variant="subtitle1" gutterBottom>Nomor Permohonan (IQFAST) : {el.kodeUnikSampel}</Typography> */}
                 <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sampel : {dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Nomor Permohonan (IQFAST) : {el.nomorAgendaSurat}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sampel : {el.namaPemilikSampel}</Typography>
@@ -489,9 +526,12 @@ class SampelDetailBase extends Component {
                           </Button>
                         </TableCell> */}
                         <TableCell>
-                          <PDFDownloadLink document={<Quixote q={el} />} fileName="surat-pengantar-pengujian.pdf">
-                            {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Surat Pengantar Pengujian')}
-                          </PDFDownloadLink>
+                          {(statusLaporanSPP === false || statusLaporanSPP === undefined) && loadingReport === true ?
+                            'Data Surat Pengantar Pengujian belum lengkap' :
+                            <PDFDownloadLink document={<Quixote q={el} />} fileName="surat-pengantar-pengujian.pdf">
+                              {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Surat Pengantar Pengujian')}
+                            </PDFDownloadLink>
+                          }
                         </TableCell>
                       </TableRow>
                     )}
