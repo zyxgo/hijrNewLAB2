@@ -99,6 +99,7 @@ class SampelAllBase extends Component {
               formLaporanKeterangan: el.val().formLaporanKeterangan,
               formLaporanKesimpulan: el.val().formLaporanKesimpulan,
               manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
+              nipManajerTeknisAdminLab: el.val().nipManajerTeknisAdminLab,
               unitPengujianSampel: el.val().unitPengujianSampel,
               zItems: el.val().zItems,
             })
@@ -1882,7 +1883,8 @@ const PDFLHU = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.manajerTeknisAdminLab})</Text>
+            <Text style={styles.textUnderline}>( {p.q.manajerTeknisAdminLab} )</Text>
+            <Text>NIP. {p.q.nipManajerTeknisAdminLab}</Text>
           </View>
         </View>
       </View>

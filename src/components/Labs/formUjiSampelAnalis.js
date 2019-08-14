@@ -96,7 +96,9 @@ class SampelAllBase extends Component {
               flagStatusProses: el.val().flagStatusProses,
               tanggalUjiSampelAnalis: el.val().tanggalUjiSampelAnalis,
               penyeliaAnalis: el.val().penyeliaAnalis,
+              nipPenyeliaAnalis: el.val().nipPenyeliaAnalis,
               penerimaSampelAnalisLab: el.val().penerimaSampelAnalisLab,
+              nipPenerimaSampelAnalisLab: el.val().nipPenerimaSampelAnalisLab,
               zItems: el.val().zItems,
             })
           });
@@ -165,9 +167,14 @@ class SampelAllBase extends Component {
                           </Button>
                         </TableCell>
                         <TableCell>
+                        {
+                          el.flagActivity === 'Sampel selesai diuji oleh Analis' ?
                           <PDFDownloadLink document={<Quixote q={el} />} fileName="laporan-hasil-pengujian.pdf">
                             {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Laporan Hasil Pengujian')}
                           </PDFDownloadLink>
+                          :
+                          'Laporan Hasil Pengujian belum tersedia.'
+                        }
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -247,10 +254,10 @@ class SampelDetailBase extends Component {
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
             penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab,
+            nipPenerimaSampelAnalisLab: this.state.nipPenerimaSampelAnalisLab,
             tanggalUjiSampelAnalis: snap.val().tanggalUjiSampelAnalis,
             penyeliaAnalis: snap.val().penyeliaAnalis,
-
-
+            nipPenyeliaAnalis: snap.val().nipPenyeliaAnalis,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -304,6 +311,7 @@ class SampelDetailBase extends Component {
       managerTeknisAnalis: this.state.managerTeknisAnalis,
       managerAdministrasiAnalis: this.state.managerAdministrasiAnalis,
       penyeliaAnalis: this.state.penyeliaAnalis,
+      nipPenyeliaAnalis: this.state.nipPenyeliaAnalis,
       namaAnalis: this.state.namaAnalis,
       flagActivity: 'Sampel selesai diuji oleh Analis',
       flagStatusProses: 'Proses di Pelaksana Teknis',
@@ -628,12 +636,19 @@ class SampelDetailBase extends Component {
     this.setState({
       [name]: event.target.value,
     });
+    if (name === 'penyeliaAnalis') {
+      const filtered = this.state.selectUserformPenyelia.filter(str => {
+        return str.namaUserForm === event.target.value;
+      });
+      this.setState({ nipPenyeliaAnalis: filtered[0].nipUserForm });
+    }
   };
 
   onChange2 = name => event => {
     this.setState({
       [name]: event.target.value,
     });
+    
   };
 
   render() {
@@ -1014,7 +1029,11 @@ const styles = StyleSheet.create({
   spaceV400: {
     width: 400,
     height: 5,
-  }
+  },
+  textUnderline: {
+    fontWeight: 'bold',
+    textDecoration: 'underline',
+  },
 });
 
 const Quixote = (p) => {
@@ -1098,7 +1117,8 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.penyeliaAnalis} )</Text>
+            <Text style={styles.textUnderline}>( {p.q.penyeliaAnalis} )</Text>
+            <Text>NIP. {p.q.nipPenyeliaAnalis}</Text>
           </View>
           <View style={styles.spaceV400}></View>
           <View style={styles.footerCol}>
@@ -1109,7 +1129,8 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.penerimaSampelAnalisLab} )</Text>
+            <Text style={styles.textUnderline}>( {p.q.penerimaSampelAnalisLab} )</Text>
+            <Text>NIP. {p.q.nipPenerimaSampelAnalisLab}</Text>
           </View>
         </View>
       </View>

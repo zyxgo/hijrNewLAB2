@@ -104,8 +104,11 @@ class PageAllBase extends Component {
               kondisiSampel: el.val().kondisiSampel,
               manajerAdministrasiAdminLab: el.val().manajerAdministrasiAdminLab,
               manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
+              nipManajerTeknisAdminLab: el.val().nipManajerTeknisAdminLab,
               penyeliaAnalis: el.val().penyeliaAnalis,
+              nipPenyeliaAnalis: el.val().nipPenyeliaAnalis,
               penerimaSampelAnalisLab: el.val().penerimaSampelAnalisLab,
+              nipPenerimaSampelAnalisLab: el.val().nipPenerimaSampelAnalisLab,
               zItems: el.val().zItems,
             })
           });
@@ -183,9 +186,13 @@ class PageAllBase extends Component {
                           </PDFDownloadLink>
                         </TableCell> */}
                         <TableCell>
-                          <PDFDownloadLink document={<PdfLHP q={el} />} fileName="laporan-hasil-uji.pdf">
-                            {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Laporan Hasil Pengujian')}
-                          </PDFDownloadLink>
+                          {el.flagStatusProses === 'Proses di Pelaksana Teknis' || el.flagStatusProses === 'Laporan Hasil Uji di Admin Lab' ?
+                            <PDFDownloadLink document={<PdfLHP q={el} />} fileName="laporan-hasil-uji.pdf">
+                              {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Laporan Hasil Pengujian')}
+                            </PDFDownloadLink>
+                            :
+                            'Laporan Hasil Pengujian belum tersedia.'
+                          }
                         </TableCell>
                         <TableCell>
                           <Button variant="outlined" color="primary" onClick={() => this.handleSubmitLhuOk(el.idPermohonanUji)}
@@ -875,7 +882,11 @@ const styles = StyleSheet.create({
   spaceV150: {
     width: 150,
     height: 5,
-  }
+  },
+  textUnderline: {
+    fontWeight: 'bold',
+    textDecoration: 'underline',
+  },
 });
 
 const PDFLHU = (p) => {
@@ -998,7 +1009,7 @@ const PDFLHU = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.manajerTeknisAdminLab})</Text>
+            <Text>( {p.q.manajerTeknisAdminLab} )</Text>
           </View>
         </View>
       </View>
@@ -1095,7 +1106,8 @@ const PdfLHP = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.penyeliaAnalis} )</Text>
+            <Text style={styles.textUnderline}>( {p.q.penyeliaAnalis} )</Text>
+            <Text>NIP. {p.q.nipPenyeliaAnalis}</Text>
           </View>
           <View style={styles.spaceV400}></View>
           <View style={styles.footerCol}>
@@ -1106,7 +1118,8 @@ const PdfLHP = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.penerimaSampelAnalisLab} )</Text>
+            <Text style={styles.textUnderline}>( {p.q.penerimaSampelAnalisLab} )</Text>
+            <Text>NIP. {p.q.nipPenerimaSampelAnalisLab}</Text>
           </View>
         </View>
       </View>

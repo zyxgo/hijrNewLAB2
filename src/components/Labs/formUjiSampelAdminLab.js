@@ -102,7 +102,9 @@ class SampelAllBase extends Component {
               tanggalUjiSampelAnalis: el.val().tanggalUjiSampelAnalis,
               kondisiSampel: el.val().kondisiSampel,
               manajerAdministrasiAdminLab: el.val().manajerAdministrasiAdminLab,
+              nipManajerAdministrasiAdminLab: el.val().nipManajerAdministrasiAdminLab,
               manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
+              nipManajerTeknisAdminLab: el.val().nipManajerTeknisAdminLab,
               kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
               nomorAgendaSurat: el.val().nomorAgendaSurat,
               formLaporanKeterangan: el.val().formLaporanKeterangan,
@@ -178,9 +180,13 @@ class SampelAllBase extends Component {
                           </Button>
                         </TableCell>
                         <TableCell>
+                        {el.flagActivity === 'Laporan Hasil Uji di Admin Lab' ?
                           <PDFDownloadLink document={<PDFLHU q={el} />} fileName="laporan-hasil-uji.pdf">
                             {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Laporan Hasil Uji')}
                           </PDFDownloadLink>
+                          :
+                          'Laporan Hasil Uji belum tersedia.'
+                        }
                         </TableCell>
                         <TableCell>
                           <Button variant="outlined" color="primary" onClick={() => this.handleSubmitKeAnalysis(el.idPermohonanUji)}
@@ -929,7 +935,11 @@ const styles = StyleSheet.create({
   spaceV150: {
     width: 150,
     height: 5,
-  }
+  },
+  textUnderline: {
+    fontWeight: 'bold',
+    textDecoration: 'underline',
+  },
 });
 
 const Quixote = (p) => {
@@ -1003,7 +1013,8 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.manajerTeknisAdminLab} )</Text>
+            <Text style={styles.textUnderline}>( {p.q.manajerTeknisAdminLab} )</Text>
+            <Text>NIP. {p.q.nipManajerTeknisAdminLab}</Text>
           </View>
           <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
@@ -1015,7 +1026,8 @@ const Quixote = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.manajerAdministrasiAdminLab} )</Text>
+            <Text style={styles.textUnderline}>( {p.q.manajerAdministrasiAdminLab} )</Text>
+            <Text>NIP. {p.q.nipManajerAdministrasiAdminLab}</Text>
           </View>
         </View>
       </View>
@@ -1132,7 +1144,8 @@ const PDFLHU = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.manajerAdministrasiAdminLab} )</Text>
+            <Text style={styles.textUnderline}>( {p.q.manajerAdministrasiAdminLab} )</Text>
+            <Text>NIP. {p.q.nipManajerAdministrasiAdminLab}</Text>
           </View>
           <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
@@ -1145,7 +1158,8 @@ const PDFLHU = (p) => {
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
-            <Text>( {p.q.manajerTeknisAdminLab})</Text>
+            <Text style={styles.textUnderline}>( {p.q.manajerTeknisAdminLab} )</Text>
+            <Text>NIP. {p.q.nipManajerTeknisAdminLab}</Text>
           </View>
         </View>
       </View>
