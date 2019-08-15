@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -180,13 +180,13 @@ class SampelAllBase extends Component {
                           </Button>
                         </TableCell>
                         <TableCell>
-                        {el.flagActivity === 'Laporan Hasil Uji di Admin Lab' ?
-                          <PDFDownloadLink document={<PDFLHU q={el} />} fileName="laporan-hasil-uji.pdf">
-                            {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Laporan Hasil Uji')}
-                          </PDFDownloadLink>
-                          :
-                          'Laporan Hasil Uji belum tersedia.'
-                        }
+                          {el.flagActivity === 'Laporan Hasil Uji di Admin Lab' ?
+                            <PDFDownloadLink document={<PDFLHU q={el} />} fileName="laporan-hasil-uji.pdf">
+                              {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Laporan Hasil Uji')}
+                            </PDFDownloadLink>
+                            :
+                            'Laporan Hasil Uji belum tersedia.'
+                          }
                         </TableCell>
                         <TableCell>
                           <Button variant="outlined" color="primary" onClick={() => this.handleSubmitKeAnalysis(el.idPermohonanUji)}
@@ -218,6 +218,7 @@ class SampelDetailBase extends Component {
       items: [],
       open: false,
       open2: false,
+      openAlert: false,
       ...props.location.state,
       idPermohonanUji: '',
       kodeUnikSampel: '',
@@ -353,6 +354,30 @@ class SampelDetailBase extends Component {
     this.setState({ open2: false, unitPengujianSampel: '' });
   };
 
+  handleOpenAlert = () => {
+    this.setState({ openAlert: true });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ openAlert: false });
+  };
+
+  handleLanjutPengujian = () => {
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+      flagActivityDetail: 'Lanjut Pengujian',
+    });
+    this.setState({ openAlert: false });
+  };
+
+  handleTolakPengujian = () => {
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+      flagStatusProses: 'Sampel tidak dapat diuji',
+      flagActivityDetail: 'Sampel tidak dapat diuji',
+    });
+    this.setState({ openAlert: false });
+  };
+
+
   handleSubmit = () => {
     this.setState({ open: false, loadingReport: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
@@ -466,7 +491,7 @@ class SampelDetailBase extends Component {
     }
   };
 
-  
+
 
   render() {
     const {
@@ -475,7 +500,8 @@ class SampelDetailBase extends Component {
       penerimaSampelAdminLab, manajerTeknisAdminLab, manajerAdministrasiAdminLab, penerimaSampelAnalisLab,
       selectUserformAdminLab, selectUserformManajerAdministrasi, selectUserformManajerTeknis, selectUserformAnalis,
       selectNipUserformAdminLab, selectNipUserformManajerAdministrasi, selectNipUserformManajerTeknis, selectNipUserformAnalis,
-      statusLaporanSPP, loadingReport,
+      statusLaporanSPP, loadingReport, 
+      openAlert, 
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '';
@@ -486,7 +512,18 @@ class SampelDetailBase extends Component {
       <div>
         {loading ? <Typography>Loading...</Typography> :
           <div>
-            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+            { this.state.items[0].flagActivityDetail !== 'Lanjut Pengujian' && 
+            <Button variant="outlined" color="primary" onClick={this.handleOpenAlert}
+              disabled={
+                (this.state.items[0].flagActivityDetail === 'Menunggu konfirmasi lanjut pengujian dari Admin Lab' 
+                  || this.state.items[0].flagActivityDetail !== 'Sampel tidak dapat diuji' )
+                  ? false : true}
+            >
+              Lanjut Pengujian ?
+            </Button>}{' '}
+            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}
+              disabled={this.state.items[0].flagActivityDetail === 'Lanjut Pengujian' ? false : true}
+            >
               Proses Sampel
             </Button>{' '}
             <Button component={Link}
@@ -711,6 +748,27 @@ class SampelDetailBase extends Component {
                   disabled={isInvalid2}
                   color="primary">
                   Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={openAlert}
+              onClose={this.handleCloseAlert}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">{'Konfirmasi'}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Lanjut Pengujian ?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleTolakPengujian} color="primary">
+                  Tidak Lanjut
+                </Button>
+                <Button onClick={this.handleLanjutPengujian} color="primary" autoFocus>
+                  Lanjut
                 </Button>
               </DialogActions>
             </Dialog>

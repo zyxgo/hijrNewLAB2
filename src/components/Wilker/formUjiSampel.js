@@ -129,6 +129,7 @@ class SampelAllBase extends Component {
     this.props.firebase.db.ref('samples/' + propSample).update({
       flagActivity: 'Submit sampel ke admin lab',
       flagStatusProses: 'Sampel di Admin Lab',
+      flagActivityDetail: 'Menunggu konfirmasi lanjut pengujian dari Admin Lab',
     })
   }
 
