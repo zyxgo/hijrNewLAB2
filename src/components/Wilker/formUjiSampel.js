@@ -101,6 +101,7 @@ class SampelAllBase extends Component {
               manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
               nipManajerTeknisAdminLab: el.val().nipManajerTeknisAdminLab,
               unitPengujianSampel: el.val().unitPengujianSampel,
+              keteranganPengujianDitolak: el.val().keteranganPengujianDitolak,
               zItems: el.val().zItems,
             })
           });
@@ -134,7 +135,7 @@ class SampelAllBase extends Component {
   }
 
   render() {
-    // console.log(this.props.location.data);
+    // console.log(this.state);
     
     const { items, loading } = this.state;
     return (
@@ -169,7 +170,10 @@ class SampelAllBase extends Component {
                         <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
-                        <TableCell>{el.flagActivity === 'Permohonan pengujian selesai di analisa' ? el.flagActivity : el.flagStatusProses}</TableCell>
+                        <TableCell>
+                          {el.flagActivity === 'Permohonan pengujian selesai di analisa' ? el.flagActivity : el.flagStatusProses}
+                          {el.flagActivity === 'Sampel tidak dapat diuji' && ' Keterangan: ' + el.keteranganPengujianDitolak }
+                        </TableCell>
                         <TableCell>
                           <Button component={Link}
                             to={{

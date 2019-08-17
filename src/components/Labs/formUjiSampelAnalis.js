@@ -82,8 +82,9 @@ class SampelAllBase extends Component {
         if (snap.val()) {
           const a = [];
           snap.forEach(el => {
-            console.log(el.val());
-            a.push({
+            // console.log(el.val());
+            if ( el.val().flagStatusProses !== 'Sampel tidak dapat diuji') 
+            {a.push({
               idPermohonanUji: el.val().idPermohonanUji,
               kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
               tanggalMasukSampel: el.val().tanggalMasukSampel,
@@ -100,7 +101,7 @@ class SampelAllBase extends Component {
               penerimaSampelAnalisLab: el.val().penerimaSampelAnalisLab,
               nipPenerimaSampelAnalisLab: el.val().nipPenerimaSampelAnalisLab,
               zItems: el.val().zItems,
-            })
+            })}
           });
           this.setState({
             items: a,

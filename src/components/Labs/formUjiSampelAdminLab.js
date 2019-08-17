@@ -109,6 +109,7 @@ class SampelAllBase extends Component {
               nomorAgendaSurat: el.val().nomorAgendaSurat,
               formLaporanKeterangan: el.val().formLaporanKeterangan,
               formLaporanKesimpulan: el.val().formLaporanKesimpulan,
+              keteranganPengujianDitolak: el.val().keteranganPengujianDitolak,
               zItems: el.val().zItems,
             })
           });
@@ -167,7 +168,9 @@ class SampelAllBase extends Component {
                         <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
-                        <TableCell>{el.flagStatusProses}</TableCell>
+                        <TableCell>
+                          {el.flagStatusProses} {el.flagActivity === 'Sampel tidak dapat diuji' && ' Keterangan: ' + el.keteranganPengujianDitolak }
+                        </TableCell>
                         <TableCell>
                           <Button component={Link}
                             to={{
@@ -247,6 +250,7 @@ class SampelDetailBase extends Component {
       thisQ: '',
       statusLaporanSPP: false,
       loadingReport: true,
+      keteranganPengujianDitolak: '',
     };
   }
 
@@ -372,7 +376,9 @@ class SampelDetailBase extends Component {
   handleTolakPengujian = () => {
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagStatusProses: 'Sampel tidak dapat diuji',
+      flagActivity: 'Sampel tidak dapat diuji',
       flagActivityDetail: 'Sampel tidak dapat diuji',
+      keteranganPengujianDitolak: this.state.keteranganPengujianDitolak,
     });
     this.setState({ openAlert: false });
   };
@@ -393,6 +399,7 @@ class SampelDetailBase extends Component {
       nipManajerTeknisAdminLab: this.state.nipManajerTeknisAdminLab,
       nipPenerimaSampelAdminLab: this.state.nipPenerimaSampelAdminLab,
       nipPenerimaSampelAnalisLab: this.state.nipPenerimaSampelAnalisLab,
+      // keteranganPengujianDitolak: this.state.keteranganPengujianDitolak,
     });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagActivityDetail: 'Update detail by admin lab done',
@@ -500,7 +507,7 @@ class SampelDetailBase extends Component {
       penerimaSampelAdminLab, manajerTeknisAdminLab, manajerAdministrasiAdminLab, penerimaSampelAnalisLab,
       selectUserformAdminLab, selectUserformManajerAdministrasi, selectUserformManajerTeknis, selectUserformAnalis,
       selectNipUserformAdminLab, selectNipUserformManajerAdministrasi, selectNipUserformManajerTeknis, selectNipUserformAnalis,
-      statusLaporanSPP, loadingReport, 
+      statusLaporanSPP, loadingReport, keteranganPengujianDitolak,
       openAlert, 
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
@@ -756,11 +763,20 @@ class SampelDetailBase extends Component {
               onClose={this.handleCloseAlert}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
+              maxWidth={'md'}
+              fullWidth={true}
             >
-              <DialogTitle id="alert-dialog-title">{'Konfirmasi'}</DialogTitle>
+              <DialogTitle id="alert-dialog-title">{'Konfirmasi Pengujian'}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  Lanjut Pengujian ?
+                <TextField
+                  id="keteranganPengujianDitolak"
+                  value={keteranganPengujianDitolak}
+                  label="Keterangan Pengujian Ditolak"
+                  style={{ width: "100%", marginBottom: 20, marginTop: 20 }}
+                  variant="outlined"
+                  onChange={this.onChange}
+                />
                 </DialogContentText>
               </DialogContent>
               <DialogActions>

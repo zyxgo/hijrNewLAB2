@@ -84,7 +84,8 @@ class PageAllBase extends Component {
         if (snap.val()) {
           const a = [];
           snap.forEach(el => {
-            a.push({
+            if ( el.val().flagStatusProses !== 'Sampel tidak dapat diuji') 
+            {a.push({
               idPermohonanUji: el.val().idPermohonanUji,
               kodeUnikSampel: el.val().kodeUnikSampel,
               tanggalMasukSampel: el.val().tanggalMasukSampel,
@@ -110,7 +111,7 @@ class PageAllBase extends Component {
               penerimaSampelAnalisLab: el.val().penerimaSampelAnalisLab,
               nipPenerimaSampelAnalisLab: el.val().nipPenerimaSampelAnalisLab,
               zItems: el.val().zItems,
-            })
+            })}
           });
           this.setState({
             items: a,
