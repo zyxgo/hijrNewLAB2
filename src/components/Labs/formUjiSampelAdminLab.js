@@ -32,6 +32,12 @@ import Select from '@material-ui/core/Select';
 // import Input from '@material-ui/core/Input';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
 import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
+// import exportCSV from '../Labs/exportCSV';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+// import * as jsonexport from "jsonexport/dist";
+import { CSVLink, CSVDownload } from "react-csv";
+import { Parser, parse } from 'json2csv';
 
 import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
@@ -113,14 +119,66 @@ class SampelAllBase extends Component {
               zItems: el.val().zItems,
             })
           });
+          const b = [];
+          snap.forEach(el => {
+            b.push({
+              idPermohonanUji: el.val().idPermohonanUji,
+              kodeUnikSampel: el.val().kodeUnikSampel,
+              tanggalMasukSampel: el.val().tanggalMasukSampel,
+              tanggalTerimaSampelAdminLab: el.val().tanggalTerimaSampelAdminLab,
+              tanggalUjiSampelAnalis: el.val().tanggalUjiSampelAnalis,
+              nomorAgendaSurat: el.val().nomorAgendaSurat,
+              namaPemilikSampel: el.val().namaPemilikSampel,
+              alamatPemilikSampel: el.val().alamatPemilikSampel,
+              asalTujuanSampel: el.val().asalTujuanSampel,
+              flagActivity: el.val().flagActivity,
+              flagActivityDetail: el.val().flagActivityDetail,
+              flagStatusProses: el.val().flagStatusProses,
+              unitPengujianSampel: el.val().unitPengujianSampel,
+              // kondisiSampel: el.val().kondisiSampel,
+              formLaporanKesimpulan: el.val().formLaporanKesimpulan,
+              formLaporanKeterangan: el.val().formLaporanKeterangan,
+              kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
+              nomorAgendaSurat: el.val().nomorAgendaSurat,
+              formLaporanKeterangan: el.val().formLaporanKeterangan,
+              formLaporanKesimpulan: el.val().formLaporanKesimpulan,
+              keteranganPengujianDitolak: el.val().keteranganPengujianDitolak,
+              statusLaporanSPP: el.val().statusLaporanSPP,
+              manajerAdministrasiAdminLab: el.val().manajerAdministrasiAdminLab,
+              nipManajerAdministrasiAdminLab: el.val().nipManajerAdministrasiAdminLab,
+              manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
+              nipManajerTeknisAdminLab: el.val().nipManajerTeknisAdminLab,
+              penerimaSampelAdminLab: el.val().penerimaSampelAdminLab,
+              nipPenerimaSampelAdminLab: el.val().nipPenerimaSampelAdminLab,
+              penerimaSampelAnalisLab: el.val().penerimaSampelAnalisLab,
+              nipPenerimaSampelAnalisLab: el.val().nipPenerimaSampelAnalisLab,
+              penyeliaAnalis: el.val().penyeliaAnalis,
+              nipPenyeliaAnalis: el.val().nipPenyeliaAnalis,
+              petugasPengambilSampel: el.val().petugasPengambilSampel,
+              nipUser: el.val().nipUser,
+              // zItems: Object.keys(el.val().zItems).map((key) => el.val().zItems[key]),
+              zHasilUjiSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].hasilUjiSampel),
+              zJenisSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].jenisSampel),
+              zJumlahSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].jumlahSampel),
+              zKategoriSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].kategoriSample),
+              zMetodePengujianSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].metodePengujianSampel),
+              zRuangLingkupSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].ruangLingkupSampel),
+              zTargetPengujianSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].targetPengujianSampel),
+              zKondisiSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].kondisiSampel),
+              zKeteranganSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].keteranganSampel),
+            })
+          });
+          // console.log(b)
           this.setState({
             items: a,
+            itemsB: b,
             loading: false,
           });
         } else {
           this.setState({ items: null, loading: false });
         }
       })
+
   }
 
   componentWillUnmount() {
@@ -142,6 +200,26 @@ class SampelAllBase extends Component {
     })
   }
 
+  // exportToCSV = (csvData, fileName) => {
+  //   console.log(this.state.itemsB)
+  //   const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  //   const fileExtension = '.xlsx';
+  //   const ws = XLSX.utils.json_to_sheet(csvData);
+  //   const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+  //   const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  //   const data = new Blob([excelBuffer], { type: fileType });
+  //   FileSaver.saveAs(data, fileName + fileExtension);
+  // }
+
+  exToCsv = () => {
+    const fields = ['kodeUnikSampel', 'zItems'];
+    // const opts = {fields}
+    // const csv = parse(this.state.itemsB, opts)
+    const json2csvParser = new Parser({ fields, unwind: 'zItems' });
+    const csv = json2csvParser.parse(this.state.itemsB);
+    console.log(csv);
+  }
+
   render() {
     const { items, loading } = this.state;
     return (
@@ -150,6 +228,17 @@ class SampelAllBase extends Component {
           <div>
             {loading ? <Typography>Loading...</Typography> :
               <div>
+                {/* <Button variant="outlined" color="primary" onClick={() => this.exportToCSV(this.state.itemsB, '1')}>
+                  Export Excel
+                </Button> */}
+                {/* <Button onClick={this.exToCsv}>Tes</Button> */}
+                <Button variant="outlined">
+                  <CSVLink data={this.state.itemsB}
+                    filename={"CSV_.csv"}
+                  >
+                    Download CSV/Excel
+                  </CSVLink>
+                </Button>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -169,7 +258,7 @@ class SampelAllBase extends Component {
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
                         <TableCell>
-                          {el.flagStatusProses} {el.flagActivity === 'Sampel tidak dapat diuji' && ' Keterangan: ' + el.keteranganPengujianDitolak }
+                          {el.flagStatusProses} {el.flagActivity === 'Sampel tidak dapat diuji' && ' Keterangan: ' + el.keteranganPengujianDitolak}
                         </TableCell>
                         <TableCell>
                           <Button component={Link}
@@ -508,7 +597,7 @@ class SampelDetailBase extends Component {
       selectUserformAdminLab, selectUserformManajerAdministrasi, selectUserformManajerTeknis, selectUserformAnalis,
       selectNipUserformAdminLab, selectNipUserformManajerAdministrasi, selectNipUserformManajerTeknis, selectNipUserformAnalis,
       statusLaporanSPP, loadingReport, keteranganPengujianDitolak,
-      openAlert, 
+      openAlert,
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '';
@@ -519,14 +608,14 @@ class SampelDetailBase extends Component {
       <div>
         {loading ? <Typography>Loading...</Typography> :
           <div>
-            { this.state.items[0].flagActivityDetail !== 'Lanjut Pengujian' && 
-            <Button variant="outlined" color="primary" onClick={this.handleOpenAlert}
-              disabled={
-                (this.state.items[0].flagActivityDetail === 'Menunggu konfirmasi lanjut pengujian dari Admin Lab' 
-                  || this.state.items[0].flagActivityDetail !== 'Sampel tidak dapat diuji' )
-                  ? false : true}
-            >
-              Lanjut Pengujian ?
+            {this.state.items[0].flagActivityDetail !== 'Lanjut Pengujian' &&
+              <Button variant="outlined" color="primary" onClick={this.handleOpenAlert}
+                disabled={
+                  (this.state.items[0].flagActivityDetail === 'Menunggu konfirmasi lanjut pengujian dari Admin Lab'
+                    || this.state.items[0].flagActivityDetail !== 'Sampel tidak dapat diuji')
+                    ? false : true}
+              >
+                Lanjut Pengujian ?
             </Button>}{' '}
             <Button variant="outlined" color="primary" onClick={this.handleClickOpen}
               disabled={this.state.items[0].flagActivityDetail === 'Lanjut Pengujian' ? false : true}
@@ -769,14 +858,14 @@ class SampelDetailBase extends Component {
               <DialogTitle id="alert-dialog-title">{'Konfirmasi Pengujian'}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                <TextField
-                  id="keteranganPengujianDitolak"
-                  value={keteranganPengujianDitolak}
-                  label="Keterangan Pengujian Ditolak"
-                  style={{ width: "100%", marginBottom: 20, marginTop: 20 }}
-                  variant="outlined"
-                  onChange={this.onChange}
-                />
+                  <TextField
+                    id="keteranganPengujianDitolak"
+                    value={keteranganPengujianDitolak}
+                    label="Keterangan Pengujian Ditolak"
+                    style={{ width: "100%", marginBottom: 20, marginTop: 20 }}
+                    variant="outlined"
+                    onChange={this.onChange}
+                  />
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
