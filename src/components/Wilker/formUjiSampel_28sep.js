@@ -32,7 +32,7 @@ import Select from '@material-ui/core/Select';
 // import FormHelperText from '@material-ui/core/FormHelperText';
 // import Input from '@material-ui/core/Input';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
-import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
 
 class MainSampleBase extends Component {
@@ -337,7 +337,7 @@ class SampelAddBase extends Component {
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      loading, 
+      loading, nipUser,
     } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
@@ -562,7 +562,7 @@ class SampelDetailBase extends Component {
       keteranganSampel: this.state.keteranganSampel,
     })
     const b = this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/').push();
-    // const bahanTerpakaiUrl = 'bahanTerpakai/' + a.key;
+    const bahanTerpakaiUrl = 'bahanTerpakai/' + a.key;
     if (this.state.metodePengujianSampel === 'ELISA RABIES' || this.state.metodePengujianSampel === 'ELISA BVD' || this.state.metodePengujianSampel === 'ELISA PARATB') {
       if (parseInt(this.state.jumlahSampel, 10) <= 8) {
         this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji + '/zItems/' + a.key + '/bahan/' + b.key).update({
@@ -1135,52 +1135,42 @@ class SampelDetailBase extends Component {
       if (event.target.value === 'TPC') {
         this.setState({
           selectTargetPengujian: ['Cemaran Mikroba'],
-          ruangLingkupSampel: 'Akreditasi',
         })
       } else if (event.target.value === 'RAPID TEST KIT') {
         this.setState({
           selectTargetPengujian: ['Salmonella', 'E. Coli'],
-          ruangLingkupSampel: 'Diluar Akreditasi',
         })
       } else if (event.target.value === 'HA-HI/AI-ND' || event.target.value === 'ELISA RABIES' || event.target.value === 'ELISA BVD' || event.target.value === 'ELISA PARATB') {
         this.setState({
           selectTargetPengujian: ['Titer Antibodi'],
-          ruangLingkupSampel: 'Akreditasi',
         })
       } else if (event.target.value === 'RBT') {
         this.setState({
           selectTargetPengujian: ['Antibodi terhadap Brucella sp.'],
-          ruangLingkupSampel: 'Akreditasi',
         })
       } else if (event.target.value === 'PEWARNAAN GIEMSA') {
         this.setState({
           selectTargetPengujian: ['Trypanosoma sp.', 'Anthrax'],
-          ruangLingkupSampel: 'Diluar Akreditasi',
         })
       } else if (event.target.value === 'MIKROSKOPIS') {
         this.setState({
           selectTargetPengujian: ['Scabies'],
-          ruangLingkupSampel: 'Diluar Akreditasi',
         })
       } else if (event.target.value === 'RT-PCR') {
         this.setState({
           selectTargetPengujian: ['Al', 'Anthrax'],
-          ruangLingkupSampel: 'Diluar Akreditasi',
         })
       } else if (event.target.value === 'PCR-DNA') {
         this.setState({
           selectTargetPengujian: ['Porcine', 'Salmonella'],
-          ruangLingkupSampel: 'Diluar Akreditasi',
         })
       } else if (event.target.value === 'RESIDU NITRIT') {
         this.setState({
           selectTargetPengujian: ['Kadar Nitrit'],
-          ruangLingkupSampel: 'Diluar Akreditasi',
         })
       } else if (event.target.value === 'FEED CHECK') {
         this.setState({
           selectTargetPengujian: ['Kandungan Mamalia'],
-          ruangLingkupSampel: 'Diluar Akreditasi',
         })
       }
     }
@@ -1189,9 +1179,9 @@ class SampelDetailBase extends Component {
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      jenisSampel, jumlahSampel, kondisiSampel, metodePengujianSampel, kategoriSample, targetPengujianSampel,
+      jenisSampel, jumlahSampel, kondisiSampel, jenisPengujianSampel, metodePengujianSampel, kategoriSample, targetPengujianSampel,
       loading, items,
-      selectMetodePengujian, selectJenisSampel, selectTargetPengujian, ruangLingkupSampel, keteranganSampel,
+      selectJenisPengujian, selectMetodePengujian, selectJenisSampel, selectTargetPengujian, ruangLingkupSampel, keteranganSampel,
     } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
@@ -1505,13 +1495,13 @@ const styles = StyleSheet.create({
     borderTopWidth: 0
   },
   tableCellHeader: {
-    // margin: "auto",
+    margin: "auto",
     margin: 3,
     fontSize: 10,
     fontWeight: 300
   },
   tableCell: {
-    // margin: "auto",
+    margin: "auto",
     margin: 5,
     fontSize: 10
   },

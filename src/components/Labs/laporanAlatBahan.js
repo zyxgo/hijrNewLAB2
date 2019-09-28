@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
 import { AuthUserContext, withAuthorization } from '../Session';
@@ -249,24 +249,24 @@ class SampelAllBase extends Component {
 
 
 // this working
-const groupBy = (items, key) => items.reduce(
-  (result, item) => ({
-    ...result,
-    [item[key]]: [
-      ...(result[item[key]] || []),
-      item,
-    ],
-  }), 
-  {},
-);
+// const groupBy = (items, key) => items.reduce(
+//   (result, item) => ({
+//     ...result,
+//     [item[key]]: [
+//       ...(result[item[key]] || []),
+//       item,
+//     ],
+//   }), 
+//   {},
+// );
 
-// this working
-const groupBy3 = function(xs, key) {
-  return xs.reduce(function(rv, x) {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
-};
+// // this working
+// const groupBy3 = function(xs, key) {
+//   return xs.reduce(function(rv, x) {
+//     (rv[x[key]] = rv[x[key]] || []).push(x);
+//     return rv;
+//   }, {});
+// };
 
 const condition = authUser => !!authUser;
 

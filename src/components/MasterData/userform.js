@@ -235,7 +235,7 @@ class PageDetailBase extends Component {
   };
 
   render() {
-    const { loading, idUserForm, namaUserForm, nipUserForm, jabatanUserForm, items } = this.state;
+    const { loading, namaUserForm, nipUserForm, jabatanUserForm, items } = this.state;
     const isInvalid = namaUserForm === '' || nipUserForm === '' || jabatanUserForm === '';
     return (
       <div>

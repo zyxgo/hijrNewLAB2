@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
-import * as ROLES from '../../constants/roles';
+// import * as ROLES from '../../constants/roles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';

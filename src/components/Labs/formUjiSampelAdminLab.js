@@ -31,15 +31,15 @@ import Select from '@material-ui/core/Select';
 // import FormHelperText from '@material-ui/core/FormHelperText';
 // import Input from '@material-ui/core/Input';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
-import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
+// import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
 // import exportCSV from '../Labs/exportCSV';
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
+// import * as FileSaver from 'file-saver';
+// import * as XLSX from 'xlsx';
 // import * as jsonexport from "jsonexport/dist";
-import { CSVLink, CSVDownload } from "react-csv";
-import { Parser, parse } from 'json2csv';
+import { CSVLink } from "react-csv";
+import { Parser } from 'json2csv';
 
-import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
 
 class MainSampleBase extends Component {
@@ -112,7 +112,7 @@ class SampelAllBase extends Component {
               manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
               nipManajerTeknisAdminLab: el.val().nipManajerTeknisAdminLab,
               kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
-              nomorAgendaSurat: el.val().nomorAgendaSurat,
+              // nomorAgendaSurat: el.val().nomorAgendaSurat,
               formLaporanKeterangan: el.val().formLaporanKeterangan,
               formLaporanKesimpulan: el.val().formLaporanKesimpulan,
               keteranganPengujianDitolak: el.val().keteranganPengujianDitolak,
@@ -139,9 +139,9 @@ class SampelAllBase extends Component {
               formLaporanKesimpulan: el.val().formLaporanKesimpulan,
               formLaporanKeterangan: el.val().formLaporanKeterangan,
               kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
-              nomorAgendaSurat: el.val().nomorAgendaSurat,
-              formLaporanKeterangan: el.val().formLaporanKeterangan,
-              formLaporanKesimpulan: el.val().formLaporanKesimpulan,
+              // nomorAgendaSurat: el.val().nomorAgendaSurat,
+              // formLaporanKeterangan: el.val().formLaporanKeterangan,
+              // formLaporanKesimpulan: el.val().formLaporanKesimpulan,
               keteranganPengujianDitolak: el.val().keteranganPengujianDitolak,
               statusLaporanSPP: el.val().statusLaporanSPP,
               manajerAdministrasiAdminLab: el.val().manajerAdministrasiAdminLab,
@@ -595,7 +595,7 @@ class SampelDetailBase extends Component {
       tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab,
       penerimaSampelAdminLab, manajerTeknisAdminLab, manajerAdministrasiAdminLab, penerimaSampelAnalisLab,
       selectUserformAdminLab, selectUserformManajerAdministrasi, selectUserformManajerTeknis, selectUserformAnalis,
-      selectNipUserformAdminLab, selectNipUserformManajerAdministrasi, selectNipUserformManajerTeknis, selectNipUserformAnalis,
+      // selectNipUserformAdminLab, selectNipUserformManajerAdministrasi, selectNipUserformManajerTeknis, selectNipUserformAnalis,
       statusLaporanSPP, loadingReport, keteranganPengujianDitolak,
       openAlert,
     } = this.state;
@@ -932,13 +932,13 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   tableCellHeader: {
-    margin: "auto",
+    // margin: "auto",
     margin: 3,
     fontSize: 10,
     fontWeight: 300
   },
   tableCell: {
-    margin: "auto",
+    // margin: "auto",
     margin: 5,
     fontSize: 10
   },

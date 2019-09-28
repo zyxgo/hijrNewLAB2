@@ -31,7 +31,7 @@ import Select from '@material-ui/core/Select';
 // import FormHelperText from '@material-ui/core/FormHelperText';
 // import Input from '@material-ui/core/Input';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
-import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
 class MainSampleBase extends Component {
   constructor(props) {
@@ -657,7 +657,7 @@ class SampelDetailBase extends Component {
     const {
       loading, items,
       tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab,
-      tanggalUjiSampelAnalis, managerTeknisAnalis, managerAdministrasiAnalis, penyeliaAnalis, namaAnalis,
+      tanggalUjiSampelAnalis, penyeliaAnalis, 
       hasilUjiSampel, keteranganSampel, penerimaSampelAnalisLab, selectUserformPenyelia,
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
@@ -889,13 +889,13 @@ const styles = StyleSheet.create({
     borderTopWidth: 0
   },
   tableCellHeader: {
-    margin: "auto",
+    // margin: "auto",
     margin: 3,
     fontSize: 10,
     fontWeight: 300
   },
   tableCell: {
-    margin: "auto",
+    // margin: "auto",
     margin: 5,
     fontSize: 10
   },
