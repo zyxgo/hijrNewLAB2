@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withAuthorization } from '../Session';
+import { withAuthorization, AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
 import Grid from '@material-ui/core/Grid';
@@ -12,15 +12,18 @@ class HomePage extends Component {
     super(props);
     this.state = {
       users: [],
+      // ...props.location.state,
     };
   }
 
   componentDidMount() {
+    // console.log(this.context)
     this.props.firebase.users().on('value', snapshot => {
       this.setState({
         users: snapshot.val(),
       });
     });
+    
   }
 
   componentWillUnmount() {
@@ -46,6 +49,8 @@ class HomePage extends Component {
   }
 
 }
+
+// HomePage.contextType = AuthUserContext
 
 
 const styles = StyleSheet.create({

@@ -39,8 +39,8 @@ class SignUpFormBase extends Component {
   onSubmit = event => {
     this.setState({ isLoading : true});
     const { username, email, passwordOne } = this.state;
-    const roles = [];
-    roles.push(ROLES.WILKER);
+    // const roles = [];
+    // roles.push(ROLES.WILKER);
     
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
@@ -51,7 +51,7 @@ class SignUpFormBase extends Component {
           .set({
             username,
             email,
-            roles,
+            roles: 'ROLELESS',
             area: '9999',
           });
       })

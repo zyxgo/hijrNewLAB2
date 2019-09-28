@@ -23,6 +23,7 @@ import TableRow from '@material-ui/core/TableRow';
 import DateFnsUtils from '@date-io/date-fns';
 // import {format, compareAsc} from 'date-fns/esm'
 import dateFnsFormat from 'date-fns/format';
+import getMonth from 'date-fns/getMonth';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -37,11 +38,12 @@ import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Ima
 class MainSampleBase extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: false,
       users: [],
+      // ...props.location.state,
     };
+    // console.log('main sample', this)
   }
 
   render() {
@@ -72,12 +74,17 @@ class SampelAllBase extends Component {
       items: [],
       open: false,
       formMode: [],
+      // ...props.location.state,
     };
   }
 
   componentDidMount() {
+    // console.log(AuthUserContext)
+    // console.log('ALL DATA', this.context);
+    // console.log(this)
     this.setState({ loading: true });
     this.props.firebase.db.ref('samples')
+      .orderByChild('areaWilker').equalTo(this.context.area)
       .on('value', snap => {
         if (snap.val()) {
           const a = [];
@@ -102,6 +109,7 @@ class SampelAllBase extends Component {
               nipManajerTeknisAdminLab: el.val().nipManajerTeknisAdminLab,
               unitPengujianSampel: el.val().unitPengujianSampel,
               keteranganPengujianDitolak: el.val().keteranganPengujianDitolak,
+              areaWilker: el.val().areaWilker,
               zItems: el.val().zItems,
             })
           });
@@ -136,7 +144,7 @@ class SampelAllBase extends Component {
 
   render() {
     // console.log(this.state);
-    
+
     const { items, loading } = this.state;
     return (
       <AuthUserContext.Consumer>
@@ -172,7 +180,7 @@ class SampelAllBase extends Component {
                         <TableCell>{el.asalTujuanSampel}</TableCell>
                         <TableCell>
                           {el.flagActivity === 'Permohonan pengujian selesai di analisa' ? el.flagActivity : el.flagStatusProses}
-                          {el.flagActivity === 'Sampel tidak dapat diuji' && ' Keterangan: ' + el.keteranganPengujianDitolak }
+                          {el.flagActivity === 'Sampel tidak dapat diuji' && ' Keterangan: ' + el.keteranganPengujianDitolak}
                         </TableCell>
                         <TableCell>
                           <Button component={Link}
@@ -250,7 +258,7 @@ class SampelAddBase extends Component {
   }
 
   componentDidMount() {
-    // console.log(this.props);
+    
     this.setState({ loading: true });
 
     this.props.firebase.db.ref('masterData/wilker')
@@ -307,6 +315,8 @@ class SampelAddBase extends Component {
       nipUser: this.state.nipUser,
       flagActivity: 'Belum ada sampel uji',
       flagStatusProses: 'Sampel di Wilker',
+      areaWilker: this.props.location.data.authUser.area,
+      bulanMasukSampel: getMonth(this.state.tanggalMasukSampel)+1,
     })
     this.props.firebase.db.ref('masterData/wilker/' + this.state.items[0].idWilker).update({
       countSampelWilker: parseInt(this.state.items[0].countSampelWilker, 10) + 1,
@@ -331,7 +341,7 @@ class SampelAddBase extends Component {
     } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
-    console.log(this.state)
+    // console.log(this.state)
 
     return (
       <div>
@@ -475,7 +485,7 @@ class SampelDetailBase extends Component {
             alamatPemilikSampel: snap.val().alamatPemilikSampel,
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
-            nipUser:snap.val().nipUser,
+            nipUser: snap.val().nipUser,
           });
         } else {
           this.setState({ items: null, loading: false });
@@ -1909,6 +1919,8 @@ const PDFLHU = (p) => {
 
 
 const condition = authUser => !!authUser;
+
+SampelAllBase.contextType = AuthUserContext
 
 const SampelAll = withFirebase(SampelAllBase);
 const SampelDetail = withFirebase(SampelDetailBase);

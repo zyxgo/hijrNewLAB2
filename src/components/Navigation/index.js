@@ -31,7 +31,7 @@ const NavigationAuth = ({authUser}) => (
         {(authUser.roles.includes(ROLES.WILKER) || authUser.roles.includes(ROLES.WILKERSPV) )&& (
           <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.WILKER_FORMUJI}>Permohonan</Button>
         )}
-        {(authUser.roles.includes(ROLES.ADMINLAB) )&& (
+        {(authUser.roles === ROLES.ADMINLAB )&& (
           <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.ADMINLAB}>Admin Lab</Button>
         )}  
         {(authUser.roles.includes(ROLES.ANALIS) )&& (
@@ -43,7 +43,7 @@ const NavigationAuth = ({authUser}) => (
         {(authUser.roles.includes(ROLES.PELAKSANATEKNIS) )&& (
           <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.TEKNIS}>Pelaksana Teknis</Button>
         )}      
-        {authUser.roles.includes(ROLES.ADMIN) && (
+        {authUser.roles === ROLES.ADMIN && (
           <div>
             <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATASAMPLE}>Master Data Sample</Button>
             <Button color="inherit" style={{marginRight: 5}} component={Link} to={ROUTES.MASTERDATAPENGUJIAN}>Master Data Pengujian</Button>

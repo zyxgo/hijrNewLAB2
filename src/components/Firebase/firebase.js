@@ -44,12 +44,15 @@ const config = {
             const dbUser = snapshot.val();
             // default empty roles
             if (!dbUser.roles) {
-              dbUser.roles = [];
+              dbUser.roles = 'ROLELESS';
             }
             // merge auth and db user
             authUser = {
               uid: authUser.uid,
               email: authUser.email,
+              area: authUser.area,
+              username: authUser.username,
+              nipUser: authUser.nipUser,
               ...dbUser,
             };
             next(authUser);

@@ -223,13 +223,13 @@ class UserItemBase extends Component {
   handleSubmit = () => {
     // console.log(this.state);
     this.setState({ open: false });
-    const roles = [];
-    roles.push(this.state.roles);
+    // const roles = [];
+    // roles.push(this.state.roles);
     // console.log(roles[0]);
     this.props.firebase.db.ref('users/' + this.props.match.params.id).update({
       nipUser: this.state.nipUser,
       area: this.state.area,
-      roles: [roles[0]],
+      roles: this.state.roles,
     })
   }
 
@@ -324,6 +324,7 @@ class UserItemBase extends Component {
                 <MenuItem value="0512">0512</MenuItem>
                 <MenuItem value="0513">0513</MenuItem>
                 <MenuItem value="0514">0514</MenuItem>
+                <MenuItem value="9999">9999</MenuItem>
               </Select>
             </FormControl>
             <FormControl style={{ marginTop: 15 }} variant="standard">
