@@ -354,6 +354,7 @@ class PageDetailBase extends Component {
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       formLaporanKeterangan: this.state.formLaporanKeterangan,
       formLaporanKesimpulan: this.state.formLaporanKesimpulan,
+      manajerTeknisAdminLab: this.state.manajerTeknisAdminLab,
     });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagActivityDetail: 'Update keterangan by manajer teknis done',
@@ -425,12 +426,29 @@ class PageDetailBase extends Component {
     });
   };
 
+  handleBalikAnalis = () => {
+    // this.setState({ open: false });
+    // this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+    //   formLaporanKeterangan: this.state.formLaporanKeterangan,
+    //   formLaporanKesimpulan: this.state.formLaporanKesimpulan,
+    // });
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+      flagActivity: 'Hasil analisa perlu direvisi',
+      flagActivityDetail: 'Hasil analisa perlu direvisi',
+      flagStatusProses: 'Proses di Analis',
+    })
+    // this.props.firebase.db.ref('samples/' + this.state.thisP).update({
+    //   flagActivityDetail: 'Update detail by admin lab done',
+    // })
+  }
+
   render() {
     const {
       selectUnitPengujian, unitPengujianSampel, loading, items,
       formLaporanKeterangan, formLaporanKesimpulan,
+      manajerTeknisAdminLab, selectUserformManajerTeknis,
     } = this.state;
-    const isInvalid = formLaporanKeterangan === '' || formLaporanKesimpulan === '';
+    const isInvalid = formLaporanKeterangan === '' || formLaporanKesimpulan === '' || manajerTeknisAdminLab === '';
     const isInvalid2 = unitPengujianSampel === '';
     // console.log(this.state)
 
@@ -438,8 +456,11 @@ class PageDetailBase extends Component {
       <div>
         {loading ? <Typography>Loading...</Typography> :
           <div>
-            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-              TAMBAH Keterangan
+            <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
+              Tambah Keterangan
+            </Button>{' '}
+            <Button variant="outlined" color="primary" onClick={this.handleBalikAnalis}>
+              Kembali ke Analis
             </Button>{' '}
             <Button component={Link}
               to={{
@@ -593,7 +614,7 @@ class PageDetailBase extends Component {
                   variant="outlined"
                   onChange={this.onChange}
                 /> */}
-                {/* <FormControl style={{ marginBottom: 20 }} variant="standard">
+                <FormControl style={{ marginBottom: 20 }} variant="standard">
                   <InputLabel htmlFor="manajerTeknisAdminLab">Manajer Teknis</InputLabel>{" "}
                   <Select
                     value={manajerTeknisAdminLab}
@@ -605,7 +626,7 @@ class PageDetailBase extends Component {
                       <MenuItem key={el} value={selectUserformManajerTeknis[el].namaUserForm}>{selectUserformManajerTeknis[el].namaUserForm}</MenuItem>
                     )}
                   </Select>
-                </FormControl> */}
+                </FormControl>
                 {/* <TextField
                   id="penerimaSampelAnalisLab"
                   label="Analis"
@@ -632,7 +653,7 @@ class PageDetailBase extends Component {
                   Cancel
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={this.handleSubmit}
                   disabled={isInvalid}
                   color="primary">
@@ -666,7 +687,7 @@ class PageDetailBase extends Component {
                   Cancel
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={this.handleSubmit2}
                   disabled={isInvalid2}
                   color="primary">

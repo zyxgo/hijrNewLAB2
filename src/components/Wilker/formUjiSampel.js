@@ -105,6 +105,8 @@ class SampelAllBase extends Component {
               kodeUnikSampelAdminLab: el.val().kodeUnikSampelAdminLab,
               formLaporanKeterangan: el.val().formLaporanKeterangan,
               formLaporanKesimpulan: el.val().formLaporanKesimpulan,
+              manajerAdministrasiAdminLab: el.val().manajerAdministrasiAdminLab,
+              nipManajerAdministrasiAdminLab: el.val().manajerAdministrasiAdminLab,
               manajerTeknisAdminLab: el.val().manajerTeknisAdminLab,
               nipManajerTeknisAdminLab: el.val().nipManajerTeknisAdminLab,
               unitPengujianSampel: el.val().unitPengujianSampel,
@@ -258,7 +260,7 @@ class SampelAddBase extends Component {
   }
 
   componentDidMount() {
-    
+
     this.setState({ loading: true });
 
     this.props.firebase.db.ref('masterData/wilker')
@@ -316,7 +318,7 @@ class SampelAddBase extends Component {
       flagActivity: 'Belum ada sampel uji',
       flagStatusProses: 'Sampel di Wilker',
       areaWilker: this.props.location.data.authUser.area,
-      bulanMasukSampel: getMonth(this.state.tanggalMasukSampel)+1,
+      bulanMasukSampel: getMonth(this.state.tanggalMasukSampel) + 1,
     })
     this.props.firebase.db.ref('masterData/wilker/' + this.state.items[0].idWilker).update({
       countSampelWilker: parseInt(this.state.items[0].countSampelWilker, 10) + 1,
@@ -337,7 +339,7 @@ class SampelAddBase extends Component {
   render() {
     const { kodeUnikSampel, tanggalMasukSampel, nomorAgendaSurat,
       namaPemilikSampel, alamatPemilikSampel, asalTujuanSampel, petugasPengambilSampel,
-      loading, 
+      loading,
     } = this.state;
     const isInvalid = kodeUnikSampel === '' || tanggalMasukSampel === '' || nomorAgendaSurat === '' || namaPemilikSampel === '' ||
       alamatPemilikSampel === '' || asalTujuanSampel === '' || petugasPengambilSampel === '';
@@ -1646,7 +1648,7 @@ const styles = StyleSheet.create({
   footerRow200: {
     position: 'absolute',
     bottom: 200,
-    marginHorizontal: '20%',
+    marginHorizontal: '10%',
   },
   footerCol: {
     alignItems: 'center',
@@ -1658,7 +1660,11 @@ const styles = StyleSheet.create({
     height: 5,
   },
   spaceV150: {
-    width: 150,
+    width: 120,
+    height: 5,
+  },
+  spaceV50: {
+    width: 50,
     height: 5,
   },
   textUnderline: {
@@ -1825,7 +1831,7 @@ const PDFLHU = (p) => {
         <Text style={styles.headerTitle11}>Yang telah mengirim sampel untuk pengujian Laboratorium, Identitas sampel, jenis dan hasil pengujian sebagai berikut : </Text>
       </View>
       {!!p.q.zItems && Object.keys(p.q.zItems).map((el1, key1) =>
-        <View style={[styles.marginV10, styles.marginL40]}>
+        <View key={key1} style={[styles.marginV10, styles.marginL40]}>
           <Text style={styles.headerTitle11}>Sampel (jenis dan jumlah) : {p.q.zItems[el1].jenisSampel} / {p.q.zItems[el1].jumlahSampel}</Text>
           <Text style={styles.headerTitle11}>No. Identifikasi Sampel : {p.q.kodeUnikSampelAdminLab}</Text>
           <Text style={styles.headerTitle11}>No. Surat Pengiriman : {p.q.nomorAgendaSurat}</Text>
@@ -1861,7 +1867,7 @@ const PDFLHU = (p) => {
           </View>
         </View>
         {!!p.q.zItems && Object.keys(p.q.zItems).map((el1, key1) =>
-          <View style={styles.tableRow}>
+          <View key={key1} style={styles.tableRow}>
             <View style={styles.tableCol20}>
               <Text style={styles.tableCell}>{p.q.zItems[el1].jenisSampel}</Text>
             </View>
@@ -1892,19 +1898,33 @@ const PDFLHU = (p) => {
           <View style={styles.footerCol}>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
+            <Text>{' '}</Text>
+            <Text>Pelaksana Fungsi</Text>
+            <Text>Manajer Administrasi</Text>
+            <Text>{' '}</Text>
+            <Text>{' '}</Text>
+            <Text>{' '}</Text>
+            <Text>{' '}</Text>
+            <Text style={styles.textUnderline}>( {p.q.manajerAdministrasiAdminLab} )</Text>
+            <Text>NIP. {p.q.nipManajerAdministrasiAdminLab}</Text>
+          </View>
+          <View style={styles.spaceV150}></View>
+          <View style={styles.footerCol}>
+            <Text>{' '}</Text>
+            <Text>{' '}</Text>
             <Image
               style={styles.logo}
               src='data:image/png;base64,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'
             />
           </View>
-          <View style={styles.spaceV150}></View>
+          <View style={styles.spaceV50}></View>
           <View style={styles.footerCol}>
             <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
             <Text>{' '}</Text>
             <Text style={[styles.headerTitle11, styles.headerRowLeft]}>Mengetahui,</Text>
             <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Teknis</Text>
-            <Text>{' '}</Text>
+            <Text>ttd</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
             <Text>{' '}</Text>
@@ -1915,11 +1935,11 @@ const PDFLHU = (p) => {
       </View>
       <View style={styles.footerRow100}>
         <View style={[styles.marginV10, styles.marginL20]}>
-          <Text style={styles.headerTitle11}>Nb:</Text>
+          <Text style={styles.headerTitle11}>Nb: Hasil hanya berlaku untuk sampel yang diuji</Text>
         </View>
-        <View style={[styles.marginV10, styles.marginL40]}>
+        {/* <View style={[styles.marginV10, styles.marginL40]}>
           <Text style={styles.headerTitle11}>Hasil hanya berlaku untuk sampel yang diuji</Text>
-        </View>
+        </View> */}
       </View>
     </Page>
   </Document>

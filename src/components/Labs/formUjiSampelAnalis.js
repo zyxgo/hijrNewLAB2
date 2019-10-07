@@ -653,7 +653,7 @@ class SampelDetailBase extends Component {
   };
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     const {
       loading, items,
       tanggalTerimaSampelAdminLab, PenerimaSampelAdminLab, ManajerTeknisAdminLab, ManajerAdministrasiAdminLab,
@@ -667,7 +667,7 @@ class SampelDetailBase extends Component {
       <div>
         {loading ? <Typography>Loading...</Typography> :
           <div>
-            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+            <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
               Proses Sampel
             </Button>{' '}
             <Button component={Link}
@@ -800,7 +800,7 @@ class SampelDetailBase extends Component {
                   Cancel
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={this.handleSubmit}
                   disabled={isInvalid}
                   color="primary">
@@ -837,7 +837,7 @@ class SampelDetailBase extends Component {
                   Cancel
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={this.handleSubmit2}
                   disabled={isInvalid2}
                   color="primary">

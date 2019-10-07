@@ -254,7 +254,7 @@ class SampelAllBase extends Component {
                     <TableBody key={key}>
                       <TableRow>
                         <TableCell>{el.nomorAgendaSurat}</TableCell>
-                        <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
+                        <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "dd MMM yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
                         <TableCell>
@@ -266,7 +266,7 @@ class SampelAllBase extends Component {
                               pathname: `${ROUTES.ADMINLAB}/${el.idPermohonanUji}`,
                               data: { el },
                             }}
-                            disabled={el.flagStatusProses === "Sampel di Admin Lab" ? false : true}
+                          // disabled={el.flagStatusProses === "Sampel di Admin Lab" ? false : true}
                           >
                             Detail
                           </Button>
@@ -330,7 +330,7 @@ class SampelDetailBase extends Component {
       selectJenisPengujian: [],
       selectMetodePengujian: [],
       selectUnitPengujian: [],
-      tanggalTerimaSampelAdminLab: dateFnsFormat(new Date(), "MM/dd/yyyy"),
+      tanggalTerimaSampelAdminLab: dateFnsFormat(new Date(), "dd MMM yyyy"),
       penerimaSampelAdminLab: '',
       penerimaSampelAnalisLab: '',
       manajerTeknisAdminLab: '',
@@ -363,7 +363,7 @@ class SampelDetailBase extends Component {
             asalTujuanSampel: snap.val().asalTujuanSampel,
             petugasPengambilSampel: snap.val().petugasPengambilSampel,
             kodeUnikSampelAdminLab: snap.val().kodeUnikSampelAdminLab === undefined ? '' : snap.val().kodeUnikSampelAdminLab,
-            tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : snap.val().tanggalTerimaSampelAdminLab,
+            tanggalTerimaSampelAdminLab: snap.val().tanggalTerimaSampelAdminLab === undefined ? dateFnsFormat(new Date(), "dd MMM yyyy") : snap.val().tanggalTerimaSampelAdminLab,
             unitPengujianSampel: snap.val().unitPengujianSampel === undefined ? '' : snap.val().unitPengujianSampel,
             penerimaSampelAdminLab: snap.val().penerimaSampelAdminLab === undefined ? '' : snap.val().penerimaSampelAdminLab,
             penerimaSampelAnalisLab: snap.val().penerimaSampelAnalisLab === undefined ? '' : snap.val().penerimaSampelAnalisLab,
@@ -476,7 +476,7 @@ class SampelDetailBase extends Component {
   handleSubmit = () => {
     this.setState({ open: false, loadingReport: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab.toString(),   //=== undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : this.state.tanggalTerimaSampelAdminLab.toString(),
+      tanggalTerimaSampelAdminLab: this.state.tanggalTerimaSampelAdminLab.toString(),   //=== undefined ? dateFnsFormat(new Date(), "dd MMM yyyy") : this.state.tanggalTerimaSampelAdminLab.toString(),
       kodeUnikSampelAdminLab: this.state.kodeUnikSampelAdminLab,
       penerimaSampelAdminLab: this.state.penerimaSampelAdminLab,
       manajerAdministrasiAdminLab: this.state.manajerAdministrasiAdminLab,
@@ -600,7 +600,7 @@ class SampelDetailBase extends Component {
       openAlert,
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
-      ManajerAdministrasiAdminLab === '';
+      ManajerAdministrasiAdminLab === '' || kodeUnikSampelAdminLab === '' || kodeUnikSampelAdminLab.length < 20 ;
     const isInvalid2 = unitPengujianSampel === '';
     console.log(this.state)
 
@@ -609,15 +609,17 @@ class SampelDetailBase extends Component {
         {loading ? <Typography>Loading...</Typography> :
           <div>
             {this.state.items[0].flagActivityDetail !== 'Lanjut Pengujian' &&
-              <Button variant="outlined" color="primary" onClick={this.handleOpenAlert}
+              <Button variant="contained" color="primary" onClick={this.handleOpenAlert}
                 disabled={
-                  (this.state.items[0].flagActivityDetail === 'Menunggu konfirmasi lanjut pengujian dari Admin Lab'
-                    || this.state.items[0].flagActivityDetail !== 'Sampel tidak dapat diuji')
+                  ((this.state.items[0].flagActivityDetail === 'Menunggu konfirmasi lanjut pengujian dari Admin Lab'
+                    || this.state.items[0].flagActivityDetail !== 'Sampel tidak dapat diuji'
+                  )
+                    && this.state.items[0].flagStatusProses === 'Sampel di Admin Lab')
                     ? false : true}
               >
                 Lanjut Pengujian ?
             </Button>}{' '}
-            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}
+            <Button variant="contained" color="primary" onClick={this.handleClickOpen}
               disabled={this.state.items[0].flagActivityDetail === 'Lanjut Pengujian' ? false : true}
             >
               Proses Sampel
@@ -631,7 +633,7 @@ class SampelDetailBase extends Component {
             </Button>
             {!loading && items.map((el, key) =>
               <div style={{ marginTop: 25 }} key={key}>
-                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sampel : {dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sampel : {dateFnsFormat(new Date(el.tanggalMasukSampel), "dd MMM yyyy")}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Nomor Permohonan (IQFAST) : {el.nomorAgendaSurat}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sampel : {el.namaPemilikSampel}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sampel : {el.alamatPemilikSampel}</Typography>
@@ -691,7 +693,7 @@ class SampelDetailBase extends Component {
                     style={{ width: 350, marginBottom: 20 }}
                     label="Tanggal Terima Sampel oleh Admin Lab"
                     value={tanggalTerimaSampelAdminLab}
-                    format={'MM/dd/yyyy'}
+                    format={'dd MMM yyyy'}
                     onChange={this.handleDateChange} />
                 </MuiPickersUtilsProvider>
 
@@ -805,7 +807,7 @@ class SampelDetailBase extends Component {
                   Cancel
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={this.handleSubmit}
                   disabled={isInvalid}
                   color="primary">
@@ -839,7 +841,7 @@ class SampelDetailBase extends Component {
                   Cancel
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={this.handleSubmit2}
                   disabled={isInvalid2}
                   color="primary">
@@ -861,7 +863,7 @@ class SampelDetailBase extends Component {
                   <TextField
                     id="keteranganPengujianDitolak"
                     value={keteranganPengujianDitolak}
-                    label="Keterangan Pengujian Ditolak"
+                    label="Keterangan Pengujian Jika Ditolak"
                     style={{ width: "100%", marginBottom: 20, marginTop: 20 }}
                     variant="outlined"
                     onChange={this.onChange}
@@ -872,7 +874,7 @@ class SampelDetailBase extends Component {
                 <Button onClick={this.handleTolakPengujian} color="primary">
                   Tidak Lanjut
                 </Button>
-                <Button onClick={this.handleLanjutPengujian} color="primary" autoFocus>
+                <Button variant="contained" onClick={this.handleLanjutPengujian} color="primary" autoFocus>
                   Lanjut
                 </Button>
               </DialogActions>
@@ -1099,6 +1101,10 @@ const styles = StyleSheet.create({
     width: 150,
     height: 5,
   },
+  spaceV80: {
+    width: 80,
+    height: 5,
+  },
   textUnderline: {
     fontWeight: 'bold',
     textDecoration: 'underline',
@@ -1106,7 +1112,7 @@ const styles = StyleSheet.create({
 });
 
 const Quixote = (p) => {
-  console.log(p);
+  // console.log(p);
 
   return <Document>
     <Page size='A4' orientation='portrait' style={styles.body}>
@@ -1179,9 +1185,9 @@ const Quixote = (p) => {
             <Text style={styles.textUnderline}>( {p.q.manajerTeknisAdminLab} )</Text>
             <Text>NIP. {p.q.nipManajerTeknisAdminLab}</Text>
           </View>
-          <View style={styles.spaceV150}></View>
+          <View style={styles.spaceV80}></View>
           <View style={styles.footerCol}>
-            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "dd MMM yyyy")}</Text>
             <Text>{' '}</Text>
             <Text>Pelaksana Fungsi</Text>
             <Text>Manajer Administrasi</Text>
@@ -1199,7 +1205,7 @@ const Quixote = (p) => {
 }
 
 const PDFLHU = (p) => {
-  console.log(p);
+  // console.log(p);
 
   return <Document>
     <Page size='LEGAL' orientation='portrait' style={styles.body}>
@@ -1237,10 +1243,10 @@ const PDFLHU = (p) => {
           <Text style={styles.headerTitle11}>Sampel (jenis dan jumlah) : {p.q.zItems[el1].jenisSampel} / {p.q.zItems[el1].jumlahSampel}</Text>
           <Text style={styles.headerTitle11}>No. Identifikasi Sampel : {p.q.kodeUnikSampelAdminLab}</Text>
           <Text style={styles.headerTitle11}>No. Surat Pengiriman : {p.q.nomorAgendaSurat}</Text>
-          <Text style={styles.headerTitle11}>Tanggal Pengiriman Surat : {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "MM/dd/yyyy")}</Text>
-          <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Pengiriman Surat : {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "dd MMM yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(p.q.tanggalTerimaSampelAdminLab === undefined ? new Date() : new Date(p.q.tanggalTerimaSampelAdminLab), "dd MMM yyyy")}</Text>
           <Text style={styles.headerTitle11}>Jenis Pengujian : {p.q.unitPengujianSampel}</Text>
-          <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+          <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "dd MMM yyyy")}</Text>
           <Text style={styles.headerTitle11}>Kondisi Sampel : {p.q.zItems[el1].kondisiSampel}</Text>
         </View>
       )}
@@ -1312,7 +1318,7 @@ const PDFLHU = (p) => {
           </View>
           <View style={styles.spaceV150}></View>
           <View style={styles.footerCol}>
-            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+            <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "dd MMM yyyy")}</Text>
             <Text>{' '}</Text>
             <Text style={[styles.headerTitle11, styles.headerRowLeft]}>Mengetahui,</Text>
             <Text>Pelaksana Fungsi</Text>
@@ -1328,11 +1334,11 @@ const PDFLHU = (p) => {
       </View>
       <View style={styles.footerRow100}>
         <View style={[styles.marginV10, styles.marginL20]}>
-          <Text style={styles.headerTitle11}>Nb:</Text>
+          <Text style={styles.headerTitle11}>Nb: Hasil hanya berlaku untuk sampel yang diuji</Text>
         </View>
-        <View style={[styles.marginV10, styles.marginL40]}>
+        {/* <View style={[styles.marginV10, styles.marginL40]}>
           <Text style={styles.headerTitle11}>Hasil hanya berlaku untuk sampel yang diuji</Text>
-        </View>
+        </View> */}
       </View>
     </Page>
   </Document>
