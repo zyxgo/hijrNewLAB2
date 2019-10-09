@@ -153,7 +153,7 @@ class SampelAllBase extends Component {
                     <TableBody key={key}>
                       <TableRow>
                         <TableCell>{el.nomorAgendaSurat}</TableCell>
-                        <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
+                        <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "dd MMM yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
                         <TableCell>{el.flagActivity}</TableCell>
@@ -308,7 +308,7 @@ class SampelDetailBase extends Component {
   handleSubmit = () => {
     this.setState({ open: false });
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-      tanggalUjiSampelAnalis: this.state.tanggalUjiSampelAnalis === undefined ? dateFnsFormat(new Date(), "MM/dd/yyyy") : this.state.tanggalUjiSampelAnalis.toString(),
+      tanggalUjiSampelAnalis: this.state.tanggalUjiSampelAnalis === undefined ? dateFnsFormat(new Date(), "dd MMM yyyy") : this.state.tanggalUjiSampelAnalis.toString(),
       managerTeknisAnalis: this.state.managerTeknisAnalis,
       managerAdministrasiAnalis: this.state.managerAdministrasiAnalis,
       penyeliaAnalis: this.state.penyeliaAnalis,
@@ -680,7 +680,7 @@ class SampelDetailBase extends Component {
             {!loading && items.map((el, key) =>
               <div style={{ marginTop: 25 }} key={key}>
                 <Typography variant="subtitle1" gutterBottom>Kode Unik Sample : {el.kodeUnikSampelAdminLab}</Typography>
-                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sample : {dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sample : {dateFnsFormat(new Date(el.tanggalMasukSampel), "dd MMM yyyy")}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Nomor Permohonan (IQFAST) : {el.nomorAgendaSurat}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sample : {el.namaPemilikSampel}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sample : {el.alamatPemilikSampel}</Typography>
@@ -733,7 +733,7 @@ class SampelDetailBase extends Component {
                     style={{ width: 350 }}
                     label="Tanggal Uji Sampel oleh Analis"
                     value={tanggalUjiSampelAnalis}
-                    format={'MM/dd/yyyy'}
+                    format={'dd MMM yyyy'}
                     onChange={this.handleDateChange} />
                 </MuiPickersUtilsProvider>
                 {/* <FormControl style={{marginTop: 15}} variant="standard">
@@ -1061,7 +1061,7 @@ const Quixote = (p) => {
         <Text style={styles.headerTitle16}>LAPORAN HASIL PENGUJIAN</Text>
       </View>
       <View style={styles.marginV10}>
-        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "dd MMM yyyy")}</Text>
       </View>
       <View style={styles.table}>
         <View style={styles.tableRow}>
@@ -1123,7 +1123,7 @@ const Quixote = (p) => {
           </View>
           <View style={styles.spaceV400}></View>
           <View style={styles.footerCol}>
-            <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+            <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "dd MMM yyyy")}</Text>
             <Text>{' '}</Text>
             <Text>Analis</Text>
             <Text>{' '}</Text>

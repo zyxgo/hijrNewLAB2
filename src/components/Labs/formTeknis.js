@@ -166,7 +166,7 @@ class PageAllBase extends Component {
                     <TableBody key={key}>
                       <TableRow>
                         <TableCell>{el.nomorAgendaSurat}</TableCell>
-                        <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</TableCell>
+                        <TableCell>{dateFnsFormat(new Date(el.tanggalMasukSampel), "dd MMM yyyy")}</TableCell>
                         <TableCell>{el.namaPemilikSampel}</TableCell>
                         <TableCell>{el.asalTujuanSampel}</TableCell>
                         <TableCell>{el.flagStatusProses}</TableCell>
@@ -472,7 +472,7 @@ class PageDetailBase extends Component {
             {!loading && items.map((el, key) =>
               <div style={{ marginTop: 25 }} key={key}>
                 {/* <Typography variant="subtitle1" gutterBottom>Nomor Permohonan (IQFAST) : {el.kodeUnikSampel}</Typography> */}
-                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sampel : {dateFnsFormat(new Date(el.tanggalMasukSampel), "MM/dd/yyyy")}</Typography>
+                <Typography variant="subtitle1" gutterBottom>Tanggal Masuk Sampel : {dateFnsFormat(new Date(el.tanggalMasukSampel), "dd MMM yyyy")}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Nomor Permohonan (IQFAST) : {el.nomorAgendaSurat}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Nama Pemilik Sampel : {el.namaPemilikSampel}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Alamat Pemilik Sampel : {el.alamatPemilikSampel}</Typography>
@@ -533,7 +533,7 @@ class PageDetailBase extends Component {
                     style={{ width: 350, marginBottom: 20 }}
                     label="Tanggal Terima Sampel oleh Admin Lab"
                     value={tanggalTerimaSampelAdminLab}
-                    format={'MM/dd/yyyy'}
+                    format={'dd MMM yyyy'}
                     onChange={this.handleDateChange} />
                 </MuiPickersUtilsProvider> */}
 
@@ -950,10 +950,10 @@ const styles = StyleSheet.create({
 //           <Text style={styles.headerTitle11}>Sampel (jenis dan jumlah) : {p.q.zItems[el1].jenisSampel} / {p.q.zItems[el1].jumlahSampel}</Text>
 //           <Text style={styles.headerTitle11}>No. Identifikasi Sampel : {p.q.kodeUnikSampelAdminLab}</Text>
 //           <Text style={styles.headerTitle11}>No. Surat Pengiriman : {p.q.nomorAgendaSurat}</Text>
-//           <Text style={styles.headerTitle11}>Tanggal Pengiriman Surat : {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "MM/dd/yyyy")}</Text>
-//           <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab), "MM/dd/yyyy")}</Text>
+//           <Text style={styles.headerTitle11}>Tanggal Pengiriman Surat : {dateFnsFormat(new Date(p.q.tanggalMasukSampel), "dd MMM yyyy")}</Text>
+//           <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(new Date(p.q.tanggalTerimaSampelAdminLab), "dd MMM yyyy")}</Text>
 //           <Text style={styles.headerTitle11}>Jenis Pengujian : {p.q.unitPengujianSampel}</Text>
-//           <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+//           <Text style={styles.headerTitle11}>Tanggal Pengujian : {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "dd MMM yyyy")}</Text>
 //           <Text style={styles.headerTitle11}>Kondisi Sampel : {p.q.zItems[el1].kondisiSampel}</Text>
 //         </View>
 //       )}
@@ -1022,7 +1022,7 @@ const styles = StyleSheet.create({
 //           </View>
 //           <View style={styles.spaceV150}></View>
 //           <View style={styles.footerCol}>
-//             <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+//             <Text style={[styles.headerTitle11]}>Makassar, {dateFnsFormat(new Date(p.q.tanggalUjiSampelAnalis), "dd MMM yyyy")}</Text>
 //             <Text>{' '}</Text>
 //             <Text style={[styles.headerTitle11, styles.headerRowLeft]}>Mengetahui,</Text>
 //             <Text>Pelaksana Fungsi</Text>
@@ -1071,7 +1071,7 @@ const PdfLHP = (p) => {
         <Text style={styles.headerTitle16}>LAPORAN HASIL PENGUJIAN</Text>
       </View>
       <View style={styles.marginV10}>
-        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+        <Text style={styles.headerTitle11}>Tanggal Penerimaan Sampel : {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "dd MMM yyyy")}</Text>
       </View>
       <View style={styles.table}>
         <View style={styles.tableRow}>
@@ -1133,7 +1133,7 @@ const PdfLHP = (p) => {
           </View>
           <View style={styles.spaceV400}></View>
           <View style={styles.footerCol}>
-            <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "MM/dd/yyyy")}</Text>
+            <Text style={[styles.headerTitle11, styles.headerRowRight]}>Makassar, {dateFnsFormat(p.q.tanggalUjiSampelAnalis === undefined ? new Date() : new Date(p.q.tanggalUjiSampelAnalis), "dd MMM yyyy")}</Text>
             <Text>{' '}</Text>
             <Text>Analis</Text>
             <Text>{' '}</Text>
