@@ -29,6 +29,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import MUIDataTable from "mui-datatables";
+
 // import FormHelperText from '@material-ui/core/FormHelperText';
 // import Input from '@material-ui/core/Input';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -113,6 +115,12 @@ class SampelAllBase extends Component {
               keteranganPengujianDitolak: el.val().keteranganPengujianDitolak,
               areaWilker: el.val().areaWilker,
               zItems: el.val().zItems,
+              tanggalMasukSampelz: dateFnsFormat(new Date(el.val().tanggalMasukSampel), "dd MMM yyyy"),
+              Status: [el.val().flagStatusProses, el.val().flagActivity, el.val().keteranganPengujianDitolak],
+              Detail: [el.val().idPermohonanUji, el.val(), el.val().flagActivity],
+              Hapus: [el.val().idPermohonanUji, el.val().flagActivity],
+              Report: [el.val().flagActivity, el.val()],
+              Action: [el.val().idPermohonanUji, el.val().flagActivity],
             })
           });
           this.setState({
@@ -144,6 +152,136 @@ class SampelAllBase extends Component {
     })
   }
 
+  columns = [
+    {
+      name: "tanggalMasukSampelz",
+      label: 'Tanggal Masuk Sampel',
+      options: {
+        filter: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <Text>{dateFnsFormat(new Date(value), "dd MMM yyyy")}</Text>
+          );
+        }
+      }
+    },
+    {
+      name: "nomorAgendaSurat",
+      label: 'Nomor Permohonan (IQFAST)',
+      options: { filter: false }
+    },
+    {
+      name: "namaPemilikSampel",
+      label: 'Nama Pemilik Sampel',
+      options: { filter: false }
+    },
+    {
+      name: "asalTujuanSampel",
+      label: 'Asal/Tujuan Sampel',
+      options: { filter: false }
+    },
+    {
+      name: "Status",
+      label: 'Status',
+      options: {
+        filter: true,
+        customBodyRender: (value) => {
+          return (
+            <Text>{value[0]} {value[1] === 'Sampel tidak dapat diuji' && ' Keterangan: ' + value[2]}</Text>
+          )
+        }
+      }
+    },
+    {
+      name: 'Detail',
+      options: {
+        filter: false,
+        customBodyRender: (value) => {
+          return (
+            <Button component={Link}
+              to={{
+                pathname: `${ROUTES.WILKER_FORMUJI}/${value[0]}`,
+                data: value[1],
+              }}
+              disabled={value[2] === "Belum ada sampel uji" || value[2] === "Data sudah lengkap" ? false : true}
+            >
+              Detail
+            </Button>
+          )
+        }
+      }
+    },
+    {
+      name: 'Hapus',
+      options: {
+        filter: false,
+        customBodyRender: (value) => {
+          return (
+            <Button variant="text" color="secondary" onClick={() => this.handleDelete(value[0])}
+              disabled={value[1] === "Belum ada sampel uji" || value[1] === "Data sudah lengkap" ? false : true}
+            >
+              Hapus
+            </Button>
+          )
+        }
+      }
+    },
+    {
+      name: 'Report',
+      options: {
+        filter: false,
+        customBodyRender: (value) => {
+          return (
+            <Text>
+              {value[0] === 'Laporan Hasil Uji di Admin Lab' ?
+                <PDFDownloadLink document={<PDFLHU q={value[1]} />} fileName="Laporan-Hasil-Uji.pdf">
+                  {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Laporan Hasil Uji')}
+                </PDFDownloadLink>
+                :
+                <PDFDownloadLink document={<Quixote q={value[1]} />} fileName="permohonan-pengujian.pdf">
+                  {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Permohonan Pengujian')}
+                </PDFDownloadLink>
+
+              }
+            </Text>
+          )
+        }
+      }
+    },
+    {
+      name: "Action",
+      options: {
+        filter: false,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <Button variant="outlined" color="primary" onClick={() => this.handleSubmitKeLab(value[0])}
+              disabled={value[1] === "Data sudah lengkap" ? false : true}
+            >
+              Submit ke Lab
+            </Button>
+          );
+        }
+      }
+    },
+  ]
+  options = {
+    filterType: 'dropdown',
+    rowsPerPage: 20,
+    selectableRows: false,
+    download: false,
+    print: false,
+    // customSort: (data, colIndex, order) => {
+    //   return data.sort((a, b) => {
+    //     if (colIndex === 0 || colIndex === 0) {
+    //       return (
+    //         new Date(a.data[colIndex]) < new Date(b.data[colIndex]) ? -1 : 1) * (order === 'desc' ? 1 : -1);
+    //     } else {
+    //       return (a.data[colIndex] < b.data[colIndex] ? -1 : 1) * (order === 'desc' ? 1 : -1);
+    //     }
+    //   });
+    // }
+  };
+
   render() {
     // console.log(this.state);
 
@@ -155,6 +293,7 @@ class SampelAllBase extends Component {
             {loading ? <Typography>Loading...</Typography> :
               <div>
                 <Button variant="outlined" color="primary"
+                  style={{ marginBottom: '10px' }}
                   component={Link} to={{
                     pathname: `${ROUTES.WILKER_FORMUJIADD}`,
                     data: { authUser }
@@ -162,7 +301,15 @@ class SampelAllBase extends Component {
                 >
                   Tambah Data
                 </Button>
-                <Table>
+
+                <MUIDataTable
+                  // title={"Daftar Sampel"}
+                  data={this.state.items ? this.state.items : this.state.itemB}
+                  columns={this.columns}
+                  options={this.options}
+                />
+
+                {/* <Table>
                   <TableHead>
                     <TableRow>
                       <TableCell>No. Permohonan (IQFAST)</TableCell>
@@ -225,7 +372,7 @@ class SampelAllBase extends Component {
                       </TableRow>
                     </TableBody>
                   )}
-                </Table>
+                </Table> */}
                 {/* <PDFViewer>
                   <Quixote pass={el.idPermohonanUji} />
                 </PDFViewer> */}

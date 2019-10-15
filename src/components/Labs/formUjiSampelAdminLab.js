@@ -28,6 +28,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import MUIDataTable from "mui-datatables";
+// import CustomToolbarSelect from "../AppSetting/CustomToolbarSelect";
 // import FormHelperText from '@material-ui/core/FormHelperText';
 // import Input from '@material-ui/core/Input';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -36,8 +38,8 @@ import Select from '@material-ui/core/Select';
 // import * as FileSaver from 'file-saver';
 // import * as XLSX from 'xlsx';
 // import * as jsonexport from "jsonexport/dist";
-import { CSVLink } from "react-csv";
-import { Parser } from 'json2csv';
+// import { CSVLink } from "react-csv";
+// import { Parser } from 'json2csv';
 
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
@@ -168,10 +170,25 @@ class SampelAllBase extends Component {
               zKeteranganSampel: Object.keys(el.val().zItems).map((key) => el.val().zItems[key].keteranganSampel),
             })
           });
+          const c = [];
+          snap.forEach(el => {
+            c.push({
+              kodeUnikSampel: el.val().kodeUnikSampel,
+              tanggalMasukSampel: dateFnsFormat(new Date(el.val().tanggalMasukSampel), "dd MMM yyyy"),
+              nomorAgendaSurat: el.val().nomorAgendaSurat,
+              namaPemilikSampel: el.val().namaPemilikSampel,
+              asalTujuanSampel: el.val().asalTujuanSampel,
+              flagStatusProses: [el.val().flagStatusProses, el.val().flagActivity, el.val().keteranganPengujianDitolak],
+              Detail: [el.val().idPermohonanUji, el.val()],
+              Report: [el.val().flagActivity, a],
+              Action: [el.val().idPermohonanUji, el.val().flagActivity],
+            })
+          });
           // console.log(b)
           this.setState({
             items: a,
             itemsB: b,
+            itemsC: c,
             loading: false,
           });
         } else {
@@ -200,25 +217,108 @@ class SampelAllBase extends Component {
     })
   }
 
-  // exportToCSV = (csvData, fileName) => {
-  //   console.log(this.state.itemsB)
-  //   const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-  //   const fileExtension = '.xlsx';
-  //   const ws = XLSX.utils.json_to_sheet(csvData);
-  //   const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
-  //   const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-  //   const data = new Blob([excelBuffer], { type: fileType });
-  //   FileSaver.saveAs(data, fileName + fileExtension);
-  // }
-
-  exToCsv = () => {
-    const fields = ['kodeUnikSampel', 'zItems'];
-    // const opts = {fields}
-    // const csv = parse(this.state.itemsB, opts)
-    const json2csvParser = new Parser({ fields, unwind: 'zItems' });
-    const csv = json2csvParser.parse(this.state.itemsB);
-    console.log(csv);
-  }
+  columns = [
+    {
+      name: "tanggalMasukSampel",
+      label: 'Tanggal Masuk Sampel',
+      options: {
+        filter: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <Text>{dateFnsFormat(new Date(value), "dd MMM yyyy")}</Text>
+          );
+        }
+      }
+    },
+    {
+      name: "nomorAgendaSurat",
+      label: 'Nomor Permohonan (IQFAST)',
+      options: { filter: false }
+    },
+    {
+      name: "namaPemilikSampel",
+      label: 'Nama Pemilik Sampel',
+      options: { filter: false }
+    },
+    {
+      name: "asalTujuanSampel",
+      label: 'Asal/Tujuan Sampel',
+      options: { filter: false }
+    },
+    {
+      name: "flagStatusProses",
+      label: 'Status',
+      options: {
+        filter: true,
+        customBodyRender: (value) => {
+          return (
+            <Text>{value[0]} {value[1] === 'Sampel tidak dapat diuji' && ' Keterangan: ' + value[2]}</Text>
+          )
+        }
+      }
+    },
+    {
+      name: 'Detail',
+      options: {
+        filter: false,
+        customBodyRender: (value) => {
+          return (
+            <Button component={Link}
+              to={{
+                pathname: `${ROUTES.ADMINLAB}/${value[0]}`,
+                data: value[1],
+              }}
+            >
+              Detail
+          </Button>
+          )
+        }
+      }
+    },
+    {
+      name: 'Report',
+      options: {
+        filter: false,
+        customBodyRender: (value) => {
+          return (
+            <Text>
+              {
+                value[0] === 'Laporan Hasil Uji di Admin Lab' ?
+                  <PDFDownloadLink document={<PDFLHU q={value[1]} />} fileName="laporan-hasil-uji.pdf">
+                    {({ blob, url, loading, error }) => (loading ? 'Loading pdf...' : 'Download Laporan Hasil Uji')}
+                  </PDFDownloadLink>
+                  :
+                  'Laporan Hasil Uji belum tersedia.'
+              }
+            </Text>
+          )
+        }
+      }
+    },
+    {
+      name: "Action",
+      options: {
+        filter: false,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            // console.log({value})
+            <Button variant="outlined" color="primary" onClick={() => this.handleSubmitKeAnalysis(value[0])}
+              disabled={value[1] === "Update detail by admin lab done" ? false : true}
+            >
+              Submit ke Analis
+            </Button>
+          );
+        }
+      }
+    },
+  ]
+  options = {
+    filterType: 'dropdown',
+    rowsPerPage: 20,
+    selectableRows: false,
+    download: false,
+    print: false,
+  };
 
   render() {
     const { items, loading } = this.state;
@@ -232,14 +332,22 @@ class SampelAllBase extends Component {
                   Export Excel
                 </Button> */}
                 {/* <Button onClick={this.exToCsv}>Tes</Button> */}
-                <Button variant="outlined">
+                {/* <Button variant="outlined">
                   <CSVLink data={this.state.itemsB}
                     filename={"CSV_.csv"}
                   >
                     Download CSV/Excel
                   </CSVLink>
-                </Button>
-                <Table>
+                </Button> */}
+
+                <MUIDataTable
+                  // title={"Daftar Sampel"}
+                  data={this.state.itemsC ? this.state.itemsC : this.state.itemsZ}
+                  columns={this.columns}
+                  options={this.options}
+                />
+
+                {/* <Table>
                   <TableHead>
                     <TableRow>
                       <TableCell>Nomor Permohonan (IQFAST)</TableCell>
@@ -290,7 +398,7 @@ class SampelAllBase extends Component {
                       </TableRow>
                     </TableBody>
                   )}
-                </Table>
+                </Table> */}
               </div>
             }
           </div>
@@ -600,7 +708,7 @@ class SampelDetailBase extends Component {
       openAlert,
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
-      ManajerAdministrasiAdminLab === '' || kodeUnikSampelAdminLab === '' || kodeUnikSampelAdminLab.length < 20 ;
+      ManajerAdministrasiAdminLab === '' || kodeUnikSampelAdminLab === '' || kodeUnikSampelAdminLab.length < 20;
     const isInvalid2 = unitPengujianSampel === '';
     console.log(this.state)
 
