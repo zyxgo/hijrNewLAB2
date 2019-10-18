@@ -181,7 +181,7 @@ class SampelAllBase extends Component {
               flagStatusProses: [el.val().flagStatusProses, el.val().flagActivity, el.val().keteranganPengujianDitolak],
               Detail: [el.val().idPermohonanUji, el.val()],
               Report: [el.val().flagActivity, a],
-              Action: [el.val().idPermohonanUji, el.val().flagActivity],
+              Action: [el.val().idPermohonanUji, el.val().flagActivityDetail],
             })
           });
           // console.log(b)
@@ -419,6 +419,7 @@ class SampelDetailBase extends Component {
       open: false,
       open2: false,
       openAlert: false,
+      openAlertKodeUnik: false,
       ...props.location.state,
       idPermohonanUji: '',
       kodeUnikSampel: '',
@@ -563,6 +564,14 @@ class SampelDetailBase extends Component {
     this.setState({ openAlert: false });
   };
 
+  handleOpenAlertKodeUnik = () => {
+    this.setState({ openAlertKodeUnik: true });
+  };
+
+  handleCloseAlertKodeUnik = () => {
+    this.setState({ openAlertKodeUnik: false });
+  };
+
   handleLanjutPengujian = () => {
     this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
       flagActivityDetail: 'Lanjut Pengujian',
@@ -580,6 +589,13 @@ class SampelDetailBase extends Component {
     this.setState({ openAlert: false });
   };
 
+  handleEditKodeUnik = () => {
+    this.setState({ openAlertKodeUnik: false });
+    
+    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+      kodeUnikSampelAdminLab: this.state.kodeUnikSampelAdminLab,
+    })
+  };
 
   handleSubmit = () => {
     this.setState({ open: false, loadingReport: false });
@@ -596,11 +612,11 @@ class SampelDetailBase extends Component {
       nipManajerTeknisAdminLab: this.state.nipManajerTeknisAdminLab,
       nipPenerimaSampelAdminLab: this.state.nipPenerimaSampelAdminLab,
       nipPenerimaSampelAnalisLab: this.state.nipPenerimaSampelAnalisLab,
+      flagActivityDetail: 'Update detail by admin lab done',
       // keteranganPengujianDitolak: this.state.keteranganPengujianDitolak,
     });
-    this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
-      flagActivityDetail: 'Update detail by admin lab done',
-    });
+    // this.props.firebase.db.ref('samples/' + this.state.idPermohonanUji).update({
+    // });
 
     // console.log(this.state);
   }
@@ -705,7 +721,7 @@ class SampelDetailBase extends Component {
       selectUserformAdminLab, selectUserformManajerAdministrasi, selectUserformManajerTeknis, selectUserformAnalis,
       // selectNipUserformAdminLab, selectNipUserformManajerAdministrasi, selectNipUserformManajerTeknis, selectNipUserformAnalis,
       statusLaporanSPP, loadingReport, keteranganPengujianDitolak,
-      openAlert,
+      openAlert, openAlertKodeUnik,
     } = this.state;
     const isInvalid = tanggalTerimaSampelAdminLab === '' || PenerimaSampelAdminLab === '' || ManajerTeknisAdminLab === '' ||
       ManajerAdministrasiAdminLab === '' || kodeUnikSampelAdminLab === '' || kodeUnikSampelAdminLab.length < 20;
@@ -748,6 +764,10 @@ class SampelDetailBase extends Component {
                 <Typography variant="subtitle1" gutterBottom>Asal/Tujuan Media Pembawa : {el.asalTujuanSampel}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Petugas Pengambil Sampel (PPC) : {el.petugasPengambilSampel}</Typography>
                 <Typography variant="subtitle1" gutterBottom>Unit Pengujian Sampel : {el.unitPengujianSampel}</Typography>
+                <Typography variant="subtitle1" gutterBottom>
+                  <Button variant='contained' onClick={this.handleOpenAlertKodeUnik}>Kode Unik Sampel AdminLab : {el.kodeUnikSampelAdminLab}</Button>
+                </Typography>
+
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -984,6 +1004,36 @@ class SampelDetailBase extends Component {
                 </Button>
                 <Button variant="contained" onClick={this.handleLanjutPengujian} color="primary" autoFocus>
                   Lanjut
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={openAlertKodeUnik}
+              onClose={this.handleCloseAlertKodeUnik}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+              maxWidth={'sm'}
+              fullWidth={true}
+            >
+              <DialogTitle id="alert-dialog-title">{'Edit Kode Unik'}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  <TextField
+                    id="kodeUnikSampelAdminLab"
+                    value={kodeUnikSampelAdminLab}
+                    label="Kode Unik"
+                    style={{ width: "100%", marginBottom: 20, marginTop: 20 }}
+                    variant="outlined"
+                    onChange={this.onChange}
+                  />
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleCloseAlertKodeUnik}>
+                  Batal
+                </Button>
+                <Button variant="contained" onClick={this.handleEditKodeUnik} color="primary" autoFocus>
+                  OK
                 </Button>
               </DialogActions>
             </Dialog>
